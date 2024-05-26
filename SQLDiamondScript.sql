@@ -372,3 +372,8 @@ INSERT INTO OrderDetail (product_id, order_id) VALUES
 (2, 1),
 (3, 2);
 
+-- Assuming the Staff and Order tables have these IDs
+INSERT INTO Delivery (staff_id, order_id, delivery_date, status) VALUES
+(1, 1, '2024-02-20', 'Delivered'),
+(2, 2, '2024-02-21', 'In Transit');
+
