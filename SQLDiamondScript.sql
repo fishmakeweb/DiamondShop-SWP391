@@ -326,3 +326,9 @@ INSERT INTO Material (material_name) VALUES
 ('Silver'),
 ('Platinum'),
 ('Titanium');
+
+INSERT INTO Gemstone (gemstone_name) VALUES
+('Diamond'),
+('Ruby'),
+('Sapphire'),
+('Emerald');
