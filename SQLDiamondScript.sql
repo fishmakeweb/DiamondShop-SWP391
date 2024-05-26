@@ -349,3 +349,8 @@ INSERT INTO Product (diamond_id, jewelry_id) VALUES
 (1, null),
 (null, 2),
 (null, 3);
+
+-- Inserting Carts
+INSERT INTO Cart (customer_id) VALUES
+(1),
+(2);
