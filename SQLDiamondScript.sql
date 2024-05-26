@@ -1,0 +1,231 @@
+
+use diamondshopdb;
+-- CUSTOMER TABLE
+CREATE TABLE IF NOT EXISTS Customer(
+    user_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    full_name VARCHAR(50),
+    email VARCHAR(50),
+    address VARCHAR(200),
+    registered_date DATE,
+    username VARCHAR(50),
+    password VARCHAR(50)
+);
+
+CREATE TABLE IF NOT EXISTS Role(
+    role_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    role_name VARCHAR(50) NOT NULL
+);
+
+-- STAFF TABLE
+CREATE TABLE IF NOT EXISTS Staff(
+    staff_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    full_name VARCHAR(50),
+    email VARCHAR(50),
+    username VARCHAR(50),
+    password VARCHAR(50),
+    role_id bigint,
+    FOREIGN KEY (role_id) REFERENCES Role(role_id)
+);
+
+-- SUPPORT TABLE
+CREATE TABLE IF NOT EXISTS Support(
+    support_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    date DATE,
+    message VARCHAR(800),
+    customer_id BIGINT,
+    staff_id BIGINT,
+    FOREIGN KEY (customer_id) REFERENCES Customer(user_id),
+    FOREIGN KEY (staff_id) REFERENCES Staff(staff_id)
+);
+
+-- DIAMOND ATTRIBUTE TABLES
+CREATE TABLE IF NOT EXISTS Cut(
+    cut_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    cut_description VARCHAR(50)
+);
+CREATE TABLE IF NOT EXISTS Clarity(
+    clarity_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    clarity_description VARCHAR(10)
+);
+CREATE TABLE IF NOT EXISTS Measurement(
+    measurement_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    length DECIMAL(5,2),
+    width DECIMAL(5,2),
+    height DECIMAL(5,2)
+);
+CREATE TABLE IF NOT EXISTS Shape(
+    shape_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    shape_description VARCHAR(50)
+);
+CREATE TABLE IF NOT EXISTS Symmetry(
+    symmetry_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    symmetry_description VARCHAR(50)
+);
+CREATE TABLE IF NOT EXISTS Fluorescence(
+    fluorescence_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    fluorescence_description VARCHAR(20)
+);
+CREATE TABLE IF NOT EXISTS Color(
+    color_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    color_description CHAR(1)
+);
+CREATE TABLE IF NOT EXISTS Carat(
+    carat_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    carat DECIMAL(3,2)
+);
+CREATE TABLE IF NOT EXISTS Polish(
+    polish_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    polish_description VARCHAR(50)
+);
+CREATE TABLE IF NOT EXISTS GIA(
+    GIA_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    issue_date DATE,
+    diamond_id BIGINT,
+    FOREIGN KEY (diamond_id) REFERENCES Diamond(diamond_id)
+);
+
+-- DIAMOND TABLE
+CREATE TABLE IF NOT EXISTS Diamond(
+    diamond_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    shape_id BIGINT,
+    measurement_id BIGINT,
+    carat_id BIGINT,
+    color_id BIGINT,
+    cut_id BIGINT,
+    clarity_id BIGINT,
+    polish_id BIGINT,
+    symmetry_id BIGINT,
+    fluorescence_id BIGINT,
+    GIA_id BIGINT,
+    price FLOAT,
+    img VARCHAR(1000),
+    FOREIGN KEY (shape_id) REFERENCES Shape(shape_id),
+    FOREIGN KEY (measurement_id) REFERENCES Measurement(measurement_id),
+    FOREIGN KEY (carat_id) REFERENCES Carat(carat_id),
+    FOREIGN KEY (color_id) REFERENCES Color(color_id),
+    FOREIGN KEY (cut_id) REFERENCES Cut(cut_id),
+    FOREIGN KEY (clarity_id) REFERENCES Clarity(clarity_id),
+    FOREIGN KEY (polish_id) REFERENCES Polish(polish_id),
+    FOREIGN KEY (symmetry_id) REFERENCES Symmetry(symmetry_id),
+    FOREIGN KEY (fluorescence_id) REFERENCES Fluorescence(fluorescence_id)
+);
+
+-- JEWELRY ATTRIBUTE TABLE
+CREATE TABLE IF NOT EXISTS Category(
+    category_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    category_name VARCHAR(50)
+);
+CREATE TABLE IF NOT EXISTS Material(
+    material_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    material_name VARCHAR(50)
+);
+CREATE TABLE IF NOT EXISTS Gemstone(
+    gemstone_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    gemstone_name VARCHAR(50)
+);
+CREATE TABLE IF NOT EXISTS Size(
+    size_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    type VARCHAR(50),
+    size_number FLOAT,
+    unit VARCHAR(10)
+);
+
+-- JEWELRY TABLE
+CREATE TABLE IF NOT EXISTS Jewelry(
+    jewelry_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    diamond_id BIGINT,
+    name VARCHAR(50),
+    material_id BIGINT,
+    category_id BIGINT,
+    gemstone_id BIGINT,
+    size_id BIGINT,
+    img VARCHAR(400),
+    price FLOAT,
+    FOREIGN KEY (diamond_id) REFERENCES Diamond(diamond_id),
+    FOREIGN KEY (material_id) REFERENCES Material(material_id),
+    FOREIGN KEY (category_id) REFERENCES Category(category_id),
+    FOREIGN KEY (gemstone_id) REFERENCES Gemstone(gemstone_id),
+    FOREIGN KEY (size_id) REFERENCES Size(size_id)
+);
+
+-- PRODUCT TABLE
+CREATE TABLE IF NOT EXISTS Product(
+    product_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    diamond_id BIGINT,
+    jewelry_id BIGINT,
+    FOREIGN KEY (diamond_id) REFERENCES Diamond(diamond_id),
+    FOREIGN KEY (jewelry_id) REFERENCES Jewelry(jewelry_id)
+);
+
+-- CART TABLE
+CREATE TABLE IF NOT EXISTS Cart(
+    cart_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    customer_id BIGINT,
+    FOREIGN KEY (customer_id) REFERENCES Customer(user_id)
+);
+
+-- CART-ITEM TABLE
+CREATE TABLE IF NOT EXISTS Cart_item(
+    cart_id BIGINT,
+    product_id BIGINT,
+    PRIMARY KEY (cart_id, product_id),
+    FOREIGN KEY (cart_id) REFERENCES Cart(cart_id),
+    FOREIGN KEY (product_id) REFERENCES Product(product_id)
+);
+
+-- ORDER TABLE
+CREATE TABLE IF NOT EXISTS `Order`(
+    order_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id BIGINT,
+    order_date DATE,
+    FOREIGN KEY (user_id) REFERENCES Customer(user_id)
+);
+
+-- ORDER DETAIL TABLE
+CREATE TABLE IF NOT EXISTS OrderDetail(
+    product_id BIGINT,
+    order_id BIGINT,
+    PRIMARY KEY (product_id, order_id),
+    FOREIGN KEY (product_id) REFERENCES Product(product_id),
+    FOREIGN KEY (order_id) REFERENCES `Order`(order_id)
+);
+
+-- DELIVERY TABLE
+CREATE TABLE IF NOT EXISTS Delivery(
+    delivery_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    staff_id BIGINT,
+    order_id BIGINT,
+    delivery_date DATE,
+    status VARCHAR(10),
+    FOREIGN KEY (staff_id) REFERENCES Staff(staff_id),
+    FOREIGN KEY (order_id) REFERENCES `Order`(order_id)
+);
+
+-- ARTICLE TABLE
+CREATE TABLE IF NOT EXISTS Article(
+    article_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(200),
+    content VARCHAR(1000)
+);
+
+
+-- insert customer
+INSERT INTO Customer (full_name, email, address, registered_date, username, password) VALUES
+('John Doe', 'john.doe@example.com', '123 Elm St, Somewhere', '2024-05-01', 'johnny', 'pass1234'),
+('Jane Smith', 'jane.smith@example.com', '456 Oak St, Anywhere', '2024-05-02', 'janes', 'pass5678'),
+('Alice Johnson', 'alice.j@example.com', '789 Pine St, Nowhere', '2024-05-03', 'alicej', 'pass91011'),
+('Bob Brown', 'bob.brown@example.com', '321 Maple St, Everywhere', '2024-05-04', 'bobbyb', 'pass1213'),
+('Charlie Davis', 'charlie.d@example.com', '654 Spruce St, Thisplace', '2024-05-05', 'charlied', 'pass1415'),
+('Diana Adams', 'diana.a@example.com', '987 Cedar St, Thatplace', '2024-05-06', 'diana2024', 'pass1617'),
+('Evan Foster', 'evan.f@example.com', '159 Birch St, Someplace', '2024-05-07', 'evanf', 'pass1819'),
+('Fiona Green', 'fiona.g@example.com', '753 Willow St, Whatplace', '2024-05-08', 'fionag', 'pass2021'),
+('George Hill', 'george.h@example.com', '357 Aspen St, Whereplace', '2024-05-09', 'georgeh', 'pass2223'),
+('Hannah East', 'hannah.e@example.com', '951 Redwood St, Whoplace', '2024-05-10', 'hannahe', 'pass2425');
+
+INSERT INTO Role (role_name) VALUES ('Sale Staff'),('Delivery Staff'),('Admin');
+INSERT INTO Staff (full_name, email, username, password, role_id) VALUES 
+('John Doe', 'john.doe@example.com', 'johnsales', 'pass1234', 1),
+('Jane Smith', 'jane.smith@example.com', 'janesales', 'pass5678', 1),
+('Emily Johnson', 'emily.johnson@example.com', 'emilydelivery', 'pass9012', 2),
+('Michael Brown', 'michael.brown@example.com', 'michaeldelivery', 'pass3456', 2),
+('Alice Martin', 'alice.martin@example.com', 'aliceadmin', 'pass7890', 3);
