@@ -360,3 +360,15 @@ INSERT INTO Cart_item (cart_id, product_id) VALUES
 (1, 1),
 (1, 2),
 (2, 3);
+
+-- Assuming the Customer table has these IDs
+INSERT INTO `Order` (user_id, order_date) VALUES
+(1, '2024-01-15'),
+(2, '2024-01-16');
+
+-- Assuming the Order and Product tables have these IDs
+INSERT INTO OrderDetail (product_id, order_id) VALUES
+(1, 1),
+(2, 1),
+(3, 2);
+
