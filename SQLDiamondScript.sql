@@ -223,9 +223,88 @@ INSERT INTO Customer (full_name, email, address, registered_date, username, pass
 ('Hannah East', 'hannah.e@example.com', '951 Redwood St, Whoplace', '2024-05-10', 'hannahe', 'pass2425');
 
 INSERT INTO Role (role_name) VALUES ('Sale Staff'),('Delivery Staff'),('Admin');
+
 INSERT INTO Staff (full_name, email, username, password, role_id) VALUES 
 ('John Doe', 'john.doe@example.com', 'johnsales', 'pass1234', 1),
 ('Jane Smith', 'jane.smith@example.com', 'janesales', 'pass5678', 1),
 ('Emily Johnson', 'emily.johnson@example.com', 'emilydelivery', 'pass9012', 2),
 ('Michael Brown', 'michael.brown@example.com', 'michaeldelivery', 'pass3456', 2),
 ('Alice Martin', 'alice.martin@example.com', 'aliceadmin', 'pass7890', 3);
+
+INSERT INTO Cut (cut_description) VALUES 
+('Round'), 
+('Princess'), 
+('Oval'), 
+('Marquise'), 
+('Pear');
+
+INSERT INTO Clarity (clarity_description) VALUES 
+('FL'), 
+('IF'), 
+('VVS1'), 
+('VVS2'), 
+('VS1');
+
+INSERT INTO Measurement (length, width, height) VALUES 
+(5.10, 5.10, 3.20), 
+(4.50, 4.50, 2.80), 
+(6.00, 6.00, 3.70), 
+(7.00, 5.00, 4.00), 
+(8.00, 5.50, 4.50);
+
+INSERT INTO Shape (shape_description) VALUES 
+('Round'), 
+('Princess'), 
+('Oval'), 
+('Marquise'), 
+('Pear');
+
+INSERT INTO Symmetry (symmetry_description) VALUES 
+('Excellent'), 
+('Very Good'), 
+('Good'), 
+('Fair'), 
+('Poor');
+
+INSERT INTO Fluorescence (fluorescence_description) VALUES 
+('None'), 
+('Faint'), 
+('Medium'), 
+('Strong'), 
+('Very Strong');
+
+INSERT INTO Color (color_description) VALUES 
+('D'), 
+('E'), 
+('F'), 
+('G'), 
+('H');
+
+INSERT INTO Carat (carat) VALUES 
+(0.30), 
+(0.50), 
+(1.00), 
+(1.50), 
+(2.00);
+
+INSERT INTO Polish (polish_description) VALUES 
+('Excellent'), 
+('Very Good'), 
+('Good'), 
+('Fair'), 
+('Poor');
+
+INSERT INTO GIA (issue_date, diamond_id) VALUES 
+('2024-01-01', 1), 
+('2024-02-01', 2), 
+('2024-03-01', 3), 
+('2024-04-01', 4), 
+('2024-05-01', 5);
+
+INSERT INTO Diamond (shape_id, measurement_id, carat_id, color_id, cut_id, clarity_id, polish_id, symmetry_id, fluorescence_id, GIA_id, price, img) VALUES 
+(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5000.00, 'image1.jpg'), 
+(2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 7000.00, 'image2.jpg'), 
+(3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 15000.00, 'image3.jpg'), 
+(4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 25000.00, 'image4.jpg'), 
+(5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 35000.00, 'image5.jpg');
+
