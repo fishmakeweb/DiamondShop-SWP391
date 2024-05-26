@@ -320,3 +320,9 @@ INSERT INTO Category (category_name) VALUES
 ('Necklaces'),
 ('Bracelets'),
 ('Earrings');
+
+INSERT INTO Material (material_name) VALUES
+('Gold'),
+('Silver'),
+('Platinum'),
+('Titanium');
