@@ -377,3 +377,7 @@ INSERT INTO Delivery (staff_id, order_id, delivery_date, status) VALUES
 (1, 1, '2024-02-20', 'Delivered'),
 (2, 2, '2024-02-21', 'In Transit');
 
+INSERT INTO Article (title, content) VALUES
+('The Future of Jewelry', 'Exploring the trends and innovations shaping the future of the jewelry industry.'),
+('Guide to Diamond Care', 'Learn how to maintain the brilliance of your diamonds with these simple care tips.'),
+('The History of Gemstones', 'A fascinating look back at the rich history and cultural significance of gemstones worldwide.');
