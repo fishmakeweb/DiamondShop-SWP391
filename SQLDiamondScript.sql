@@ -354,3 +354,9 @@ INSERT INTO Product (diamond_id, jewelry_id) VALUES
 INSERT INTO Cart (customer_id) VALUES
 (1),
 (2);
+
+-- Assuming the Cart and Product tables have these IDs
+INSERT INTO Cart_item (cart_id, product_id) VALUES
+(1, 1),
+(1, 2),
+(2, 3);
