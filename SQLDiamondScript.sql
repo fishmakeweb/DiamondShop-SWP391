@@ -343,3 +343,9 @@ INSERT INTO Jewelry (diamond_id, name, material_id, category_id, gemstone_id, si
 (1, 'Elegant Gold Ring', 1, 1, 1, 1, 'ring1.jpg', 750.00),
 (1, 'Luxury Platinum Necklace', 3, 2, 3, 2, 'necklace1.jpg', 1200.00),
 (1, 'Classic Silver Bracelet', 2, 3, 2, 2, 'bracelet1.jpg', 300.00);
+
+-- Inserting Products
+INSERT INTO Product (diamond_id, jewelry_id) VALUES
+(1, null),
+(null, 2),
+(null, 3);
