@@ -332,3 +332,9 @@ INSERT INTO Gemstone (gemstone_name) VALUES
 ('Ruby'),
 ('Sapphire'),
 ('Emerald');
+
+INSERT INTO Size (type, size_number, unit) VALUES
+('Ring Circumference', 52.5, 'mm'),
+('Necklace Length', 45, 'cm'),
+('Bracelet Length', 19, 'cm'),
+('Earring Length', 3.5, 'cm');
