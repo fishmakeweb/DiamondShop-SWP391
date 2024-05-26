@@ -77,8 +77,9 @@ CREATE TABLE IF NOT EXISTS Polish(
     polish_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
     polish_description VARCHAR(50)
 );
+
 CREATE TABLE IF NOT EXISTS GIA(
-    GIA_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    giaid  BIGINT PRIMARY KEY,
     issue_date DATE,
     diamond_id BIGINT,
     FOREIGN KEY (diamond_id) REFERENCES Diamond(diamond_id)
@@ -96,7 +97,7 @@ CREATE TABLE IF NOT EXISTS Diamond(
     polish_id BIGINT,
     symmetry_id BIGINT,
     fluorescence_id BIGINT,
-    GIA_id BIGINT,
+    giaid BIGINT,
     price FLOAT,
     img VARCHAR(1000),
     FOREIGN KEY (shape_id) REFERENCES Shape(shape_id),
@@ -294,17 +295,28 @@ INSERT INTO Polish (polish_description) VALUES
 ('Fair'), 
 ('Poor');
 
-INSERT INTO GIA (issue_date, diamond_id) VALUES 
-('2024-01-01', 1), 
-('2024-02-01', 2), 
-('2024-03-01', 3), 
-('2024-04-01', 4), 
-('2024-05-01', 5);
+INSERT INTO GIA (giaid,issue_date, diamond_id) VALUES 
+(1,'2024-01-01', 1), 
+(2,'2024-02-01', 2), 
+(3,'2024-03-01', 3), 
+(4,'2024-04-01', 4), 
+(5,'2024-05-01', 5);
 
-INSERT INTO Diamond (shape_id, measurement_id, carat_id, color_id, cut_id, clarity_id, polish_id, symmetry_id, fluorescence_id, GIA_id, price, img) VALUES 
+INSERT INTO Diamond (shape_id, measurement_id, carat_id, color_id, cut_id, clarity_id, polish_id, symmetry_id, fluorescence_id, giaid, price, img) VALUES 
 (1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5000.00, 'image1.jpg'), 
 (2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 7000.00, 'image2.jpg'), 
 (3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 15000.00, 'image3.jpg'), 
 (4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 25000.00, 'image4.jpg'), 
 (5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 35000.00, 'image5.jpg');
 
+INSERT INTO Support (date, message, customer_id, staff_id) VALUES
+('2024-05-01', 'Issue with recent purchase, please assist.', 1, 1),
+('2024-05-02', 'Question about product warranty.', 1, 2),
+('2024-05-03', 'Need help with setting up an account.', 2, 1),
+('2024-05-04', 'Payment did not go through, need assistance.', 2, 2);
+
+INSERT INTO Category (category_name) VALUES
+('Rings'),
+('Necklaces'),
+('Bracelets'),
+('Earrings');
