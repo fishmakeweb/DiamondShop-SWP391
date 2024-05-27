@@ -14,7 +14,7 @@ public class Delivery {
     @JoinColumn(name = "staff_id")
     private Staff staff;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "order_id")
     private Order order;
 

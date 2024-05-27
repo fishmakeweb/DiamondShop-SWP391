@@ -46,7 +46,10 @@ public class Diamond {
     @JoinColumn(name = "fluorescenceId")
     private Fluorescence fluorescence;
 
-    private Long giaId;
+    @OneToOne
+    @JoinColumn(name = "giaid", unique = true)
+    private GIA giaId;
+
     private float price;
     private String img;
 
@@ -130,11 +133,11 @@ public class Diamond {
         this.fluorescence = fluorescence;
     }
 
-    public Long getGiaId() {
+    public GIA getGiaId() {
         return giaId;
     }
 
-    public void setGiaId(Long giaId) {
+    public void setGiaId(GIA giaId) {
         this.giaId = giaId;
     }
 

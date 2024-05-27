@@ -12,7 +12,6 @@ public class GIA {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long GIAId;
     private Date issueDate;
-    private Long diamondId;
 
     public Long getGIAId() {
         return GIAId;
@@ -30,11 +29,4 @@ public class GIA {
         this.issueDate = issueDate;
     }
 
-    public Long getDiamondId() {
-        return diamondId;
-    }
-
-    public void setDiamondId(Long diamondId) {
-        this.diamondId = diamondId;
-    }
 }

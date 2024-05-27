@@ -29,7 +29,6 @@ public class GIAService {
         return giaRepository.findById(id)
                 .map(existingGIA -> {
                     existingGIA.setIssueDate(newGIA.getIssueDate());
-                    existingGIA.setDiamondId(newGIA.getDiamondId());
                     return giaRepository.save(existingGIA);
                 }).orElseGet(() -> {
                     newGIA.setGIAId(id);

@@ -9,7 +9,7 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartId;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
