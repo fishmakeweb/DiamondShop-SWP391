@@ -64,7 +64,7 @@ public class ProductService {
             details.setDiamondPolish(product.getDiamond().getPolish().getPolishDescription());
             details.setDiamondSymmetry(product.getDiamond().getSymmetry().getSymmetryDescription());
             details.setDiamondFluorescence(product.getDiamond().getFluorescence().getFluorescenceDescription());
-            details.setDiamondGiaId(product.getDiamond().getGiaId().toString());
+            details.setDiamondGiaId(product.getDiamond().getGia().toString());
             details.setDiamondPrice(product.getDiamond().getPrice());
             details.setDiamondImage(product.getDiamond().getImg());
         }
