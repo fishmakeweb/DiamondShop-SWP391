@@ -33,7 +33,7 @@ public class StaffService {
                     staff.setEmail(newStaff.getEmail());
                     staff.setUsername(newStaff.getUsername());
                     staff.setPassword(newStaff.getPassword());
-                    staff.setRoleId(newStaff.getRoleId());
+                    staff.setRole(newStaff.getRole());
                     return staffRepository.save(staff);
                 }).orElseGet(() -> {
                     newStaff.setStaffId(id);
