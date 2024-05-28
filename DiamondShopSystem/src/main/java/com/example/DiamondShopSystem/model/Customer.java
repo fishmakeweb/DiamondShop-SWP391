@@ -8,6 +8,8 @@ import java.util.Date;
 @Table(name = "Customer")
 public class Customer {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long userId;
     private String fullName;
     private String email;

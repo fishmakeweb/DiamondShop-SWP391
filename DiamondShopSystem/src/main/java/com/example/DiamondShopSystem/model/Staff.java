@@ -6,12 +6,16 @@ import jakarta.persistence.*;
 @Table(name = "Staff")
 public class Staff {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long staffId;
     private String fullName;
     private String email;
     private String username;
     private String password;
-    private Long roleId;
+
+    @ManyToOne
+    @JoinColumn(name="role_id")
+    private Role role;
 
     public Long getStaffId() {
         return staffId;
@@ -53,11 +57,11 @@ public class Staff {
         this.password = password;
     }
 
-    public Long getRoleId() {
-        return roleId;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
