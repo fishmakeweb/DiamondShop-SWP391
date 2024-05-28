@@ -1,3 +1,4 @@
+
 use diamondshopdb;
 -- CUSTOMER TABLE
 CREATE TABLE IF NOT EXISTS Customer(
