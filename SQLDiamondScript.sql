@@ -212,26 +212,26 @@ CREATE TABLE IF NOT EXISTS Article(
 
 -- insert customer
 INSERT INTO Customer (full_name, email, address, registered_date, username, password) VALUES
-('John Doe', 'john.doe@example.com', '123 Elm St, Somewhere', '2024-05-01', 'johnny', 'pass1234'),
-('Jane Smith', 'jane.smith@example.com', '456 Oak St, Anywhere', '2024-05-02', 'janes', 'pass5678'),
-('Alice Johnson', 'alice.j@example.com', '789 Pine St, Nowhere', '2024-05-03', 'alicej', 'pass91011'),
-('Bob Brown', 'bob.brown@example.com', '321 Maple St, Everywhere', '2024-05-04', 'bobbyb', 'pass1213'),
-('Charlie Davis', 'charlie.d@example.com', '654 Spruce St, Thisplace', '2024-05-05', 'charlied', 'pass1415'),
-('Diana Adams', 'diana.a@example.com', '987 Cedar St, Thatplace', '2024-05-06', 'diana2024', 'pass1617'),
-('Evan Foster', 'evan.f@example.com', '159 Birch St, Someplace', '2024-05-07', 'evanf', 'pass1819'),
-('Fiona Green', 'fiona.g@example.com', '753 Willow St, Whatplace', '2024-05-08', 'fionag', 'pass2021'),
-('George Hill', 'george.h@example.com', '357 Aspen St, Whereplace', '2024-05-09', 'georgeh', 'pass2223'),
-('Hannah East', 'hannah.e@example.com', '951 Redwood St, Whoplace', '2024-05-10', 'hannahe', 'pass2425');
+('John Doe', 'john.doe@example.com', '123 Elm St, Somewhere', '2024-05-01', 'johnny', '{noop}pass1234'),
+('Jane Smith', 'jane.smith@example.com', '456 Oak St, Anywhere', '2024-05-02', 'janes', '{noop}pass5678'),
+('Alice Johnson', 'alice.j@example.com', '789 Pine St, Nowhere', '2024-05-03', 'alicej', '{noop}pass91011'),
+('Bob Brown', 'bob.brown@example.com', '321 Maple St, Everywhere', '2024-05-04', 'bobbyb', '{noop}pass1213'),
+('Charlie Davis', 'charlie.d@example.com', '654 Spruce St, Thisplace', '2024-05-05', 'charlied', '{noop}pass1415'),
+('Diana Adams', 'diana.a@example.com', '987 Cedar St, Thatplace', '2024-05-06', 'diana2024', '{noop}pass1617'),
+('Evan Foster', 'evan.f@example.com', '159 Birch St, Someplace', '2024-05-07', 'evanf', '{noop}pass1819'),
+('Fiona Green', 'fiona.g@example.com', '753 Willow St, Whatplace', '2024-05-08', 'fionag', '{noop}pass2021'),
+('George Hill', 'george.h@example.com', '357 Aspen St, Whereplace', '2024-05-09', 'georgeh', '{noop}pass2223'),
+('Hannah East', 'hannah.e@example.com', '951 Redwood St, Whoplace', '2024-05-10', 'hannahe', '{noop}pass2425');
 
 INSERT INTO Role (role_name) VALUES ('ROLE_SALESTAFF'),('ROLE_DELIVERYSTAFF'),('ROLE_MANAGER'),('ROLE_ADMIN');
 
 INSERT INTO Staff (full_name, email, username, password, role_id) VALUES
-('John Doe', 'john.doe@example.com', 'johnsales', 'pass1234', 1),
-('Jane Smith', 'jane.smith@example.com', 'janesales', 'pass5678', 1),
-('Emily Johnson', 'emily.johnson@example.com', 'emilydelivery', 'pass9012', 2),
-('Michael Brown', 'michael.brown@example.com', 'michaeldelivery', 'pass3456', 2),
-('Alice Martin', 'alice.martin@example.com', 'alicemanager', 'pass7890', 3),
-('John Cena', 'john.cena@example.com', 'johnadmin', 'pass7891', 4);
+('John Doe', 'john.doe@example.com', 'johnsales', '{noop}pass1234', 1),
+('Jane Smith', 'jane.smith@example.com', 'janesales', '{noop}pass5678', 1),
+('Emily Johnson', 'emily.johnson@example.com', 'emilydelivery', '{noop}pass9012', 2),
+('Michael Brown', 'michael.brown@example.com', 'michaeldelivery', '{noop}pass3456', 2),
+('Alice Martin', 'alice.martin@example.com', 'alicemanager', '{noop}pass7890', 3),
+('John Cena', 'john.cena@example.com', 'johnadmin', '{noop}pass7891', 4);
 
 INSERT INTO Cut (cut_description) VALUES
 ('Round'),
