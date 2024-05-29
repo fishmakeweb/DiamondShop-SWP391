@@ -2,15 +2,12 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function HoverImage({defaultSrc}) {
-    // Define the initial and hover image sources
     const hoverSrc = defaultSrc+"-hover";
-    // State to manage the image source
     const [imgSrc, setImgSrc] = useState(defaultSrc+".svg");
-
     return (
         <img
             src={imgSrc}
-            alt="defaultSrc"
+            alt={defaultSrc}
             onMouseEnter={() => setImgSrc(hoverSrc+".svg")} // Change src to hover image on mouse enter
             onMouseLeave={() => setImgSrc(defaultSrc+".svg")} // Revert src to default on mouse leave
             className="w-5 h-5"
@@ -42,14 +39,14 @@ function Navbar() {
                     <div className="my-auto">Search</div>
                     <img
                         loading="lazy"
-                        src="icon/homepage/ant-design_search-outlined.svg"
+                        src="http://localhost:3000/icon/homepage/ant-design_search-outlined.svg"
                         alt="search-icon"
                         className="shrink-0 aspect-square w-[17px]"
                     />
                 </div>
-                <HoverImage defaultSrc="icon\homepage\HEADER HEART REAL"/>
-                <HoverImage defaultSrc=" icon\homepage\ep_shopping-bag"/>
-                <HoverImage defaultSrc="icon\homepage\bi_person"/>
+                <HoverImage defaultSrc="http://localhost:3000/icon/homepage/HEADER%20HEART%20REAL"/>
+                <HoverImage defaultSrc="http://localhost:3000/icon/homepage/ep_shopping-bag"/>
+                <HoverImage defaultSrc="http://localhost:3000/icon/homepage/bi_person"/>
             </div>
         </div>
     );

@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 function Homepage() {
   return (
     <div className="flex flex-col bg-white">
-       {/* navbar component*/}
+       <Navbar/>
       <div className="flex overflow-hidden relative flex-col items-start p-20 -mt-3 w-full border border-black border-solid shadow-sm min-h-[856px] max-md:px-5 max-md:max-w-full">
         <img
           loading="lazy"
@@ -138,6 +138,7 @@ function Homepage() {
           </div>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 }
