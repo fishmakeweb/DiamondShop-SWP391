@@ -85,8 +85,8 @@ public class APISecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/cartitems/**").hasRole("CUSTOMER")
 
                         // api categories, claritys, colors, cuts, fluorescences, gemstones, gias, materials, measurements, polishes, shapes, sizes, symmetrys
-                        .requestMatchers(HttpMethod.GET, "/api/categories").hasRole("MANAGER")
-                        .requestMatchers(HttpMethod.GET, "/api/categories/**").hasRole("MANAGER")
+                        .requestMatchers(HttpMethod.GET, "/api/categories").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/categories").hasRole("MANAGER")
                         .requestMatchers(HttpMethod.PUT, "/api/categories/**").hasRole("MANAGER")
                         .requestMatchers(HttpMethod.DELETE, "/api/categories/**").hasRole("MANAGER")
@@ -115,8 +115,8 @@ public class APISecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/fluorescences/**").hasRole("MANAGER")
                         .requestMatchers(HttpMethod.DELETE, "/api/fluorescences/**").hasRole("MANAGER")
 
-                        .requestMatchers(HttpMethod.GET, "/api/gemstones").hasRole("MANAGER")
-                        .requestMatchers(HttpMethod.GET, "/api/gemstones/**").hasRole("MANAGER")
+                        .requestMatchers(HttpMethod.GET, "/api/gemstones").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/gemstones/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/gemstones").hasRole("MANAGER")
                         .requestMatchers(HttpMethod.PUT, "/api/gemstones/**").hasRole("MANAGER")
                         .requestMatchers(HttpMethod.DELETE, "/api/gemstones/**").hasRole("MANAGER")
