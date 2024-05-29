@@ -170,11 +170,12 @@ public class APISecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/diamonds/**").hasRole("MANAGER")
                         .requestMatchers(HttpMethod.DELETE, "/api/diamonds/**").hasRole("MANAGER")
 
-                        .requestMatchers(HttpMethod.GET, "/api/jewelrys").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/jewelrys/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/jewelrys").hasRole("MANAGER")
-                        .requestMatchers(HttpMethod.PUT, "/api/jewelrys/**").hasRole("MANAGER")
-                        .requestMatchers(HttpMethod.DELETE, "/api/jewelrys/**").hasRole("MANAGER")
+                        .requestMatchers(HttpMethod.GET, "/api/jewelry").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/jewelry/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/jewelry").hasRole("MANAGER")
+                        .requestMatchers(HttpMethod.PUT, "/api/jewelry/**").hasRole("MANAGER")
+                        .requestMatchers(HttpMethod.DELETE, "/api/jewelry/**").hasRole("MANAGER")
+                        .requestMatchers(HttpMethod.GET, "/api/jewelry/category/{categoryId}").permitAll()
 
                         .requestMatchers(HttpMethod.GET, "/api/products").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
@@ -215,6 +216,8 @@ public class APISecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/supports").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/api/supports/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE,"/api/deliveries/**").permitAll()
+
+
 
                 )
                 .httpBasic(Customizer.withDefaults()) // Use HTTP Basic authentication
