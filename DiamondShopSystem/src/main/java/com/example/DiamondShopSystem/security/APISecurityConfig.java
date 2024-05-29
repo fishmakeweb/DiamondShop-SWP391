@@ -175,7 +175,8 @@ public class APISecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/jewelry").hasRole("MANAGER")
                         .requestMatchers(HttpMethod.PUT, "/api/jewelry/**").hasRole("MANAGER")
                         .requestMatchers(HttpMethod.DELETE, "/api/jewelry/**").hasRole("MANAGER")
-                        .requestMatchers(HttpMethod.GET, "/api/jewelry/category/{categoryId}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/jewelry/categories/{categoryId}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/jewelry/gemstones/{gemstoneId}").permitAll()
 
                         .requestMatchers(HttpMethod.GET, "/api/products").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
