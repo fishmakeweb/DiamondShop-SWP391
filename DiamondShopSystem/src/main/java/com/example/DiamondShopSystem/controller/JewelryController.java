@@ -48,4 +48,8 @@ public class JewelryController {
         return jewelryService.findAllByGemStoneId(gemstoneId);
     }
 
+    @GetMapping("/price/range")
+    public List<Jewelry> getJewelryByPriceRange(@RequestParam("min") float minPrice, @RequestParam("max") float maxPrice) {
+        return jewelryService.findAllByPriceRange(minPrice, maxPrice);
+    }
 }

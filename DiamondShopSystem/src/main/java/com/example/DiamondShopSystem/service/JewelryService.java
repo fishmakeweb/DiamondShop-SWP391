@@ -58,6 +58,12 @@ public class JewelryService {
                 .filter(jewelry -> jewelry.getGemstone() != null && jewelry.getGemstone().getGemstoneId().equals(gemstoneId))
                 .collect(Collectors.toList());
     }
+
+    public List<Jewelry> findAllByPriceRange(float minPrice, float maxPrice) {
+        return jewelryRepository.findAll().stream()
+                .filter(jewelry -> jewelry.getPrice() >= minPrice && jewelry.getPrice() <= maxPrice)
+                .collect(Collectors.toList());
+    }
 }
 
 
