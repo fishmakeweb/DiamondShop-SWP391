@@ -53,5 +53,11 @@ public class JewelryService {
                 .collect(Collectors.toList());
     }
 
-
+    public List<Jewelry> findAllByGemStoneId(Long gemstoneId) {
+        return jewelryRepository.findAll().stream()
+                .filter(jewelry -> jewelry.getGemstone() != null && jewelry.getGemstone().getGemstoneId().equals(gemstoneId))
+                .collect(Collectors.toList());
+    }
 }
+
+
