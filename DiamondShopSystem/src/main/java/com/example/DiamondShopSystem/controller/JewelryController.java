@@ -38,9 +38,14 @@ public class JewelryController {
         jewelryService.deleteJewelry(id);
     }
 
-    @GetMapping("/category/{categoryId}")
+    @GetMapping("/categories/{categoryId}")
     public List<Jewelry> getJewelryByCategory(@PathVariable Long categoryId) {
         return jewelryService.findAllByCategoryId(categoryId);
+    }
+
+    @GetMapping("/gemstones/{gemstoneId}")
+    public List<Jewelry> getJewelryByGemstone(@PathVariable Long gemstoneId) {
+        return jewelryService.findAllByGemStoneId(gemstoneId);
     }
 
 }
