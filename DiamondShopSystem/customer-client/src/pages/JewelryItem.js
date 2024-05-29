@@ -3,6 +3,8 @@ import { useParams , useNavigate} from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import RecommendItem from '../components/RecommendItem';
+import axios from '../axios.js';
+
 
 const Item = () => {
     let navigate  = useNavigate();
@@ -14,6 +16,8 @@ const Item = () => {
 };
 
 function JewelryDetails({ jewelry }) {
+
+    
     return (
       <div className="p-4 bg-white shadow rounded-lg">
         <table className="min-w-full">
@@ -54,7 +58,6 @@ function JewelryDetails({ jewelry }) {
                 <td>{jewelry.size.sizeNumber} ({jewelry.size.unit})</td>
               </tr>
             )}
-            {/* Continue with other fields similarly */}
           </tbody>
         </table>
       </div>
@@ -73,6 +76,7 @@ function JewelryDetails({ jewelry }) {
           DETAILS
           <img
             loading="lazy"
+            alt=""
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/8e79619d6d6b36f08d933bffaf65933ca66414fb4b6e9b0f6c0ed83858787e4f?"
             className="shrink-0 w-6 aspect-square"
           />
@@ -86,11 +90,8 @@ function JewelryItem() {
     const {jewelryId} = useParams();
     const [itemDetails, setItemDetails] = useState(null);
     useEffect(() => {
-      fetch(`http://localhost:8080/api/jewelry/${jewelryId}`)
-        .then(response => response.json())
-        .then(data => {
-          setItemDetails(data);
-        })
+      axios.get(`/jewelry/${jewelryId}`)
+        .then(response => setItemDetails(response.data))
         .catch(error => console.error('Error fetching jewelry details:', error));
     }, [jewelryId]);
   
@@ -123,6 +124,7 @@ function JewelryItem() {
                 </div>
                 <img
                   loading="lazy"
+                  alt=""
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/993591a3a81dab2d2c2ebb7f3b4a931dab5d810de16c88f48d4f1c172185adfc?"
                   className="shrink-0 my-auto aspect-[0.94] w-[35px]"
                 />
@@ -142,6 +144,7 @@ function JewelryItem() {
                 <div className="flex-auto my-auto">TIPS & WARNINGS</div>
                 <img
                   loading="lazy"
+                  alt=""
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/9a20b583fc524c1afdb28207b9bc2fbcaafc28e514c302e5d668864cf5c97e49?"
                   className="shrink-0 w-6 aspect-square"
                 />
@@ -150,6 +153,7 @@ function JewelryItem() {
                 <div className="flex-auto my-auto">LOCAL AVAILABILITY</div>
                 <img
                   loading="lazy"
+                  alt=""
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/35d01c5cc7d2f8e99764e480ad8a21ca61347d99af30fc8107408dfda4294276?"
                   className="shrink-0 aspect-square w-[26px]"
                 />
