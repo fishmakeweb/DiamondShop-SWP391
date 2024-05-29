@@ -37,4 +37,10 @@ public class JewelryController {
     public void deleteJewelry(@PathVariable Long id) {
         jewelryService.deleteJewelry(id);
     }
+
+    @GetMapping("/category/{categoryId}")
+    public List<Jewelry> getJewelryByCategory(@PathVariable Long categoryId) {
+        return jewelryService.findAllByCategoryId(categoryId);
+    }
+
 }
