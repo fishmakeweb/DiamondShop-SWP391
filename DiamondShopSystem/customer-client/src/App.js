@@ -2,19 +2,19 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Homepage from './pages/Homepage';
 import Jewelry from './pages/Jewelry';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+import JewelryItem from './pages/JewelryItem';
+import ScrollToTop from './components/ScrollToTop'
 
 function App() {
   return (
     <Router>
       <div>
-        <Navbar />
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/jewelry" element={<Jewelry />} />
+          <Route path="/jewelry/:jewelryId" element={<JewelryItem />} />
         </Routes>
-        <Footer />
       </div>
     </Router>
   );
