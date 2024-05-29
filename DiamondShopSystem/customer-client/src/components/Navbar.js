@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import LoginModal from './LoginModal'; // Import the LoginModal component
 
-function HoverImage({defaultSrc}) {
-    const hoverSrc = defaultSrc+"-hover";
-    const [imgSrc, setImgSrc] = useState(defaultSrc+".svg");
+
+function HoverImage({ defaultSrc }) {
+    const hoverSrc = defaultSrc + "-hover";
+    const [imgSrc, setImgSrc] = useState(defaultSrc + ".svg");
     return (
         <img
             src={imgSrc}
             alt={defaultSrc}
-            onMouseEnter={() => setImgSrc(hoverSrc+".svg")} // Change src to hover image on mouse enter
-            onMouseLeave={() => setImgSrc(defaultSrc+".svg")} // Revert src to default on mouse leave
+            onMouseEnter={() => setImgSrc(hoverSrc + ".svg")} // Change src to hover image on mouse enter
+            onMouseLeave={() => setImgSrc(defaultSrc + ".svg")} // Revert src to default on mouse leave
             className="w-5 h-5"
         />
     );
@@ -18,8 +20,13 @@ function HoverImage({defaultSrc}) {
 
 
 function Navbar() {
+    const [isLoginModalOpen, setLoginModalOpen] = useState(false);
+
+    const toggleLoginModal = () => {
+        setLoginModalOpen(!isLoginModalOpen);
+    };
     return (
-        <div className="flex z-10 gap-5 px-12 py-6 w-full bg-white border border-solid border-stone-400 max-md:flex-wrap max-md:px-5 max-md:max-w-full">
+        <div className="relative flex z-0 gap-5 px-12 py-6 w-full bg-white border border-solid border-stone-400 max-md:flex-wrap max-md:px-5 max-md:max-w-full">
             <div className="flex gap-5 items-center self-start text-lg text-center text-black text-opacity-70 max-md:flex-wrap max-md:max-w-full">
                 <img
                     loading="lazy"
@@ -44,10 +51,13 @@ function Navbar() {
                         className="shrink-0 aspect-square w-[17px]"
                     />
                 </div>
-                <HoverImage defaultSrc="http://localhost:3000/icon/homepage/HEADER%20HEART%20REAL"/>
-                <HoverImage defaultSrc="http://localhost:3000/icon/homepage/ep_shopping-bag"/>
-                <HoverImage defaultSrc="http://localhost:3000/icon/homepage/bi_person"/>
+                <HoverImage defaultSrc="http://localhost:3000/icon/homepage/HEADER%20HEART%20REAL" />
+                <HoverImage defaultSrc="http://localhost:3000/icon/homepage/ep_shopping-bag" />
+                <div onClick={toggleLoginModal} className="cursor-pointer">
+                    <HoverImage defaultSrc="http://localhost:3000/icon/homepage/bi_person" />
+                </div>
             </div>
+            <LoginModal isOpen={isLoginModalOpen} onClose={toggleLoginModal} />
         </div>
     );
 }
