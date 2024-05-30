@@ -99,6 +99,7 @@ function JewelryItem() {
   
   return (
     <div className="flex flex-col bg-white">
+      <div className="h-24 w-full"></div>
         <Navbar/>
       <div className="self-center mt-20 w-full max-w-[1214px] max-md:mt-10 max-md:max-w-full">
         <div className="flex gap-5 max-md:flex-col max-md:gap-0">

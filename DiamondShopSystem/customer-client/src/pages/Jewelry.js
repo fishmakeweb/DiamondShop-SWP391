@@ -65,6 +65,7 @@ function Jewelry() {
 
     return (
         <div className="flex flex-col bg-white">
+            <div className="h-24 w-full"></div>
             <Navbar />
             <div className="self-center mt-16 text-4xl text-center text-black max-md:mt-10">
                 Jewelry
@@ -76,12 +77,12 @@ function Jewelry() {
                 <div className="flex gap-5 justify-between max-w-full w-[648px] max-md:flex-wrap">
                     <div className="my-auto text-neutral-500">SORT BY:</div>
                     <div className="text-center">Popularity</div>
-                    <div className="relative" ref={categoriesRef}>
-                        <div className="text-center cursor-pointer" onClick={toggleCategoriesDropdown}>
+                    <div ref={categoriesRef}>
+                        <div className="text-center" onClick={toggleCategoriesDropdown}>
                             Type
                         </div>
                         {showCategoriesDropdown && (
-                            <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white border border-gray-300 rounded shadow-lg z-10 max-h-60 overflow-y-auto w-40 custom-scrollbar">
+                            <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white border border-gray-300 rounded shadow-lg z-0 max-h-60 overflow-y-auto w-40 custom-scrollbar">
                                 {categories.map(category => (
                                     <div key={category.categoryId} className="p-2 hover:bg-gray-200 cursor-pointer">
                                         {category.categoryName}
@@ -90,12 +91,12 @@ function Jewelry() {
                             </div>
                         )}
                     </div>
-                    <div className="relative" ref={gemstonesRef}>
-                        <div className="text-center cursor-pointer z-0" onClick={toggleGemstonesDropdown}>
+                    <div ref={gemstonesRef}>
+                        <div className="text-center" onClick={toggleGemstonesDropdown}>
                             Gemstone
                         </div>
                         {showGemstonesDropdown && (
-                            <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white border border-gray-300 rounded shadow-lg z-10 max-h-60 overflow-y-auto w-40 custom-scrollbar">
+                            <div className="absolute transform -translate-x-1.5 mt-2 bg-white border border-gray-300 rounded shadow-lg z-0 max-h-60 overflow-y-auto w-40 custom-scrollbar">
                                 {gemstones.map(gemstone => (
                                     <div key={gemstone.gemstoneId} className="p-2 hover:bg-gray-200 cursor-pointer">
                                         {gemstone.gemstoneName}

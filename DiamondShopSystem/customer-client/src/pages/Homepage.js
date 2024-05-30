@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 function Homepage() {
   return (
     <div className="flex flex-col bg-white">
-       <Navbar/>
+      <div className="h-24 w-full"></div>
       <div className="flex overflow-hidden relative flex-col items-start p-20 -mt-3 w-full border border-black border-solid shadow-sm min-h-[856px] max-md:px-5 max-md:max-w-full">
         <img
           loading="lazy"
@@ -15,7 +15,7 @@ function Homepage() {
           className="object-cover absolute inset-0 size-full z-0"
         />
 
-        <div className="relative mt-80 ml-4 z-10 max-md:mt-10 max-md:max-w-full">
+        <div className="relative mt-80 ml-4 z-0 max-md:mt-10 max-md:max-w-full">
           <h1 className="text-7xl text-center text-yellow-300 max-md:text-4xl">
             the summer collection
           </h1>
@@ -28,6 +28,7 @@ function Homepage() {
           </Link>
         </div>
       </div>
+      <Navbar/>
       <div className="self-center mt-11 text-4xl text-center text-black max-md:mt-10">
         Shop by category
       </div>
@@ -71,12 +72,12 @@ function Homepage() {
           <div className="flex flex-col ml-5 w-3/12 max-md:ml-0 max-md:w-full">
             {/* Diamond page */}
             <div className="flex flex-col grow justify-center max-md:mt-10">
-              <div className="flex overflow-hidden relative flex-col justify-center w-full shadow-sm aspect-[0.89]">
+              <div className="flex flex-col justify-center shadow-sm bg-stone-300">
                 <img
                   loading="lazy"
                   srcSet="img\homepage\diamond.png"//item 3
                   alt="diamond"
-                  className="object-cover absolute inset-0 size-full"
+                  className="w-full aspect-[0.9]"
                 />
               </div>
               <div className="self-center mt-5 text-2xl text-center text-black">
@@ -87,12 +88,12 @@ function Homepage() {
           <div className="flex flex-col ml-5 w-3/12 max-md:ml-0 max-md:w-full">
             {/* Jewelry page */}
             <div className="flex flex-col grow justify-center max-md:mt-10">
-              <div className="flex overflow-hidden relative flex-col justify-center w-full shadow-sm aspect-[0.89]">
+              <div className="flex flex-col justify-center shadow-sm bg-stone-300">
                 <img
                   loading="lazy"
                   srcSet="img\homepage\jewerly-sample.png"//item 4
                   alt="jewerly-sample"
-                  className="object-cover absolute inset-0 size-full"
+                  className="w-full aspect-[0.9]"
                 />
               </div>
               <div className="self-center mt-5 text-2xl text-center text-black">
