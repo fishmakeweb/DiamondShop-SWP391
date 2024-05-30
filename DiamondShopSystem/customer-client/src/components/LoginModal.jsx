@@ -13,7 +13,7 @@ function LoginModal({ isOpen, onClose, openSignUp }) {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50">
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center">
             <div className="bg-white p-5 rounded-lg shadow-lg h-2/3 w-3/12 max-w-full max-h-full">
                 <div className="flex justify-between items-center border-b border-stone-400 pb-4 mb-4">
                     <div className="flex items-center gap-4">
