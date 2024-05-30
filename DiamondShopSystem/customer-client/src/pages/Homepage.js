@@ -16,7 +16,7 @@ function Homepage() {
         />
 
         <div className="relative mt-80 ml-4 z-10 max-md:mt-10 max-md:max-w-full">
-          <h1 className="text-7xl text-center text-yellow-300 border border-solid border-stone-100 border-opacity-30 max-md:text-4xl">
+          <h1 className="text-7xl text-center text-yellow-300 max-md:text-4xl">
             the summer collection
           </h1>
           <p className="mt-7 text-2xl text-black font-[324]">
