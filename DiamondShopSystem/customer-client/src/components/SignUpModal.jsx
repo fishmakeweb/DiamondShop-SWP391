@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 
-function LoginModal({ isOpen, onClose, openSignUp }) {
+function SignUpModal({ isOpen, onClose, openLogin }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
-    const handleLogin = (e) => {
+    const handleSignUp = (e) => {
         e.preventDefault();
-        console.log('Login attempt with:', email, password);
+        console.log('Sign up attempt with:', email, password, confirmPassword);
         onClose();
     };
 
@@ -23,7 +24,7 @@ function LoginModal({ isOpen, onClose, openSignUp }) {
                             alt="Logo"
                             className="w-8 h-8"
                         />
-                        <h2 className="text-2xl font-semibold">Log In</h2>
+                        <h2 className="text-2xl font-semibold">Sign Up</h2>
                     </div>
                     <img
                         loading="lazy"
@@ -33,7 +34,7 @@ function LoginModal({ isOpen, onClose, openSignUp }) {
                         onClick={onClose}
                     />
                 </div>
-                <form onSubmit={handleLogin} className="flex flex-col space-y-6">
+                <form onSubmit={handleSignUp} className="flex flex-col space-y-6">
                     <input
                         type="email"
                         placeholder="Email address"
@@ -48,22 +49,26 @@ function LoginModal({ isOpen, onClose, openSignUp }) {
                         onChange={(e) => setPassword(e.target.value)}
                         className="w-full px-4 py-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <div className="flex justify-end text-sm text-blue-500 cursor-pointer">
-                        Forgot Password?
-                    </div>
+                    <input
+                        type="password"
+                        placeholder="Confirm Password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        className="w-full px-4 py-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
                     <button
                         type="submit"
                         className="w-full py-3 text-white bg-black rounded hover:bg-opacity-90"
                     >
-                        LOG IN
+                        SIGN UP
                     </button>
                     <div className="text-center">
-                        <span>Don't have an account? </span>
+                        <span>Already have an account? </span>
                         <span
                             className="text-blue-500 cursor-pointer"
-                            onClick={openSignUp}
+                            onClick={openLogin}
                         >
-                            Sign Up
+                            Log In
                         </span>
                     </div>
                 </form>
@@ -72,4 +77,4 @@ function LoginModal({ isOpen, onClose, openSignUp }) {
     );
 }
 
-export default LoginModal;
+export default SignUpModal;
