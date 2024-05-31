@@ -1,13 +1,16 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 function Homepage() {
+  useEffect(() => {
+    document.title = "Hephaetus"
+  }, []);
   return (
     <div className="flex flex-col bg-white">
       <div className="h-24 w-full"></div>
-      <div className="flex overflow-hidden relative flex-col items-start p-20 -mt-3 w-full border border-black border-solid shadow-sm min-h-[856px] max-md:px-5 max-md:max-w-full">
+      <div className="flex overflow-hidden relative flex-col items-start p-20 -mt-3 w-full shadow-sm min-h-[856px] max-md:px-5 max-md:max-w-full">
         <img
           loading="lazy"
           srcSet="/img/homepage/background-homepage.jpg"
@@ -23,12 +26,12 @@ function Homepage() {
             Summer has arrived.<br />
             Shop for our new releases starting today.
           </p>
-          <Link to="/jewelry"  className="mt-5 text-xl text-center cursor-pointer hover:bg-white hover:text-black transition duration-300 ease-in-out p-2 border border-black border-solid inline-block w-52" style={{ width: '210px' }}>  {/* 210px width explicitly set */}
+          <Link to="/jewelry" className="mt-5 text-xl text-center cursor-pointer hover:bg-white hover:text-black transition duration-300 ease-in-out p-2 border border-black border-solid inline-block w-52" style={{ width: '210px' }}>  {/* 210px width explicitly set */}
             SHOP NOW
           </Link>
         </div>
       </div>
-      <Navbar/>
+      <Navbar />
       <div className="self-center mt-11 text-4xl text-center text-black max-md:mt-10">
         Shop by category
       </div>
@@ -43,13 +46,13 @@ function Homepage() {
               <div className="flex flex-col justify-center shadow-sm bg-stone-300">
                 <img
                   loading="lazy"
-                  srcSet="img\homepage\wedding-ring-sample.png"
+                  srcSet="http://localhost:3000/img/jewelry/DC-1.webp"
                   alt="wedding-ring-sample"
                   className="w-full aspect-[0.9]"
                 />
               </div>
               <div className="self-center mt-5 text-2xl text-center text-black">
-                Wedding Ring
+                Diamond Chains
               </div>
             </div>
           </div>
@@ -65,7 +68,7 @@ function Homepage() {
                 />
               </div>
               <div className="self-center mt-5 text-2xl text-center text-black">
-                Engagement
+                Engagement Ring
               </div>
             </div>
           </div>
@@ -139,7 +142,7 @@ function Homepage() {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }
