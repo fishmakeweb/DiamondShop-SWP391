@@ -493,9 +493,9 @@ INSERT INTO Jewelry (diamond_id, name, material_id, category_id, gemstone_id, si
 
 -- Cluster Pendants
 INSERT INTO Jewelry (diamond_id, name, material_id, category_id, gemstone_id, size_id, img, price) VALUES
-(NULL, 'Multi-Gem Cluster Pendant', 21, 13, 15, 15, 'CB-1.jpg', 500.00),
-(NULL, 'Diamond Cluster Pendant', 18, 13, 1, 15, 'CB-2.webp', 1200.00),
-(NULL, 'Pearl Cluster Pendant', 22, 13, 9, 15, 'CB-3.webp', 300.00);
+(NULL, 'Multi-Gem Cluster Pendant', 21, 13, 15, 15, 'CP-1.jpg', 500.00),
+(NULL, 'Diamond Cluster Pendant', 18, 13, 1, 15, 'CP-2.jpg', 1200.00),
+(NULL, 'Pearl Cluster Pendant', 22, 13, 9, 15, 'CP-3.jpg', 300.00);
 
 -- Personalized Pendants
 INSERT INTO Jewelry (diamond_id, name, material_id, category_id, gemstone_id, size_id, img, price) VALUES
