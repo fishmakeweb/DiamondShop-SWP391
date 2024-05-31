@@ -315,229 +315,113 @@ INSERT INTO Support (date, message, customer_id, staff_id) VALUES
 ('2024-05-03', 'Need help with setting up an account.', 2, 1),
 ('2024-05-04', 'Payment did not go through, need assistance.', 2, 2);
 
+-- Insert values into Category table
 INSERT INTO Category (category_name) VALUES
 ('Engagement Rings'),
-('Wedding Bands'),
 ('Fashion Rings'),
 ('Stud Earrings'),
-('Hoop Earrings'),
 ('Pendants'),
-('Diamond Chains'),
-('Statement Necklaces'),
-('Tennis Bracelets'),
-('Bangle Bracelets'),
-('Charm Bracelets'),
-('Solitaire Pendants'),
-('Cluster Pendants'),
-('Personalized Pendants'),
-('Vintage Brooches'),
-('Modern Brooches'),
-('Chain Anklets'),
-('Charm Anklets'),
-('Classic Cufflinks'),
-('Themed Cufflinks');
+('Diamond Chains');
 
+-- Insert values into Material table
 INSERT INTO Material (material_name) VALUES
 ('Gold'),
-('Platinum'),
 ('Silver'),
-('Rose Gold'),
+('Platinum'),
 ('White Gold'),
-('Titanium'),
-('Stainless Steel'),
-('Bronze'),
-('Copper'),
-('Aluminum'),
-('Nickel'),
-('Pewter'),
-('Brass'),
-('18k Gold'),
-('24k Gold'),
-('Palladium'),
-('Ceramic'),
-('Leather'),
-('Fabric'),
-('Rubber'),
-('Rhodium'),
-('Bamboo'),
-('Silk'),
-('Carbon Fiber'),
-('Velvet'),
-('Acrylic'),
-('Suede');
+('Rose Gold');
 
+-- Insert values into Gemstone table
 INSERT INTO Gemstone (gemstone_name) VALUES
 ('Diamond'),
 ('Ruby'),
 ('Sapphire'),
 ('Emerald'),
-('Topaz'),
-('Garnet'),
-('Amethyst'),
-('Aquamarine'),
-('Pearl'),
-('Opal'),
-('Citrine'),
-('Turquoise'),
-('Moonstone'),
-('Peridot'),
-('Quartz'),
-('Tanzanite'),
-('Tourmaline'),
-('Zircon'),
-('Morganite'),
-('Lapis Lazuli');
+('Topaz');
 
-
+-- Insert values into Size table
 INSERT INTO Size (type, size_number, unit) VALUES
-('Ring Size', 6, 'US'),
-('Ring Size', 7, 'US'),
-('Ring Size', 8, 'US'),
-('Bracelet Length', 18, 'cm'),
-('Bracelet Length', 20, 'cm'),
-('Bracelet Length', 22, 'cm'),
-('Necklace Length', 40, 'cm'),
-('Necklace Length', 45, 'cm'),
-('Necklace Length', 50, 'cm'),
-('Earring Length', 2, 'cm'),
-('Earring Length', 3, 'cm'),
-('Earring Length', 4, 'cm'),
-('Pendant Size', 1.5, 'cm'),
-('Pendant Size', 2, 'cm'),
-('Pendant Size', 2.5, 'cm'),
-('Anklet Size', 22, 'cm'),
-('Anklet Size', 24, 'cm'),
-('Anklet Size', 26, 'cm'),
-('Cufflink Size', 1.5, 'cm'),
-('Cufflink Size', 2, 'cm'),
-('Earring Length', 5, 'cm'),
-('Earring Length', 6, 'cm'),
-('Necklace Length', 55, 'cm'),
-('Necklace Length', 60, 'cm'),
-('Bracelet Length', 16, 'cm'),
-('Bracelet Length', 24, 'cm'),
-('Ring Size', 9, 'US');
+('Ring', 6, 'US'),
+('Ring', 7, 'US'),
+('Ring', 8, 'US'),
+('Chain Length', 18, 'inches'),
+('Chain Length', 20, 'inches'),
+('Earring Diameter', 0.5, 'inches'),
+('Earring Diameter', 0.75, 'inches'),
+('Pendant Height', 1, 'inches'),
+('Pendant Height', 1.5, 'inches'),
+('Pendant Height', 2, 'inches');
 
+-- Example entries for Jewelry table (ten for each category)
 -- Engagement Rings
-INSERT INTO Jewelry (diamond_id, name, material_id, category_id, gemstone_id, size_id, img, price) VALUES
-(1, 'Classic Engagement Ring', 1, 1, 1, 1, 'ER-1.jpg', 500.00),
-(2, 'Modern Engagement Ring', 2, 1, 2, 2, 'ER-2.webp', 800.00),
-(NULL, 'Vintage Engagement Ring', 3, 1, 3, 3, 'ER-3.jpg', 750.00);
-
--- Wedding Bands
-INSERT INTO Jewelry (diamond_id, name, material_id, category_id, gemstone_id, size_id, img, price) VALUES
-(3, 'Gold Wedding Band', 4, 2, NULL, 4, 'WB-1.jpg', 300.00),
-(4, 'Platinum Wedding Band', 5, 2, NULL, 5, 'WB-2.jpg', 900.00),
-(NULL, 'Silver Wedding Band', 6, 2, NULL, 6, 'WB-3.webp', 200.00);
+INSERT INTO Jewelry (name, material_id, category_id, gemstone_id, size_id, img, price)
+VALUES
+('Classic Solitaire Ring', 1, 1, 1, 1, 'CRS-1.jpg', 1500.00),
+('Vintage Diamond Ring', 2, 1, 1, 2, 'VDR-1.jpg', 1600.00),
+('Halo Diamond Ring', 3, 1, 1, 3, 'HDR-1.jpg', 1700.00),
+('Three-Stone Diamond Ring', 4, 1, 1, 1, 'TDR-1.jpg', 1800.00),
+('Pave Diamond Ring', 5, 1, 1, 2, 'PDR-1.jpg', 1900.00),
+('Bezel Diamond Ring', 1, 1, 1, 3, 'BDR-1.jpg', 2000.00),
+('Cathedral Diamond Ring', 2, 1, 1, 1, 'CDR-1.jpg', 2100.00),
+('Tension Diamond Ring', 3, 1, 1, 2, 'TDR-2.jpg', 2200.00),
+('Channel-Set Diamond Ring', 4, 1, 1, 3, 'CDR-2.jpg', 2300.00),
+('Cluster Diamond Ring', 5, 1, 1, 1, 'CDR-3.jpg', 2400.00);
 
 -- Fashion Rings
-INSERT INTO Jewelry (diamond_id, name, material_id, category_id, gemstone_id, size_id, img, price) VALUES
-(NULL, 'Rose Gold Fashion Ring', 7, 3, 4, 7, 'FR-1.webp', 250.00),
-(NULL, 'Stackable Fashion Ring', 8, 3, 5, 8, 'FR-2.jpg', 150.00),
-(NULL, 'Statement Fashion Ring', 9, 3, 6, 9, 'FR-3.jpg', 180.00);
+INSERT INTO Jewelry (name, material_id, category_id, gemstone_id, size_id, img, price)
+VALUES
+('Cocktail Ring', 1, 2, 2, 1, 'CT-4.jpg', 2500.00),
+('Eternity Band Ring', 2, 2, 3, 2, 'EBR-5.jpg', 2600.00),
+('Stackable Ring', 3, 2, 4, 3, 'SR-6.jpg', 2700.00),
+('Birthstone Ring', 4, 2, 5, 1, 'BR-6.jpg', 2800.00),
+('Statement Ring', 5, 2, 1, 2, 'SR-7.jpg', 2900.00),
+('Signet Ring', 1, 2, 2, 3, 'SR-8.jpg', 3000.00),
+('Open Ring', 2, 2, 3, 1, 'OP-9.jpg', 3100.00),
+('Midi Ring', 3, 2, 4, 2, 'MD-10.jpg', 3200.00),
+('Thumb Ring', 4, 2, 5, 3, 'TR-11.jpg', 3300.00),
+('Knuckle Ring', 5, 2, 1, 1, 'KR-12.jpg', 3400.00);
 
 -- Stud Earrings
-INSERT INTO Jewelry (diamond_id, name, material_id, category_id, gemstone_id, size_id, img, price) VALUES
-(NULL, 'Simple Stud Earrings', 10, 4, 7, 10, 'SE-1.webp', 100.00),
-(NULL, 'Gemstone Stud Earrings', 11, 4, 8, 11, 'SE-2.jpg', 200.00),
-(NULL, 'Diamond Stud Earrings', 1, 4, 9, 12, 'SE-3.webp', 1200.00);
-
--- Hoop Earrings
-INSERT INTO Jewelry (diamond_id, name, material_id, category_id, gemstone_id, size_id, img, price) VALUES
-(NULL, 'Gold Hoop Earrings', 12, 5, NULL, 13, 'HE-1.webp', 350.00),
-(NULL, 'Silver Hoop Earrings', 13, 5, NULL, 14, 'HE-2.webp', 300.00),
-(NULL, 'Large Hoop Earrings', 14, 5, NULL, 15, 'HE-3.jpg', 400.00);
+INSERT INTO Jewelry (name, material_id, category_id, gemstone_id, size_id, img, price)
+VALUES
+('Diamond Studs', 1, 3, 1, 6, 'DS-13.jpg', 3500.00),
+('Ruby Studs', 2, 3, 2, 7, 'RS-14.jpg', 3600.00),
+('Sapphire Studs', 3, 3, 3, 6, 'SS-15.jpg', 3700.00),
+('Emerald Studs', 4, 3, 4, 7, 'ER-16.jpg', 3800.00),
+('Topaz Studs', 5, 3, 5, 6, 'TS-17.jpg', 3900.00),
+('Halo Diamond Studs', 1, 3, 1, 7, 'HDS-18.jpg', 4000.00),
+('Bezel Set Studs', 2, 3, 2, 6, 'BSS-19.jpg', 4100.00),
+('Prong Set Studs', 3, 3, 3, 7, 'PSS-20.jpg', 4200.00),
+('Cluster Studs', 4, 3, 4, 6, 'CS-21.jpg', 4300.00),
+('Vintage Studs', 5, 3, 5, 7, 'VS-22.jpg', 4400.00);
 
 -- Pendants
-INSERT INTO Jewelry (diamond_id, name, material_id, category_id, gemstone_id, size_id, img, price) VALUES
-(NULL, 'Heart Shaped Pendant', 15, 6, 10, 16, 'PD-1.jpg', 250.00),
-(NULL, 'Pearl Pendant', 16, 6, 11, 17, 'PD-2.jpg', 220.00),
-(NULL, 'Gold Disc Pendant', 17, 6, NULL, 18, 'PD-3.webp', 180.00);
+INSERT INTO Jewelry (name, material_id, category_id, gemstone_id, size_id, img, price)
+VALUES
+('Diamond Solitaire Pendant', 1, 4, 1, 8, 'DSP-23.jpg', 4500.00),
+('Ruby Heart Pendant', 2, 4, 2, 9, 'RHP-24.jpg', 4600.00),
+('Sapphire Teardrop Pendant', 3, 4, 3, 10, 'STP-25.jpg', 4700.00),
+('Emerald Oval Pendant', 4, 4, 4, 8, 'EOP-26.jpg', 4800.00),
+('Topaz Circle Pendant', 5, 4, 5, 9, 'TCP-27.jpg', 4900.00),
+('Halo Diamond Pendant', 1, 4, 1, 10, 'HDP-28.jpg', 5000.00),
+('Bezel Set Pendant', 2, 4, 2, 8, 'BSP-29.jpg', 5100.00),
+('Prong Set Pendant', 3, 4, 3, 9, 'PSP-30.jpg', 5200.00),
+('Cluster Pendant', 4, 4, 4, 10, 'CP-31.jpg', 5300.00),
+('Vintage Pendant', 5, 4, 5, 8, 'VP-32.jpg', 5400.00);
 
 -- Diamond Chains
-INSERT INTO Jewelry (diamond_id, name, material_id, category_id, gemstone_id, size_id, img, price) VALUES
-(NULL, 'Elegant Diamond Chain', 18, 7, 12, 19, 'DC-1.webp', 2000.00),
-(NULL, 'Simple Diamond Chain', 19, 7, 13, 20, 'DC-2.webp', 1500.00),
-(NULL, 'Layered Diamond Chain', 20, 7, 14, 17, 'DC-3.jpg', 2500.00);
-
--- Statement Necklaces
-INSERT INTO Jewelry (diamond_id, name, material_id, category_id, gemstone_id, size_id, img, price) VALUES
-(NULL, 'Bold Statement Necklace', 21, 8, 15, 19, 'SN-1.webp', 500.00),
-(NULL, 'Colorful Statement Necklace', 22, 8, 16, 23, 'SN-2.webp', 600.00),
-(NULL, 'Geometric Statement Necklace', 23, 8, 17, 24, 'SN-3.jpg', 550.00);
-
--- Tennis Bracelets
-INSERT INTO Jewelry (diamond_id, name, material_id, category_id, gemstone_id, size_id, img, price) VALUES
-(3, 'Classic Tennis Bracelet', 24, 9, 18, 18, 'TB-1.webp', 1200.00),
-(4, 'Modern Tennis Bracelet', 25, 9, 19, 16, 'TB-2.jpg', 1300.00),
-(NULL, 'Vintage Tennis Bracelet', 26, 9, 20, 19, 'TB-3.jpg', 1100.00);
-
--- -------------------------------------------------------------------------------
--- Bangle Bracelets
-INSERT INTO Jewelry (diamond_id, name, material_id, category_id, gemstone_id, size_id, img, price) VALUES
-(NULL, 'Gold Bangle', 14, 10, NULL, 4, 'BB-1.webp', 220.00),
-(NULL, 'Silver Bangle', 13, 10, NULL, 5, 'BB-2.jpg', 180.00),
-(NULL, 'Decorative Bangle', 17, 10, 8, 6, 'BB-3.webp', 300.00);
-
--- Charm Bracelets
-INSERT INTO Jewelry (diamond_id, name, material_id, category_id, gemstone_id, size_id, img, price) VALUES
-(NULL, 'Heart Charm Bracelet', 12, 11, 9, 26, 'CB-1.jpg', 150.00),
-(NULL, 'Beaded Charm Bracelet', 15, 11, 10, 26, 'CB-2.webp', 130.00),
-(NULL, 'Gemstone Charm Bracelet', 11, 11, 11, 26, 'CB-3.webp', 175.00);
-
--- Solitaire Pendants
-INSERT INTO Jewelry (diamond_id, name, material_id, category_id, gemstone_id, size_id, img, price) VALUES
-(1, 'Diamond Solitaire Pendant', 14, 12, 1, 14, 'SP-1.jpg', 1000.00),
-(NULL, 'Sapphire Solitaire Pendant', 19, 12, 3, 14, 'SP-2.jpg', 900.00),
-(NULL, 'Ruby Solitaire Pendant', 20, 12, 2, 14, 'SP-3.webp', 850.00);
-
--- Cluster Pendants
-INSERT INTO Jewelry (diamond_id, name, material_id, category_id, gemstone_id, size_id, img, price) VALUES
-(NULL, 'Multi-Gem Cluster Pendant', 21, 13, 15, 15, 'CP-1.jpg', 500.00),
-(NULL, 'Diamond Cluster Pendant', 18, 13, 1, 15, 'CP-2.jpg', 1200.00),
-(NULL, 'Pearl Cluster Pendant', 22, 13, 9, 15, 'CP-3.jpg', 300.00);
-
--- Personalized Pendants
-INSERT INTO Jewelry (diamond_id, name, material_id, category_id, gemstone_id, size_id, img, price) VALUES
-(NULL, 'Initials Pendant', 24, 14, NULL, 16, 'PP-1.webp', 250.00),
-(NULL, 'Birthstone Pendant', 25, 14, 19, 16, 'PP-2.avif', 200.00),
-(NULL, 'Engraved Pendant', 26, 14, NULL, 16, 'PP-3.avif', 300.00);
-
--- Vintage Brooches
-INSERT INTO Jewelry (diamond_id, name, material_id, category_id, gemstone_id, size_id, img, price) VALUES
-(NULL, 'Art Deco Brooch', 12, 15, 17, 20, 'VP-1.jpg', 450.00),
-(NULL, 'Victorian Brooch', 15, 15, 16, 20, 'VP-2.jpg', 550.00),
-(NULL, 'Edwardian Brooch', 17, 15, 18, 20, 'VP-3.jpg', 500.00);
-
--- Modern Brooches
-INSERT INTO Jewelry (diamond_id, name, material_id, category_id, gemstone_id, size_id, img, price) VALUES
-(NULL, 'Contemporary Silver Brooch', 13, 16, NULL, 20, 'MB-1.avif', 300.00),
-(NULL, 'Geometric Gold Brooch', 14, 16, NULL, 20, 'MB-2.jpg', 350.00),
-(NULL, 'Minimalist Brooch', 11, 16, NULL, 20, 'MB-3.webp', 250.00);
-
--- Chain Anklets
-INSERT INTO Jewelry (diamond_id, name, material_id, category_id, gemstone_id, size_id, img, price) VALUES
-(NULL, 'Simple Chain Anklet', 14, 17, NULL, 17, 'CHAIN-A-1.jpg', 120.00),
-(NULL, 'Layered Chain Anklet', 12, 17, NULL, 17, 'CHAIN-A-2.webp', 150.00),
-(NULL, 'Gold Chain Anklet', 18, 17, NULL, 17, 'CHAIN-A-3.avif', 140.00);
-
--- Charm Anklets
-INSERT INTO Jewelry (diamond_id, name, material_id, category_id, gemstone_id, size_id, img, price) VALUES
-(NULL, 'Beaded Charm Anklet', 19, 18, 20, 18, 'CHARM-A-1.webp', 130.00),
-(NULL, 'Silver Charm Anklet', 20, 18, NULL, 18, 'CHARM-A-2.jpg', 110.00),
-(NULL, 'Gold Charm Anklet', 21, 18, NULL, 18, 'CHARM-A-3.webp', 160.00);
-
--- Classic Cufflinks
-INSERT INTO Jewelry (diamond_id, name, material_id, category_id, gemstone_id, size_id, img, price) VALUES
-(NULL, 'Silver Oval Cufflinks', 13, 19, NULL, 20, 'CC-1.jpg', 200.00),
-(NULL, 'Gold Square Cufflinks', 14, 19, NULL, 20, 'CC-2.webp', 220.00),
-(NULL, 'Platinum Classic Cufflinks', 25, 19, NULL, 20, 'CC-3.jpg', 300.00);
-
--- Themed Cufflinks
-INSERT INTO Jewelry (diamond_id, name, material_id, category_id, gemstone_id, size_id, img, price) VALUES
-(NULL, 'Nautical Themed Cufflinks', 14, 20, NULL, 20, 'TC-1.webp', 250.00),
-(NULL, 'Automotive Themed Cufflinks', 17, 20, NULL, 20, 'TC-2.webp', 270.00),
-(NULL, 'Sports Themed Cufflinks', 11, 20, NULL, 20, 'TC-3.webp', 230.00);
+INSERT INTO Jewelry (name, material_id, category_id, gemstone_id, size_id, img, price)
+VALUES
+('Classic Diamond Chain', 1, 5, 1, 4, 'CDC-33.jpg', 5500.00),
+('Modern Diamond Chain', 2, 5, 1, 5, 'MDC-34.jpg', 5600.00),
+('Vintage Diamond Chain', 3, 5, 1, 4, 'VDC-35.jpg', 5700.00),
+('Bezel Set Diamond Chain', 4, 5, 1, 5, 'BSDC-35.jpg', 5800.00),
+('Halo Diamond Chain', 5, 5, 1, 4, 'HDC-36.jpg', 5900.00),
+('Multi-Stone Diamond Chain', 1, 5, 1, 5, 'MDC-37.jpg', 6000.00),
+('Three-Stone Diamond Chain', 2, 5, 1, 4, 'TDC-38.jpg', 6100.00),
+('Solitaire Diamond Chain', 3, 5, 1, 5, 'SDC-39.jpg', 6200.00),
+('Cluster Diamond Chain', 4, 5, 1, 4, 'CDC-40.jpg', 6300.00),
+('Prong Set Diamond Chain', 5, 5, 1, 5, 'PSDC-41.jpg', 6400.00);
 
 -- Inserting Products
 INSERT INTO Product (diamond_id, jewelry_id) VALUES
