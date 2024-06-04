@@ -1,106 +1,106 @@
-import React, { useEffect, useState } from 'react';
-import { useParams , useNavigate} from 'react-router-dom';
+import React, { useEffect, useState, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import RecommendItem from '../components/RecommendItem';
 import axios from '../axios.js';
-
+import CartContext from '../components/CartContext.js';
 
 const Item = () => {
-    let navigate  = useNavigate();
-    return (
-        <>
-          <button onClick={() => navigate(-1)}>BACK TO SELECTION</button>
-        </>
-    );
+  let navigate = useNavigate();
+  return (
+    <>
+      <button onClick={() => navigate(-1)}>BACK TO SELECTION</button>
+    </>
+  );
 };
 
 function JewelryDetails({ jewelry }) {
+  return (
+    <div className="p-4 bg-white shadow rounded-lg">
+      <table className="min-w-full">
+        <tbody>
+          {jewelry.name && (
+            <tr>
+              <th>Name:</th>
+              <td>{jewelry.name}</td>
+            </tr>
+          )}
+          {jewelry.price && (
+            <tr>
+              <th>Price:</th>
+              <td>${jewelry.price}</td>
+            </tr>
+          )}
+          {jewelry.material && jewelry.material.materialName && (
+            <tr>
+              <th>Material:</th>
+              <td>{jewelry.material.materialName}</td>
+            </tr>
+          )}
+          {jewelry.category && jewelry.category.categoryName && (
+            <tr>
+              <th>Category:</th>
+              <td>{jewelry.category.categoryName}</td>
+            </tr>
+          )}
+          {jewelry.gemstone && jewelry.gemstone.gemstoneName && (
+            <tr>
+              <th>Gemstone:</th>
+              <td>{jewelry.gemstone.gemstoneName}</td>
+            </tr>
+          )}
+          {jewelry.size && jewelry.size.sizeNumber && jewelry.size.unit && (
+            <tr>
+              <th>Size:</th>
+              <td>{jewelry.size.sizeNumber} ({jewelry.size.unit})</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
+}
 
-    
-    return (
-      <div className="p-4 bg-white shadow rounded-lg">
-        <table className="min-w-full">
-          <tbody>
-            {jewelry.name && (
-              <tr>
-                <th>Name:</th>
-                <td>{jewelry.name}</td>
-              </tr>
-            )}
-            {jewelry.price && (
-              <tr>
-                <th>Price:</th>
-                <td>${jewelry.price}</td>
-              </tr>
-            )}
-            {jewelry.material && jewelry.material.materialName && (
-              <tr>
-                <th>Material:</th>
-                <td>{jewelry.material.materialName}</td>
-              </tr>
-            )}
-            {jewelry.category && jewelry.category.categoryName && (
-              <tr>
-                <th>Category:</th>
-                <td>{jewelry.category.categoryName}</td>
-              </tr>
-            )}
-            {jewelry.gemstone && jewelry.gemstone.gemstoneName && (
-              <tr>
-                <th>Gemstone:</th>
-                <td>{jewelry.gemstone.gemstoneName}</td>
-              </tr>
-            )}
-            {jewelry.size && jewelry.size.sizeNumber && jewelry.size.unit && (
-              <tr>
-                <th>Size:</th>
-                <td>{jewelry.size.sizeNumber} ({jewelry.size.unit})</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
+function JewelryItemData({ data }) {
+  const [showDetails, setShowDetails] = useState(false);
 
-  function JewelryItemData({ data }) {
-    const [showDetails, setShowDetails] = useState(false);
-  
-    return (
-      <div>
-        <button 
-          className="flex gap-5 hover:text-custom-brown justify-center px-0.5 py-3 mt-9 text-xl whitespace-nowrap border-b border-solid border-zinc-400 text-neutral-700 max-md:flex-wrap max-md:max-w-full"
-          onClick={() => setShowDetails(!showDetails)}
-        >
-          DETAILS
-          <img
-            loading="lazy"
-            alt=""
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/8e79619d6d6b36f08d933bffaf65933ca66414fb4b6e9b0f6c0ed83858787e4f?"
-            className="shrink-0 w-6 aspect-square"
-          />
-        </button>
-        {showDetails && <JewelryDetails jewelry={data} />}
-      </div>
-    );
-  }
+  return (
+    <div>
+      <button
+        className="flex gap-5 hover:text-custom-brown justify-center px-0.5 py-3 mt-9 text-xl whitespace-nowrap border-b border-solid border-zinc-400 text-neutral-700 max-md:flex-wrap max-md:max-w-full"
+        onClick={() => setShowDetails(!showDetails)}
+      >
+        DETAILS
+        <img
+          loading="lazy"
+          alt=""
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/8e79619d6d6b36f08d933bffaf65933ca66414fb4b6e9b0f6c0ed83858787e4f?"
+          className="shrink-0 w-6 aspect-square"
+        />
+      </button>
+      {showDetails && <JewelryDetails jewelry={data} />}
+    </div>
+  );
+}
 
 function JewelryItem() {
-    const {jewelryId} = useParams();
-    const [itemDetails, setItemDetails] = useState(null);
-    useEffect(() => {
-      axios.get(`/jewelry/${jewelryId}`)
-        .then(response => setItemDetails(response.data))
-        .catch(error => console.error('Error fetching jewelry details:', error));
-    }, [jewelryId]);
-  
-    if (!itemDetails) return <div>Loading...</div>;
-  
+  const { jewelryId } = useParams();
+  const [itemDetails, setItemDetails] = useState(null);
+  const { addToCart } = useContext(CartContext);
+
+  useEffect(() => {
+    axios.get(`/jewelry/${jewelryId}`)
+      .then(response => setItemDetails(response.data))
+      .catch(error => console.error('Error fetching jewelry details:', error));
+  }, [jewelryId]);
+
+  if (!itemDetails) return <div>Loading...</div>;
+
   return (
     <div className="flex flex-col bg-white">
       <div className="h-24 w-full"></div>
-        <Navbar/>
+      <Navbar />
       <div className="self-center mt-20 w-full max-w-[1214px] max-md:mt-10 max-md:max-w-full">
         <div className="flex gap-5 max-md:flex-col max-md:gap-0">
           <div className="flex flex-col w-2/5 max-md:ml-0 max-md:w-full">
@@ -115,9 +115,9 @@ function JewelryItem() {
             <div className="flex flex-col px-5 mt-10 max-md:mt-10 max-md:max-w-full">
               <div className="flex gap-5 justify-between max-md:flex-wrap max-md:max-w-full">
                 <div className="flex flex-col">
-                  <div  className="text-base hover:text-custom-brown text-neutral-600"><Item/></div>
+                  <div className="text-base hover:text-custom-brown text-neutral-600"><Item /></div>
                   <div className="mt-11 text-4xl text-black max-md:mt-10">
-                  {itemDetails.name}
+                    {itemDetails.name}
                   </div>
                   <div className="mt-4 text-2xl font-bold text-black text-opacity-50">
                     ${itemDetails.price}
@@ -137,9 +137,12 @@ function JewelryItem() {
                 nisi ut aliquip ex ea commodo consequat.
                 <br />
               </div>
-              <div className="justify-center self-start px-4 py-4 mt-9 text-lg border border-solid bg-white bg-opacity-0 border-neutral-700 text-neutral-700">
+              <button
+                className="justify-center self-start px-4 py-4 mt-9 text-lg border border-solid bg-white bg-opacity-0 border-neutral-700 text-neutral-700 hover:bg-black hover:bg-[#B6A69D]"
+                onClick={() => addToCart(itemDetails)}
+              >
                 ADD TO BAG
-              </div>
+              </button>
               <JewelryItemData data={itemDetails} />
               <div className="flex gap-5 justify-center py-3 pr-2 pl-px mt-3 text-xl border-b border-solid border-zinc-400 text-neutral-700 max-md:flex-wrap max-md:max-w-full">
                 <div className="flex-auto my-auto">TIPS & WARNINGS</div>
@@ -172,7 +175,7 @@ function JewelryItem() {
         </div>
       </div>
       <RecommendItem currentItemId={itemDetails.jewelryId} />
-      <Footer/>
+      <Footer />
     </div>
   );
 }
