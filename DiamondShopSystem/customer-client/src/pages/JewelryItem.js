@@ -88,6 +88,15 @@ function JewelryItem() {
   const { jewelryId } = useParams();
   const [itemDetails, setItemDetails] = useState(null);
   const { addToCart } = useContext(CartContext);
+  const [buttonText, setButtonText] = useState('ADD TO BAG');
+ 
+  const handleClick = () => {
+      setButtonText('ADDED');
+
+      setTimeout(() => {
+          setButtonText('ADD TO BAG');
+      }, 1000); // Reverts back to 'Submit' after 2 seconds
+  };
 
   useEffect(() => {
     axios.get(`/jewelry/${jewelryId}`)
@@ -138,10 +147,12 @@ function JewelryItem() {
                 <br />
               </div>
               <button
-                className="justify-center self-start px-4 py-4 mt-9 text-lg border border-solid bg-white bg-opacity-0 border-neutral-700 text-neutral-700 hover:bg-black hover:bg-[#B6A69D]"
-                onClick={() => addToCart(itemDetails)}
-              >
-                ADD TO BAG
+                className="justify-center w-36 self-start px-4 py-4 mt-9 text-lg border border-solid bg-opacity-0 border-neutral-700 text-neutral-700 hover:bg-custom-brown hover:text-white"
+                onClick={() => {
+                  addToCart(itemDetails);
+                  handleClick();
+                }}>
+                {buttonText}
               </button>
               <JewelryItemData data={itemDetails} />
               <div className="flex gap-5 justify-center py-3 pr-2 pl-px mt-3 text-xl border-b border-solid border-zinc-400 text-neutral-700 max-md:flex-wrap max-md:max-w-full">
