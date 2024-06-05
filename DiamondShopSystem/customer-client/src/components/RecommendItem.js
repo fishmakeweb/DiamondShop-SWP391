@@ -9,7 +9,7 @@ const RecommendItem = ({ currentItemId }) => {
         const fetchItems = async () => {
             const generatedIds = [];
             while (generatedIds.length < 4) {
-                const randomId = Math.floor(Math.random() * 58) + 1;  // IDs range from 1 to 58
+                const randomId = Math.floor(Math.random() * 50) + 1;  // IDs range from 1 to 58
                 if (randomId !== currentItemId && !generatedIds.includes(randomId)) {
                     generatedIds.push(randomId);
                 }
