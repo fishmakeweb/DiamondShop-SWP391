@@ -89,24 +89,13 @@ function JewelryItem() {
   const [itemDetails, setItemDetails] = useState(null);
   const { addToCart } = useContext(CartContext);
   const [buttonText, setButtonText] = useState('ADD TO BAG');
- 
-<<<<<<< HEAD
-  const handleClick = () => {
-      setButtonText('ADDED');
-
-      setTimeout(() => {
-          setButtonText('ADD TO BAG');
-      }, 1000); // Reverts back to 'Submit' after 2 seconds
-  };
-=======
-    const handleClick = () => {
+     const handleClick = () => {
         setButtonText('ADDED');
  
         setTimeout(() => {
             setButtonText('ADD TO BAG');
-        }, 1500); // Reverts back to 'Submit' after 2 seconds
+        }, 1500);
     };
->>>>>>> 54128365953773a8db86a07f55ab5707bbf82f7c
 
   useEffect(() => {
     axios.get(`/jewelry/${jewelryId}`)
@@ -157,11 +146,7 @@ function JewelryItem() {
                 <br />
               </div>
               <button
-<<<<<<< HEAD
                 className="justify-center w-36 self-start px-4 py-4 mt-9 text-lg border border-solid bg-opacity-0 border-neutral-700 text-neutral-700 hover:bg-custom-brown hover:text-white"
-=======
-                className="justify-center w-36 self-start px-4 py-4 mt-9 text-lg border border-solid bg-white bg-opacity-0 border-neutral-700 text-neutral-700 hover:bg-custom-brown hover:text-white"
->>>>>>> 54128365953773a8db86a07f55ab5707bbf82f7c
                 onClick={() => {
                   addToCart(itemDetails);
                   handleClick();
