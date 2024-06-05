@@ -1,13 +1,31 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import AuthService from './AuthService';
 
 function LoginModal({ isOpen, onClose, openSignUp }) {
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        console.log('Login attempt with:', email, password);
-        onClose();
+        try {
+            await AuthService.login(username, password);
+            if (AuthService.isAuthenticated()) {
+                onClose();
+                if (AuthService.isCustomer()) navigate('/');
+                if (AuthService.isStaff()) navigate('/staff');
+            }
+            else {
+                setUsername('');
+                setPassword('');
+                setError('Login failed. Please check your credentials.');
+            }
+        } catch (error) {
+            console.error('Login failed:', error);
+            setError('Login failed. Please check your credentials.');
+        }
     };
 
     if (!isOpen) return null;
@@ -35,10 +53,10 @@ function LoginModal({ isOpen, onClose, openSignUp }) {
                 </div>
                 <form onSubmit={handleLogin} className="flex flex-col space-y-6">
                     <input
-                        type="email"
-                        placeholder="Email address"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        type="text"
+                        placeholder="Username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                         className="w-full px-4 py-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <input
@@ -48,6 +66,7 @@ function LoginModal({ isOpen, onClose, openSignUp }) {
                         onChange={(e) => setPassword(e.target.value)}
                         className="w-full px-4 py-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
+                    {error && <div className="text-red-500 text-sm">{error}</div>}
                     <div className="flex justify-end text-sm text-blue-500 cursor-pointer">
                         Forgot Password?
                     </div>
