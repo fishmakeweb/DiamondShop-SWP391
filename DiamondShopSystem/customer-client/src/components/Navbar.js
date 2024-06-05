@@ -4,6 +4,8 @@ import LoginModal from './LoginModal';
 import SignUpModal from './SignUpModal';
 import Cart from './Cart';
 import CartContext from './CartContext';
+import AuthService from './AuthService';
+import { useNavigate } from 'react-router-dom';
 
 function HoverImage({ defaultSrc }) {
     const hoverSrc = defaultSrc + "-hover";
@@ -23,6 +25,7 @@ function Navbar() {
     const [isLoginModalOpen, setLoginModalOpen] = useState(false);
     const [isSignUpModalOpen, setSignUpModalOpen] = useState(false);
     const [isCartOpen, setCartOpen] = useState(false);
+    const navigate = useNavigate();
     const { cart } = useContext(CartContext);
     
     const toggleLoginModal = () => {
@@ -42,6 +45,16 @@ function Navbar() {
         setLoginModalOpen(false);
         setSignUpModalOpen(false);
     };
+
+    const handleLogout = () => {
+        if (window.confirm('Are you sure you want to logout?')) {
+            navigate('/');
+            AuthService.logout();
+            window.location.reload();
+        }
+    };
+
+    const isAuthenticated = AuthService.isAuthenticated();
 
     return (
         <div className="absolute flex z-0 gap-5 px-12 py-6 w-full bg-white border border-solid border-stone-400 max-md:flex-wrap max-md:px-5 max-md:max-w-full">
@@ -76,9 +89,20 @@ function Navbar() {
                         <div className="absolute bottom-0 right-0 w-2 h-2 bg-[#B6A69D] rounded-full"></div>
                     )}
                 </div>
-                <div onClick={toggleLoginModal} className="cursor-pointer">
-                    <HoverImage defaultSrc="http://localhost:3000/icon/homepage/bi_person" />
-                </div>
+                {!isAuthenticated ? (
+                    <div onClick={toggleLoginModal} className="cursor-pointer">
+                        <HoverImage defaultSrc="http://localhost:3000/icon/homepage/bi_person" />
+                    </div>
+                ) : (
+                    <>
+                        <Link to="/profile" className="cursor-pointer">
+                            Profile
+                        </Link>
+                        <div onClick={handleLogout} className="cursor-pointer">
+                            Logout
+                        </div>
+                    </>
+                )}
             </div>
             <LoginModal 
                 isOpen={isLoginModalOpen} 
