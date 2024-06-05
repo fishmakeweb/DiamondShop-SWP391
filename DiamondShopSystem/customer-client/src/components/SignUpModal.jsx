@@ -1,14 +1,38 @@
 import React, { useState } from 'react';
+import AuthService from './AuthService';
 
 function SignUpModal({ isOpen, onClose, openLogin }) {
+    const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
+    const [address, setAddress] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [error, setError] = useState(null);
 
-    const handleSignUp = (e) => {
+    const handleSignUp = async (e) => {
         e.preventDefault();
-        console.log('Sign up attempt with:', email, password, confirmPassword);
-        onClose();
+        if (password !== confirmPassword) {
+            setError('Passwords do not match');
+            return;
+        }
+
+        try {
+            const userData = {
+                fullName,
+                email,
+                address,
+                username,
+                password
+            };
+            const response = await AuthService.registerCustomer(userData);
+            console.log('Sign up successful:', response);
+            onClose();
+            openLogin(); // Open login modal after successful registration
+        } catch (error) {
+            console.error('Sign up failed:', error);
+            setError('Sign up failed. Please try again.');
+        }
     };
 
     if (!isOpen) return null;
@@ -36,10 +60,31 @@ function SignUpModal({ isOpen, onClose, openLogin }) {
                 </div>
                 <form onSubmit={handleSignUp} className="flex flex-col space-y-6">
                     <input
+                        type="text"
+                        placeholder="Full Name"
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        className="w-full px-4 py-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    <input
                         type="email"
                         placeholder="Email address"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        className="w-full px-4 py-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Address"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                        className="w-full px-4 py-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                         className="w-full px-4 py-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <input
@@ -56,6 +101,7 @@ function SignUpModal({ isOpen, onClose, openLogin }) {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         className="w-full px-4 py-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
+                    {error && <div className="text-red-500 text-sm">{error}</div>}
                     <button
                         type="submit"
                         className="w-full py-3 text-white bg-black rounded hover:bg-opacity-90"
