@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS Customer(
     email VARCHAR(50),
     address VARCHAR(200),
     registered_date DATE,
-    username VARCHAR(50),
+    username VARCHAR(50) UNIQUE,
     password VARCHAR(50)
     );
 
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS Staff(
     staff_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
     full_name VARCHAR(50),
     email VARCHAR(50),
-    username VARCHAR(50),
+    username VARCHAR(50) UNIQUE,
     password VARCHAR(50),
     role_id bigint,
     FOREIGN KEY (role_id) REFERENCES Role(role_id)
