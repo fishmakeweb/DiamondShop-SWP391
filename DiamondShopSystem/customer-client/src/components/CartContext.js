@@ -23,7 +23,7 @@ export const CartProvider = ({ children }) => {
       } else {
         // Add new item to cart
         console.log(item.jewelryId);
-        const newCart = [...prevCart, { ...item, quantity: 1 }];
+        const newCart = [...prevCart, ...item];
         Cookies.set('cart', JSON.stringify(newCart)); // Convert newCart to string before storing
         return newCart;
       }

@@ -48,9 +48,6 @@ function Cart({ isOpen, onClose }) {
                         {item.name}
                       </p>
                       <p className="text-sm text-gray-500">
-                        Quantity: {item.quantity}
-                      </p>
-                      <p className="text-sm text-gray-500">
                         Price: ${item.price.toFixed(2)}
                       </p>
                     </div>
