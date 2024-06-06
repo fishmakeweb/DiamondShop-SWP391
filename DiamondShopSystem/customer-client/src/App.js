@@ -13,6 +13,7 @@ import { CartProvider } from './components/CartContext';
 import LoginModal from './components/LoginModal';
 import UserProfile from './pages/UserProfile';
 import Staff from './pages/Staff'
+import DiamondItem from './pages/DiamondItem.js';
 
 
 function App() {
@@ -29,8 +30,9 @@ function App() {
           <Routes>
             <Route path="/" element={<Homepage />} />
             <Route path="/jewelry" element={<Jewelry />} />
-            <Route path="/diamond" element={<Diamond />} />
-            <Route path="/jewelry/categories/:categoryid" element={<Category />} />
+            <Route path="/diamonds" element={<Diamond />} />
+            <Route path="/diamonds/:diamondId" element={<DiamondItem />} />
+            <Route path="/jewelry/categories/:categoryId" element={<Category />} />
             <Route path="/jewelry/gemstones/:gemstoneid" element={<Gemstone />} />
             <Route path="/jewelry/:jewelryId" element={<JewelryItem />} />
             <Route path="/profile" element={<UserProfile />} /> {/* Add profile route */}

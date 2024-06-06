@@ -65,7 +65,7 @@ function Navbar() {
                     alt="location-icon"
                     className="shrink-0 self-stretch aspect-square w-[26px]"
                 />
-                <Link to="/diamond" className="flex justify-center items-center hover:text-custom-brown shrink-0 self-stretch my-auto font-karla text-custom font-normal">DIAMOND</Link>
+                <Link to="/diamonds" className="flex justify-center items-center hover:text-custom-brown shrink-0 self-stretch my-auto font-karla text-custom font-normal">DIAMOND</Link>
                 <Link to="/jewelry" className="flex justify-center items-center hover:text-custom-brown shrink-0 self-stretch my-auto font-karla text-custom font-normal">JEWELRY</Link>
                 <div className="flex justify-center items-center hover:text-custom-brown shrink-0 self-stretch my-auto font-karla text-custom font-normal">NEW RELEASES</div>
             </div>
