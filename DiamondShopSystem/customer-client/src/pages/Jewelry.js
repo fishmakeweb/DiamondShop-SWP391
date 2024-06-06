@@ -19,8 +19,6 @@ function Jewelry() {
             .catch(error => console.error('Error fetching jewelry data:', error));
     }, []);
 
-
-
     const handleCategoriesFetched = (data) => {
         setCategories(data.map(category => ({
             id: category.categoryId,
