@@ -12,7 +12,7 @@ function Jewelry() {
     const [gemstones, setGemstones] = useState([]);
 
     useEffect(() => {
-        axios.get('/jewelry')
+        axios.get('http://localhost:8080/api/jewelry')
             .then(response => {
                 setJewelryItems(response.data);
             })

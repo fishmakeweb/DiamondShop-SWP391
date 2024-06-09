@@ -114,7 +114,7 @@ function JewelryItem() {
           <div className="flex flex-col w-2/5 max-md:ml-0 max-md:w-full">
             <img
               loading="lazy"
-              src={`/img/jewelry/${itemDetails.img}`}
+              src={`https://diamond-shop-swp-391.vercel.app/img/jewelry/${itemDetails.img}`}
               alt={itemDetails.name}
               className="mt-20 w-80 h-80 object-cover mx-auto"
             />
