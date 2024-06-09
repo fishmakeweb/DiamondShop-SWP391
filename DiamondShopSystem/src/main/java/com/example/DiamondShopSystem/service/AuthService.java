@@ -1,12 +1,15 @@
+
 package com.example.DiamondShopSystem.service;
 
 import com.example.DiamondShopSystem.dto.CustomerDTO;
 import com.example.DiamondShopSystem.dto.ReqRes;
 import com.example.DiamondShopSystem.dto.RoleDTO;
 import com.example.DiamondShopSystem.dto.StaffDTO;
+import com.example.DiamondShopSystem.model.Cart;
 import com.example.DiamondShopSystem.model.Customer;
 import com.example.DiamondShopSystem.model.Role;
 import com.example.DiamondShopSystem.model.Staff;
+import com.example.DiamondShopSystem.repository.CartRepository;
 import com.example.DiamondShopSystem.repository.CustomerRepository;
 import com.example.DiamondShopSystem.repository.RoleRepository;
 import com.example.DiamondShopSystem.repository.StaffRepository;
@@ -45,6 +48,8 @@ public class AuthService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private CartRepository cartRepository;
 
     public ReqRes registerStaff(ReqRes registrationRequest) {
         ReqRes resp = new ReqRes();
@@ -104,8 +109,11 @@ public class AuthService {
             customer.setRegisteredDate(Date.valueOf(LocalDate.now())); // Set to current date
 
             Customer customerResult = customerRepository.save(customer);
+            Cart cart = new Cart();
+            cart.setCustomer(customerResult);
+            Cart cartResult = cartRepository.save(cart);
             if (customerResult.getUserId() > 0) {
-                CustomerDTO customerDTO = convertToCustomerDTO(customerResult);
+                CustomerDTO customerDTO = convertToCustomerDTO(customerResult, cartResult);
                 resp.setCustomer(customerDTO);
                 resp.setMessage("Customer Saved Successfully");
                 resp.setStatusCode(200);
@@ -154,7 +162,8 @@ public class AuthService {
                 String jwt = jwtUtils.generateToken(user);
                 String refreshToken = jwtUtils.generateRefreshToken(user);
 
-                CustomerDTO userDTO = convertToCustomerDTO(user);
+                Optional<Cart> cart = cartRepository.findByCustomer(user);
+                CustomerDTO userDTO = convertToCustomerDTO(user, cart.orElse(null));
 
                 resp.setStatusCode(200);
                 resp.setToken(jwt);
@@ -235,7 +244,7 @@ public class AuthService {
         return staffDTO;
     }
 
-    private CustomerDTO convertToCustomerDTO(Customer customer) {
+    private CustomerDTO convertToCustomerDTO(Customer customer, Cart cart) {
         CustomerDTO customerDTO = new CustomerDTO();
         customerDTO.setUserId(customer.getUserId());
         customerDTO.setFullName(customer.getFullName());
@@ -244,6 +253,7 @@ public class AuthService {
         customerDTO.setPassword(customer.getPassword());
         customerDTO.setAddress(customer.getAddress());
         customerDTO.setRegisteredDate(customer.getRegisteredDate());
+        customerDTO.setCart(cart);
         return customerDTO;
     }
 }
