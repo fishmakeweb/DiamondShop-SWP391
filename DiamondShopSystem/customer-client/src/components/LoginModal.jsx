@@ -11,7 +11,8 @@ function LoginModal({ isOpen, onClose, openSignUp }) {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            await AuthService.login(username, password);
+            const response = await AuthService.login(username, password);
+            console.log(response);
             if (AuthService.isAuthenticated()) {
                 onClose();
                 if (AuthService.isCustomer()) navigate('/');
