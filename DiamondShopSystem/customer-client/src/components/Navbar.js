@@ -82,16 +82,16 @@ function Navbar() {
                         className="shrink-0 aspect-square w-[17px]"
                     />
                 </div>
-                <HoverImage defaultSrc="http://localhost:3000/icon/homepage/HEADER%20HEART%20REAL" />
+                <HoverImage defaultSrc="https://diamond-shop-swp-391.vercel.app/icon/homepage/HEADER%20HEART%20REAL" />
                 <div className="relative cursor-pointer" onClick={toggleCartModal}>
-                    <HoverImage defaultSrc="http://localhost:3000/icon/homepage/ep_shopping-bag" />
+                    <HoverImage defaultSrc="https://diamond-shop-swp-391.vercel.app/icon/homepage/ep_shopping-bag" />
                     {cart.length > 0 && (
                         <div className="absolute bottom-0 right-0 w-2 h-2 bg-[#B6A69D] rounded-full"></div>
                     )}
                 </div>
                 {!isAuthenticated ? (
                     <div onClick={toggleLoginModal} className="cursor-pointer">
-                        <HoverImage defaultSrc="http://localhost:3000/icon/homepage/bi_person" />
+                        <HoverImage defaultSrc="https://diamond-shop-swp-391.vercel.app/icon/homepage/bi_person" />
                     </div>
                 ) : (
                     <>

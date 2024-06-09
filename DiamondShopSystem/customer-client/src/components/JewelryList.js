@@ -19,7 +19,7 @@ function JewelryList({ items }) {
                 {itemsToShow.map(item => (
                     <div key={item.jewelryId} className="text-center p-2 flex flex-col">
                         <Link to={`/jewelry/${item.jewelryId}`}>
-                            <img src={`/img/jewelry/${item.img}`} alt={item.name} className="w-64 h-64 object-cover mx-auto" />
+                            <img src={`https://diamond-shop-swp-391.vercel.app/img/jewelry/${item.img}`} alt={item.name} className="w-64 h-64 object-cover mx-auto" />
                             <div className="px-2 py-1">
                                 <div className="text-darkgray font-karla text-sm font-normal">{item.name}</div>
                                 <div className="text-lightgray font-karla text-sm font-normal">${item.price}</div>
