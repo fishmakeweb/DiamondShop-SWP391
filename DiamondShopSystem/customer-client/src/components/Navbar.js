@@ -77,7 +77,7 @@ function Navbar() {
                     <div className="my-auto">Search</div>
                     <img
                         loading="lazy"
-                        src="http://localhost:3000/icon/homepage/ant-design_search-outlined.svg"
+                        src="https://diamond-shop-swp-391.vercel.app/icon/homepage/ant-design_search-outlined.svg"
                         alt="search-icon"
                         className="shrink-0 aspect-square w-[17px]"
                     />

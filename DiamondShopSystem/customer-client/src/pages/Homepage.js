@@ -13,7 +13,7 @@ function Homepage() {
       <div className="flex overflow-hidden relative flex-col items-start p-20 -mt-3 w-full shadow-sm min-h-[856px] max-md:px-5 max-md:max-w-full">
         <img
           loading="lazy"
-          srcSet="/img/homepage/background-homepage.jpg"
+          srcSet="https://diamond-shop-swp-391.vercel.app/img/homepage/background-homepage.jpg"
           alt="Background"
           className="object-cover absolute inset-0 size-full z-0"
         />
@@ -46,7 +46,7 @@ function Homepage() {
               <div className="flex flex-col justify-center shadow-sm bg-stone-300">
                 <img
                   loading="lazy"
-                  srcSet="http://localhost:3000/img/jewelry/DC-1.webp"
+                  srcSet="https://diamond-shop-swp-391.vercel.app/img/jewelry/DC-1.webp"
                   alt="wedding-ring-sample"
                   className="w-full aspect-[0.9]"
                 />

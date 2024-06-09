@@ -75,31 +75,31 @@ function Footer() {
                   <div className="flex justify-center items-center gap-2 mt-8" style={{ gap: '68px' }}>
                     <img
                       loading="lazy"
-                      src="http://localhost:3000/icon/homepage/akar-icons_instagram-fill.svg" // Replace with your actual path
+                      src="https://diamond-shop-swp-391.vercel.app/icon/homepage/akar-icons_instagram-fill.svg" // Replace with your actual path
                       alt="Social Icon 1"
                       className="aspect-square w-8" // Adjust size as needed
                     />
                     <img
                       loading="lazy"
-                      src="http://localhost:3000/icon/homepage/akar-icons_twitter-fill.svg" // Replace with your actual path
+                      src="https://diamond-shop-swp-391.vercel.app/icon/homepage/akar-icons_twitter-fill.svg" // Replace with your actual path
                       alt="Social Icon 2"
                       className="aspect-square w-8" // Adjust size as needed
                     />
                     <img
                       loading="lazy"
-                      src="http://localhost:3000/icon/homepage/bxl_facebook-circle.svg" // Replace with your actual path
+                      src="https://diamond-shop-swp-391.vercel.app/icon/homepage/bxl_facebook-circle.svg" // Replace with your actual path
                       alt="Social Icon 3"
                       className="aspect-square w-8" // Adjust size as needed
                     />
                     <img
                       loading="lazy"
-                      src="http://localhost:3000/icon/homepage/akar-icons_youtube-fill.svg" // Replace with your actual path
+                      src="https://diamond-shop-swp-391.vercel.app/icon/homepage/akar-icons_youtube-fill.svg" // Replace with your actual path
                       alt="Social Icon 4"
                       className="aspect-square w-8" // Adjust size as needed
                     />
                     <img
                       loading="lazy"
-                      src="http://localhost:3000/icon/homepage/akar-icons_linkedin-box-fill.svg" // Replace with your actual path
+                      src="https://diamond-shop-swp-391.vercel.app/icon/homepage/akar-icons_linkedin-box-fill.svg" // Replace with your actual path
                       alt="Social Icon 5"
                       className="aspect-square w-8" // Adjust size as needed
                     />
