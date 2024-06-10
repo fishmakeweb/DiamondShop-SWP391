@@ -66,7 +66,7 @@ function Diamond() {
     
 
   return (
-    <div className="flex flex-col items-center pb-20 bg-white">
+    <div className="flex overflow-hidden flex-col items-center pb-20 bg-white z-0">
       <Navbar />
       <div className="self-stretch w-full bg-black min-h-[32px] max-md:max-w-full" />
       <div className="mt-36 text-4xl text-center text-black max-md:mt-10">
@@ -75,10 +75,10 @@ function Diamond() {
       <div className="mt-8 text-xl text-center text-stone-500">
         Lorem ipsum dolor sit amet.
       </div>
-      <div className="flex flex-col mt-32 w-full max-w-[1265px] max-md:mt-10 max-md:max-w-full">
+      <div className="relative flex flex-col mt-32 w-full max-w-[1265px] max-md:mt-10 max-md:max-w-full">
         <div className="flex gap-5 w-full max-md:flex-wrap max-md:max-w-full">
-          <div className="my-auto text-3xl text-black">Shape</div>
-          <div className="flex flex-auto gap-5 max-md:flex-wrap">
+          <div className="my-auto relative text-3xl text-black z-0">Shape</div>
+          <div className="flex flex-auto relative gap-5 max-md:flex-wrap inset-0 z-0">
             {["S-1", "S-2", "S-3", "S-4", "S-5", "S-7", "S-8"].map((shape) => (
               <div
                 key={shape}
@@ -104,7 +104,7 @@ function Diamond() {
               type="number"
               value={priceFrom}
               onChange={(e) => setPriceFrom(e.target.value)}
-              className="justify-center items-start bg-white border border-solid border-stone-300 max-md:pr-5"
+              className="justify-center items-start bg-white border border-solid border-stone-300 max-md:pr-5 z-0"
               placeholder="From"
             />
             <input

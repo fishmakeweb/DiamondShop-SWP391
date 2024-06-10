@@ -1,0 +1,46 @@
+.diamond-list-container {
+    width: 100%;
+    padding: 20px;
+}
+
+.diamond-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.diamond-table th, .diamond-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.diamond-table th {
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.diamond-table img {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.page-button {
+    padding: 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    transition: background-color 0.3s;
+}
+
+.page-button:hover, .page-button.active {
+    background-color: #ddd;
+}
