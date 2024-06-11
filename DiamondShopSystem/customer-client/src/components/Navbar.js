@@ -6,6 +6,7 @@ import Cart from './Cart';
 import CartContext from './CartContext';
 import AuthService from './AuthService';
 import { useNavigate } from 'react-router-dom';
+import Location from './Location';
 
 function HoverImage({ defaultSrc }) {
     const hoverSrc = defaultSrc + "-hover";
@@ -25,25 +26,36 @@ function Navbar() {
     const [isLoginModalOpen, setLoginModalOpen] = useState(false);
     const [isSignUpModalOpen, setSignUpModalOpen] = useState(false);
     const [isCartOpen, setCartOpen] = useState(false);
+    const [isLocationOpen, setLocationOpen] = useState(false);
     const navigate = useNavigate();
     const { cart } = useContext(CartContext);
-    
+
     const toggleLoginModal = () => {
         setLoginModalOpen(!isLoginModalOpen);
         setSignUpModalOpen(false);
         setCartOpen(false);
+        setLocationOpen(false);
     };
 
     const toggleSignUpModal = () => {
         setSignUpModalOpen(!isSignUpModalOpen);
         setLoginModalOpen(false);
         setCartOpen(false);
+        setLocationOpen(false);
     };
 
     const toggleCartModal = () => {
         setCartOpen(!isCartOpen);
         setLoginModalOpen(false);
         setSignUpModalOpen(false);
+        setLocationOpen(false);
+    };
+
+    const toggleLocation = () => {
+        setLocationOpen(!isLocationOpen);
+        setLoginModalOpen(false);
+        setSignUpModalOpen(false);
+        setCartOpen(false);
     };
 
     const handleLogout = () => {
@@ -57,68 +69,72 @@ function Navbar() {
     const isAuthenticated = AuthService.isAuthenticated();
 
     return (
-        <div className="absolute flex z-0 gap-5 px-12 py-6 w-full bg-white border border-solid border-stone-400 max-md:flex-wrap max-md:px-5 max-md:max-w-full">
-            <div className="flex gap-5 items-center self-start text-lg text-center text-black text-opacity-70 max-md:flex-wrap max-md:max-w-full">
-                <img
-                    loading="lazy"
-                    src="/icon/homepage/location.svg"
-                    alt="location-icon"
-                    className="shrink-0 self-stretch aspect-square w-[26px]"
-                />
-                <Link to="/diamonds" className="flex justify-center items-center hover:text-custom-brown shrink-0 self-stretch my-auto font-karla text-custom font-normal">DIAMOND</Link>
-                <Link to="/jewelry" className="flex justify-center items-center hover:text-custom-brown shrink-0 self-stretch my-auto font-karla text-custom font-normal">JEWELRY</Link>
-                <div className="flex justify-center items-center hover:text-custom-brown shrink-0 self-stretch my-auto font-karla text-custom font-normal">NEW RELEASES</div>
-            </div>
-            <Link to="/" className="flex-auto my-auto hover:text-custom-brown text-center text-black font-cormorant text-2xl font-normal">
-                H E P H A E S T U S
-            </Link>
-            <div className="flex gap-5 justify-between items-center text-base whitespace-nowrap text-neutral-500">
-                <div className="flex gap-5 justify-center self-stretch px-4 py-2 border-b border-solid border-stone-300 border-opacity-90">
-                    <div className="my-auto">Search</div>
-                    <img
-                        loading="lazy"
-                        src="https://diamond-shop-swp-391.vercel.app/icon/homepage/ant-design_search-outlined.svg"
-                        alt="search-icon"
-                        className="shrink-0 aspect-square w-[17px]"
-                    />
+        <>
+            <div className="absolute flex z-0 gap-5 px-12 py-6 w-full bg-white border border-solid border-stone-400 max-md:flex-wrap max-md:px-5 max-md:max-w-full">
+                <div className="flex gap-5 items-center self-start text-lg text-center text-black text-opacity-70 max-md:flex-wrap max-md:max-w-full">
+                    <button onClick={toggleLocation} className="shrink-0 self-stretch aspect-square w-[26px] cursor-pointer">
+                        <img
+                            loading="lazy"
+                            src="/icon/homepage/location.svg"
+                            alt="location-icon"
+                        />
+                    </button>
+                    <Link to="/diamonds" className="flex justify-center items-center hover:text-custom-brown shrink-0 self-stretch my-auto font-karla text-custom font-normal">DIAMOND</Link>
+                    <Link to="/jewelry" className="flex justify-center items-center hover:text-custom-brown shrink-0 self-stretch my-auto font-karla text-custom font-normal">JEWELRY</Link>
+                    <div className="flex justify-center items-center hover:text-custom-brown shrink-0 self-stretch my-auto font-karla text-custom font-normal">NEW RELEASES</div>
                 </div>
-                <HoverImage defaultSrc="https://diamond-shop-swp-391.vercel.app/icon/homepage/HEADER%20HEART%20REAL" />
-                <div className="relative cursor-pointer" onClick={toggleCartModal}>
-                    <HoverImage defaultSrc="https://diamond-shop-swp-391.vercel.app/icon/homepage/ep_shopping-bag" />
-                    {cart.length > 0 && (
-                        <div className="absolute bottom-0 right-0 w-2 h-2 bg-[#B6A69D] rounded-full"></div>
+                <Link to="/" className="flex-auto my-auto hover:text-custom-brown text-center text-black font-cormorant text-2xl font-normal">
+                    H E P H A E S T U S
+                </Link>
+                <div className="flex gap-5 justify-between items-center text-base whitespace-nowrap text-neutral-500">
+                    <div className="flex gap-5 justify-center self-stretch px-4 py-2 border-b border-solid border-stone-300 border-opacity-90">
+                        <div className="my-auto">Search</div>
+                        <img
+                            loading="lazy"
+                            src="https://diamond-shop-swp-391.vercel.app/icon/homepage/ant-design_search-outlined.svg"
+                            alt="search-icon"
+                            className="shrink-0 aspect-square w-[17px]"
+                        />
+                    </div>
+                    <HoverImage defaultSrc="https://diamond-shop-swp-391.vercel.app/icon/homepage/HEADER%20HEART%20REAL" />
+                    <div className="relative cursor-pointer" onClick={toggleCartModal}>
+                        <HoverImage defaultSrc="https://diamond-shop-swp-391.vercel.app/icon/homepage/ep_shopping-bag" />
+                        {cart.length > 0 && (
+                            <div className="absolute bottom-0 right-0 w-2 h-2 bg-[#B6A69D] rounded-full"></div>
+                        )}
+                    </div>
+                    {!isAuthenticated ? (
+                        <div onClick={toggleLoginModal} className="cursor-pointer">
+                            <HoverImage defaultSrc="https://diamond-shop-swp-391.vercel.app/icon/homepage/bi_person" />
+                        </div>
+                    ) : (
+                        <>
+                            <Link to="/profile" className="cursor-pointer">
+                                Profile
+                            </Link>
+                            <div onClick={handleLogout} className="cursor-pointer">
+                                Logout
+                            </div>
+                        </>
                     )}
                 </div>
-                {!isAuthenticated ? (
-                    <div onClick={toggleLoginModal} className="cursor-pointer">
-                        <HoverImage defaultSrc="https://diamond-shop-swp-391.vercel.app/icon/homepage/bi_person" />
-                    </div>
-                ) : (
-                    <>
-                        <Link to="/profile" className="cursor-pointer">
-                            Profile
-                        </Link>
-                        <div onClick={handleLogout} className="cursor-pointer">
-                            Logout
-                        </div>
-                    </>
-                )}
+                <LoginModal 
+                    isOpen={isLoginModalOpen} 
+                    onClose={toggleLoginModal} 
+                    openSignUp={toggleSignUpModal} 
+                />
+                <SignUpModal 
+                    isOpen={isSignUpModalOpen} 
+                    onClose={toggleSignUpModal} 
+                    openLogin={toggleLoginModal} 
+                />
+                <Cart 
+                    isOpen={isCartOpen}
+                    onClose={toggleCartModal} 
+                />
             </div>
-            <LoginModal 
-                isOpen={isLoginModalOpen} 
-                onClose={toggleLoginModal} 
-                openSignUp={toggleSignUpModal} 
-            />
-            <SignUpModal 
-                isOpen={isSignUpModalOpen} 
-                onClose={toggleSignUpModal} 
-                openLogin={toggleLoginModal} 
-            />
-            <Cart 
-                isOpen={isCartOpen}
-                onClose={toggleCartModal} 
-            />
-        </div>
+            {isLocationOpen && <Location onClose={toggleLocation} />}
+        </>
     );
 }
 
