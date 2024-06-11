@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar.js";
 import Footer from "../components/Footer.js";
@@ -19,51 +18,61 @@ function Diamond() {
       .catch(error => console.error('Error fetching diamond data:', error));
   }, []);
 
-
-  function handleFilter(){
-    let byCaratFrom = [];
-    if(caratFrom !== 0){
-      byCaratFrom = diamonds.filter((item) => {
-        return item.carat.carat >= caratFrom
-      })
+  function handleFilter() {
+    let byShape = [];
+    if (selectedShape != null) {
+      byShape = diamonds.filter((item) => {
+        return item.shape.shapeDescription === selectedShape;
+      });
     } else {
-      byCaratFrom = diamonds
+      byShape = diamonds;
+    }
+
+    let byCaratFrom = [];
+    if (caratFrom !== 0) {
+      byCaratFrom = diamonds.filter((item) => {
+        return item.carat.carat >= caratFrom;
+      });
+    } else {
+      byCaratFrom = byShape;
     }
 
     let byCaratTo = [];
-    if(caratTo !== 0){
+    if (caratTo !== 0) {
       byCaratTo = byCaratFrom.filter((item) => {
-        return item.carat.carat <= caratTo
-      })
+        return item.carat.carat <= caratTo;
+      });
     } else {
-      byCaratTo = byCaratFrom
+      byCaratTo = byCaratFrom;
     }
 
-
     let byPriceFrom = [];
-    if(priceFrom !== 0){
+    if (priceFrom !== 0) {
       byPriceFrom = byCaratTo.filter((item) => {
-        return item.price >= priceFrom
-      })
+        return item.price >= priceFrom;
+      });
     } else {
-      byPriceFrom = byCaratTo
+      byPriceFrom = byCaratTo;
     }
 
     let byPriceTo = [];
-    if(priceTo !== 0) {
+    if (priceTo !== 0) {
       byPriceTo = byPriceFrom.filter((item) => {
-        return item.price <= priceTo
-      })
+        return item.price <= priceTo;
+      });
     } else {
-      byPriceTo = byPriceFrom
+      byPriceTo = byPriceFrom;
     }
 
-    console.log(byPriceTo)
-    return setDiamonds(byPriceTo)
+    console.log(byPriceTo);
+    return setDiamonds(byPriceTo);
   }
 
-  
-    
+  function handleShapeClick(shape) {
+    setSelectedShape(shape);
+  }
+
+  console.log(selectedShape)
 
   return (
     <div className="flex overflow-hidden flex-col items-center pb-20 bg-white z-0">
@@ -79,21 +88,21 @@ function Diamond() {
         <div className="flex gap-5 w-full max-md:flex-wrap max-md:max-w-full">
           <div className="my-auto relative text-3xl text-black z-0">Shape</div>
           <div className="flex flex-auto relative gap-5 max-md:flex-wrap inset-0 z-0">
-            {["S-1", "S-2", "S-3", "S-4", "S-5", "S-7", "S-8"].map((shape) => (
-              <div
+            {["Round", "Princess", "Cushion", "Oval", "Pear", "Emerald", "Heart"].map((shape) => (
+              <button
                 key={shape}
                 className={`flex justify-center items-center px-1.5 bg-white border border-solid backdrop-blur-[2px] border-stone-300 h-[72px] w-[72px] cursor-pointer ${
-                  selectedShape === shape ? "border-black" : ""
+                  selectedShape === shape ? "border-4 border-orange-500" : ""
                 }`}
-                // onClick={() => handleShapeClick(shape)}
+                onClick={() => handleShapeClick(shape)}
               >
                 <img
                   loading="lazy"
-                  srcSet={`/img/Diamond/${shape}.png`}
+                  src={`/img/Diamond/${shape}.png`}
                   className="aspect-square w-[60px]"
                   alt={shape}
                 />
-              </div>
+              </button>
             ))}
           </div>
         </div>
