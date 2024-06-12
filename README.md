@@ -1,1 +1,1 @@
-# DiamondShop-SWP391 - A web app using Spring Boot and React
+# DiamondShop-SWP391 - with Springboot and React
