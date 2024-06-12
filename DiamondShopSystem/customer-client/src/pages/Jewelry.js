@@ -9,7 +9,7 @@ function Jewelry() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/jewelry")
+      .get("http://139.162.39.187:8080/api/jewelry")
       .then((response) => {
         setJewelryItems(response.data);
       })
