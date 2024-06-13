@@ -13,7 +13,7 @@ function Jewelry() {
 
   useEffect(() => {
     axios
-      .get("/jewelry")
+      .get("https://hepheathus.store/api/jewelry")
       .then((response) => {
         setJewelryItems(response.data);
         setFilteredJewelry(response.data);
