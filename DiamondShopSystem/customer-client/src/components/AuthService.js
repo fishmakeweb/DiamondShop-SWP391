@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 class AuthService {
-    static BASE_URL = "http://139.162.39.187:8080/api/auth";
+    static BASE_URL = "https://hepheathus.store/api/auth";
 
     static async login(username, password) {
         try {
@@ -44,7 +44,7 @@ class AuthService {
 
     static async getProfile(token) {
         try {
-            const response = await axios.get(`http://139.162.39.187:8080/api/profile`, {
+            const response = await axios.get(`https://hepheathus.store/api/profile`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             return response.data;

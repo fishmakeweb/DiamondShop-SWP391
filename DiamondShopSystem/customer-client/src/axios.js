@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: 'http://139.162.39.187:8080/api',
+    baseURL: 'https://hepheathus.store/api',
     headers: {
         'Content-Type': 'application/json'
     }

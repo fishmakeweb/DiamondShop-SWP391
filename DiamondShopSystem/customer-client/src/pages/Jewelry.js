@@ -9,7 +9,7 @@ function Jewelry() {
 
   useEffect(() => {
     axios
-      .get("http://139.162.39.187:8080/api/jewelry")
+      .get("https://hepheathus.store/api/jewelry")
       .then((response) => {
         setJewelryItems(response.data);
       })
