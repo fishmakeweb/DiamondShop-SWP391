@@ -1,0 +1,98 @@
+/* RangeSlider.css */
+input[type=range]::-webkit-slider-thumb {
+    pointer-events: all;
+    width: 24px;
+    height: 24px;
+    -webkit-appearance: none;
+  }
+  
+  .relative {
+    position: relative;
+  }
+  
+  .absolute {
+    position: absolute;
+  }
+  
+  .z-10 {
+    z-index: 10;
+  }
+  
+  .z-20 {
+    z-index: 20;
+  }
+  
+  .z-30 {
+    z-index: 30;
+  }
+  
+  .h-2 {
+    height: 0.5rem;
+  }
+  
+  .w-full {
+    width: 100%;
+  }
+  
+  .pointer-events-none {
+    pointer-events: none;
+  }
+  
+  .appearance-none {
+    appearance: none;
+  }
+  
+  .cursor-pointer {
+    cursor: pointer;
+  }
+  
+  .opacity-0 {
+    opacity: 0;
+  }
+  
+  .rounded-md {
+    border-radius: 0.375rem;
+  }
+  
+  .bg-gray-200 {
+    background-color: #e2e8f0;
+  }
+  
+  .bg-brown-300 {
+    background-color: #cdb79e;
+  }
+  
+  .w-6 {
+    width: 1.5rem;
+  }
+  
+  .h-6 {
+    height: 1.5rem;
+  }
+  
+  .rounded-full {
+    border-radius: 9999px;
+  }
+  
+  .mt-2 {
+    margin-top: 0.5rem;
+  }
+  
+  .ml-1 {
+    margin-left: 0.25rem;
+  }
+  
+  .mr-3 {
+    margin-right: 0.75rem;
+  }
+  
+  .text-xs {
+    font-size: 0.75rem;
+  }
+  
+  .label {
+    font-size: 1.9rem; /* Kích thước chữ */
+    color: #000; /* Màu chữ đen */
+    display: inline-block; /* Để label hiển thị ngang */
+    margin-bottom: 0.5rem; /* Khoảng cách dưới của label */
+  }
