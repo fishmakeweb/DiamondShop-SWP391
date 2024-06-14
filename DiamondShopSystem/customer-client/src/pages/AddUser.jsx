@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import AuthService from "../components/AuthService";
 import axios from "axios";
 
-
 function AddUser({ isOpen, onClose, user }) {
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
@@ -10,6 +9,7 @@ function AddUser({ isOpen, onClose, user }) {
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('');
     const [error, setError] = useState(null);
+    const [validationErrors, setValidationErrors] = useState({});
 
     useEffect(() => {
         if (user) {
@@ -25,10 +25,32 @@ function AddUser({ isOpen, onClose, user }) {
             setRole('');
             setPassword('');
         }
+        setValidationErrors({});
+        setError(null);
     }, [user]);
 
     const handleSaveUser = async (e) => {
         e.preventDefault();
+
+        const errors = {};
+        if (!fullName) errors.fullName = "Full name is required.";
+        if (!email) {
+            errors.email = "Email is required.";
+        } else if (!/\S+@\S+\.\S+/.test(email)) {
+            errors.email = "Email is invalid.";
+        }
+        if (!role) errors.role = "Role is required.";
+
+        if (!user) {
+            if (!username) errors.username = "Username is required.";
+            if (!password) errors.password = "Password is required.";
+        }
+
+        if (Object.keys(errors).length > 0) {
+            setValidationErrors(errors);
+            return;
+        }
+
         try {
             const staffData = {
                 fullName,
@@ -73,6 +95,7 @@ function AddUser({ isOpen, onClose, user }) {
                             onChange={(e) => setFullName(e.target.value)}
                             className="border border-gray-300 rounded px-3 py-2 w-full"
                         />
+                        {validationErrors.fullName && <div className="text-red-500">{validationErrors.fullName}</div>}
                     </div>
                     <div className="mb-4">
                         <label htmlFor="email" className="block">Email:</label>
@@ -83,6 +106,7 @@ function AddUser({ isOpen, onClose, user }) {
                             onChange={(e) => setEmail(e.target.value)}
                             className="border border-gray-300 rounded px-3 py-2 w-full"
                         />
+                        {validationErrors.email && <div className="text-red-500">{validationErrors.email}</div>}
                     </div>
                     <div className="mb-4">
                         <label htmlFor="role" className="block">Role:</label>
@@ -94,31 +118,36 @@ function AddUser({ isOpen, onClose, user }) {
                         >
                             <option value="">Select Role</option>
                             <option value="ROLE_ADMIN">Admin</option>
-                            <option value="ROLE_SALESTAFF">Sales</option>
+                            <option value="ROLE_SALE">Sales</option>
                             <option value="ROLE_DELIVERY">Delivery</option>
                         </select>
-                    </div>
-                    <div className="mb-4">
-                        <label htmlFor="username" className="block">Username:</label>
-                        <input
-                            type="text"
-                            id="username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            className="border border-gray-300 rounded px-3 py-2 w-full"
-                        />
+                        {validationErrors.role && <div className="text-red-500">{validationErrors.role}</div>}
                     </div>
                     {!user && (
-                        <div className="mb-4">
-                            <label htmlFor="password" className="block">Password:</label>
-                            <input
-                                type="password"
-                                id="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className="border border-gray-300 rounded px-3 py-2 w-full"
-                            />
-                        </div>
+                        <>
+                            <div className="mb-4">
+                                <label htmlFor="username" className="block">Username:</label>
+                                <input
+                                    type="text"
+                                    id="username"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    className="border border-gray-300 rounded px-3 py-2 w-full"
+                                />
+                                {validationErrors.username && <div className="text-red-500">{validationErrors.username}</div>}
+                            </div>
+                            <div className="mb-4">
+                                <label htmlFor="password" className="block">Password:</label>
+                                <input
+                                    type="password"
+                                    id="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="border border-gray-300 rounded px-3 py-2 w-full"
+                                />
+                                {validationErrors.password && <div className="text-red-500">{validationErrors.password}</div>}
+                            </div>
+                        </>
                     )}
                     <div className="flex justify-end">
                         <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded mr-2">{user ? 'Update Staff' : 'Add Staff'}</button>
