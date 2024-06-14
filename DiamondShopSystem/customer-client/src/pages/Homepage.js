@@ -13,7 +13,7 @@ function Homepage() {
       <div className="flex overflow-hidden relative flex-col items-start p-20 -mt-3 w-full shadow-sm min-h-[856px] max-md:px-5 max-md:max-w-full">
         <img
           loading="lazy"
-          srcSet="https://diamond-shop-swp-391.vercel.app/img/homepage/background-homepage.jpg"
+          srcSet="https://ap-south-1.linodeobjects.com/diamondshop-img/1718343911373_background-homepage.jpg"
           alt="Background"
           className="object-cover absolute inset-0 size-full z-0"
         />

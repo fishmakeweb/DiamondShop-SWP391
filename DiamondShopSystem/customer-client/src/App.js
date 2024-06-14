@@ -13,7 +13,7 @@ import UserProfile from "./pages/UserProfile";
 import Staff from "./pages/Staff";
 import DiamondItem from "./pages/DiamondItem.js";
 import SaleStaff from "./components/SaleStaff.jsx";
-import OrderDetails from "./components/OrderDetail.jsx";
+
 function App() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
@@ -45,7 +45,6 @@ function App() {
             {/* Add profile route */}
             <Route path="/staff" element={<Staff />} />
             <Route path="/salestaff" element={<SaleStaff />} />
-            <Route path="/orderdetail" element={<OrderDetails />} />
           </Routes>
           <LoginModal isOpen={isLoginModalOpen} onClose={toggleLoginModal} />
         </div>
