@@ -62,10 +62,11 @@ public class AuthService {
         try {
             Role role = roleRepository.findByRoleName(registrationRequest.getRole().getRoleName());
             if (role == null) {
-                role = new Role();
-                role.setRoleName(registrationRequest.getRole().getRoleName());
-                role = roleRepository.save(role);
+                resp.setStatusCode(400);
+                resp.setError("No role name : " + registrationRequest.getRole().getRoleName());
+                return resp;
             }
+
 
             Staff staff = new Staff();
             staff.setEmail(registrationRequest.getEmail());
