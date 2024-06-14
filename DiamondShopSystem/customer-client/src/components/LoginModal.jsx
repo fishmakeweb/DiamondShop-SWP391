@@ -16,7 +16,7 @@ function LoginModal({ isOpen, onClose, openSignUp }) {
       if (AuthService.isAuthenticated()) {
         onClose();
         if (AuthService.isCustomer()) navigate("/");
-        if (AuthService.isStaff()) navigate("/salestaff");
+        if (AuthService.isStaff()) navigate("/adminPage");
       } else {
         setUsername("");
         setPassword("");

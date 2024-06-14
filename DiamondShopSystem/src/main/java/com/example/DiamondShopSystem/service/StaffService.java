@@ -1,5 +1,7 @@
 package com.example.DiamondShopSystem.service;
 
+import com.example.DiamondShopSystem.model.Role;
+import com.example.DiamondShopSystem.repository.RoleRepository;
 import com.example.DiamondShopSystem.repository.StaffRepository;
 import com.example.DiamondShopSystem.model.Staff;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,8 @@ import java.util.Optional;
 
 @Service
 public class StaffService {
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private StaffRepository staffRepository;
@@ -31,14 +35,10 @@ public class StaffService {
                 .map(staff -> {
                     staff.setFullName(newStaff.getFullName());
                     staff.setEmail(newStaff.getEmail());
-                    staff.setUsername(newStaff.getUsername());
-                    staff.setPassword(newStaff.getPassword());
-                    staff.setRole(newStaff.getRole());
+                    Role role = roleRepository.findByRoleName(newStaff.getRole().getRoleName());
+                    staff.setRole(role);
                     return staffRepository.save(staff);
-                }).orElseGet(() -> {
-                    newStaff.setStaffId(id);
-                    return staffRepository.save(newStaff);
-                });
+                }).orElseThrow(() -> new RuntimeException("Staff not found"));
     }
 
     public void deleteStaff(Long id) {
