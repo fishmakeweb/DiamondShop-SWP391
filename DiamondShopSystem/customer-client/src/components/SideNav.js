@@ -13,24 +13,24 @@ const SideNav = ({ isOpen }) => {
     setDeliveryDropdownOpen(!isDeliveryDropdownOpen);
   return (
     <>
-      {/*sidenav */}
+      {/* sidenav */}
       <div
-        className={`fixed top-0 left-0 w-64 h-full bg-[#f8f4f3] p-4 z-40 transition-transform duration-300 ${
+        className={`fixed top-0 left-0 w-64 h-full bg-black text-white p-4 z-40 transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <a
           href="#"
-          className="flex items-center pb-4 border-b border-b-gray-800"
+          className="flex items-center pb-4 border-b border-b-gray-400"
         >
           <h2 className="font-bold text-2xl">H E P H A E S T U S</h2>
         </a>
         <ul className="mt-4">
-          <span className="text-gray-400 font-bold">SALE STAFF</span>
+          <span className="text-white-400 font-bold">SALE STAFF</span>
           <li className="mb-1 group">
             <a
               href=""
-              className="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100"
+              className="flex font-semibold items-center py-2 px-4 text-gray-400 hover:text-gray-100 hover:bg-gray-950 rounded-md"
             >
               <i className="ri-home-2-line mr-3 text-lg" />
               <span className="text-sm">Dashboard</span>
@@ -39,7 +39,7 @@ const SideNav = ({ isOpen }) => {
           <li className="mb-1 group">
             <button
               onClick={toggleProductsDropdown}
-              className="flex w-full font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md"
+              className="flex w-full font-semibold items-center py-2 px-4 text-gray-400 hover:text-gray-100 hover:bg-gray-950 rounded-md"
             >
               <i className="bx bx-user mr-3 text-lg" />
               <span className="text-sm">Products</span>
@@ -58,7 +58,7 @@ const SideNav = ({ isOpen }) => {
                 <Link
                   to="/adddiamond"
                   href=""
-                  className="text-gray-900 text-sm flex items-center hover:text-[#f84525]"
+                  className="text-gray-400 text-sm flex items-center hover:text-[#f84525]"
                 >
                   Diamond
                 </Link>
@@ -67,7 +67,7 @@ const SideNav = ({ isOpen }) => {
                 <Link
                   to="/addjewelry"
                   href=""
-                  className="text-gray-900 text-sm flex items-center hover:text-[#f84525]"
+                  className="text-gray-400 text-sm flex items-center hover:text-[#f84525]"
                 >
                   Jewelry
                 </Link>
@@ -77,7 +77,7 @@ const SideNav = ({ isOpen }) => {
           <li className="mb-1 group">
             <button
               onClick={toggleDeliveryDropdown}
-              className="flex w-full font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md"
+              className="flex w-full font-semibold items-center py-2 px-4 text-gray-400 hover:text-gray-100 hover:bg-gray-950 rounded-md"
             >
               <i className="bx bxl-blogger mr-3 text-lg" />
               <span className="text-sm">Delivery</span>
@@ -95,7 +95,7 @@ const SideNav = ({ isOpen }) => {
               <li className="mb-4">
                 <a
                   href=""
-                  className="text-gray-900 text-sm flex items-center hover:text-[#f84525]"
+                  className="text-gray-400 text-sm flex items-center hover:text-[#f84525]"
                 >
                   All
                 </a>
@@ -103,7 +103,7 @@ const SideNav = ({ isOpen }) => {
               <li className="mb-4">
                 <a
                   href=""
-                  className="text-gray-900 text-sm flex items-center hover:text-[#f84525]"
+                  className="text-gray-400 text-sm flex items-center hover:text-[#f84525]"
                 >
                   On-going
                 </a>
@@ -111,18 +111,18 @@ const SideNav = ({ isOpen }) => {
               <li className="mb-4">
                 <a
                   href=""
-                  className="text-gray-900 text-sm flex items-center hover:text-[#f84525]"
+                  className="text-gray-400 text-sm flex items-center hover:text-[#f84525]"
                 >
                   Delivered
                 </a>
               </li>
             </ul>
           </li>
-          <span className="text-gray-400 font-bold">PERSONAL</span>
+          <span className="text-white-400 font-bold">PERSONAL</span>
           <li className="mb-1 group">
             <a
               href=""
-              className="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100"
+              className="flex font-semibold items-center py-2 px-4 text-gray-400 hover:text-gray-100 hover:bg-gray-950 rounded-md"
             >
               <i className="bx bx-bell mr-3 text-lg" />
               <span className="text-sm">Notifications</span>
@@ -134,7 +134,7 @@ const SideNav = ({ isOpen }) => {
           <li className="mb-1 group">
             <a
               href=""
-              className="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100"
+              className="flex font-semibold items-center py-2 px-4 text-gray-400 hover:text-gray-100 hover:bg-gray-950 rounded-md"
             >
               <i className="bx bx-envelope mr-3 text-lg" />
               <span className="text-sm">Messages</span>
@@ -146,7 +146,7 @@ const SideNav = ({ isOpen }) => {
           <li className="mb-1 group">
             <a
               href=""
-              className="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100"
+              className="flex font-semibold items-center py-2 px-4 text-gray-400 hover:text-gray-100 hover:bg-gray-950 rounded-md"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

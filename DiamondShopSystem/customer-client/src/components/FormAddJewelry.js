@@ -133,12 +133,9 @@ const FormAddJewelry = () => {
   return (
     <>
       <div className="p-6">
-        <div
-          style={{ backgroundColor: "#f4f4f0" }}
-          className="sm:mx-32 lg:mx-32 xl:mx-72"
-        >
+        <div className="sm:mx-32 lg:mx-32 xl:mx-72">
           <div className="flex justify-between container mx-auto">
-            <div className="w-full">
+            <div className="w-full border-2 border-collapse">
               <div className="mt-4 px-4">
                 <h1 className="text-3xl font-semibold py-7 px-5">
                   ADD JEWELRY
