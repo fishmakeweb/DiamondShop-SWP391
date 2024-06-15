@@ -9,12 +9,12 @@ import com.example.DiamondShopSystem.repository.DiamondRepository;
 import com.example.DiamondShopSystem.repository.JewelryRepository;
 import com.example.DiamondShopSystem.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -108,6 +108,21 @@ public class ProductService {
 //    }
 
     public Page<JewelryDTO> getAllJewelryDTOs(int page) {
-        return productRepository.findAllJewelryDTOs(PageRequest.of(page, size));
+        Pageable pageable = PageRequest.of(page - 1, size);
+        List<Product> products = productRepository.findAllByOrderByProductIdAsc();
+
+        List<JewelryDTO> jewelryDTOS = products.stream()
+                .skip((long) (page - 1) * size)
+                .limit(size)
+                .map(product -> new JewelryDTO(
+                        product.getProductId(),
+                        product.getJewelry().getJewelryId(),
+                        product.getJewelry().getName(),
+                        product.getJewelry().getPrice(),
+                        product.getJewelry().getImg()
+                ))
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(jewelryDTOS, pageable, products.size());
     }
 }

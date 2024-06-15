@@ -29,9 +29,8 @@ public class ProductController {
 //        return productService.getAllJewelryDTOs();
 //    }
     @GetMapping("/products/jewelry/{page}")
-    public Page<JewelryDTO> getAllJewelryDTOs(
-            @RequestParam(defaultValue = "0") int page) {
-        return productService.getAllJewelryDTOs(page);
+    public Page<JewelryDTO> getJewelryPage(@PathVariable int page) {
+    return productService.getAllJewelryDTOs(page);
     }
     @GetMapping("/products/{id}")
     public Product getProductById(@PathVariable Long id) {
