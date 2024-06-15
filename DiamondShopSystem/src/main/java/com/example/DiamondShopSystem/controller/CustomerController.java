@@ -36,6 +36,11 @@ public class CustomerController {
         return customerService.updateUser(id, customer);
     }
 
+    @PutMapping("/password/{id}")
+    public Customer changePassword(@PathVariable Long id, @RequestBody Customer customer){
+        return customerService.changeUserPassword(id, customer);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
         customerService.deleteUser(id);
