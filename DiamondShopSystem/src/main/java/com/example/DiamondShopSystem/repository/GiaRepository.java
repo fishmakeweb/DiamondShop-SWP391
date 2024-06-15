@@ -1,7 +1,7 @@
 package com.example.DiamondShopSystem.repository;
 
-import com.example.DiamondShopSystem.model.GIA;
+import com.example.DiamondShopSystem.model.Gia;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface GIARepository extends JpaRepository<GIA, Long> {
+public interface GiaRepository extends JpaRepository<Gia, Long> {
 }

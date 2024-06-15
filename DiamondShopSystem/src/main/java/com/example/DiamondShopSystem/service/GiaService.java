@@ -1,38 +1,38 @@
 package com.example.DiamondShopSystem.service;
 
-import com.example.DiamondShopSystem.model.GIA;
-import com.example.DiamondShopSystem.repository.GIARepository;
+import com.example.DiamondShopSystem.model.Gia;
+import com.example.DiamondShopSystem.repository.GiaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class GIAService {
+public class GiaService {
     @Autowired
-    private GIARepository giaRepository;
+    private GiaRepository giaRepository;
 
-    public List<GIA> findAllGIAs() {
+    public List<Gia> findAllGias() {
         return giaRepository.findAll();
     }
 
-    public GIA findGIAById(Long id) {
-        Optional<GIA> gia = giaRepository.findById(id);
+    public Gia findGiaById(Long id) {
+        Optional<Gia> gia = giaRepository.findById(id);
         return gia.orElse(null);
     }
 
-    public GIA saveGIA(GIA gia) {
+    public Gia saveGia(Gia gia) {
         return giaRepository.save(gia);
     }
 
-    public GIA updateGIA(Long id, GIA newGIA) {
+    public Gia updateGia(Long id, Gia newGia) {
         return giaRepository.findById(id)
-                .map(existingGIA -> {
-                    existingGIA.setIssueDate(newGIA.getIssueDate());
-                    return giaRepository.save(existingGIA);
+                .map(existingGia -> {
+                    existingGia.setIssueDate(newGia.getIssueDate());
+                    return giaRepository.save(existingGia);
                 }).orElseGet(() -> {
-                    newGIA.setGIAId(id);
-                    return giaRepository.save(newGIA);
+                    newGia.setGiaId(id);
+                    return giaRepository.save(newGia);
                 });
     }
 
