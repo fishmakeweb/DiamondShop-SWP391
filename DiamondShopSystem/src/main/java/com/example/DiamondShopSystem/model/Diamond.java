@@ -1,7 +1,6 @@
 package com.example.DiamondShopSystem.model;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "Diamond")
@@ -11,44 +10,32 @@ public class Diamond {
     private Long diamondId;
 
     @ManyToOne
-    @JoinColumn(name = "shapeId")
+    @JoinColumn(name = "shape_id")
     private Shape shape;
 
     @ManyToOne
-    @JoinColumn(name = "measurementId")
+    @JoinColumn(name = "measurement_id")
     private Measurement measurement;
 
     @ManyToOne
-    @JoinColumn(name = "caratId")
+    @JoinColumn(name = "carat_id")
     private Carat carat;
 
     @ManyToOne
-    @JoinColumn(name = "colorId")
+    @JoinColumn(name = "color_id")
     private Color color;
 
     @ManyToOne
-    @JoinColumn(name = "cutId")
+    @JoinColumn(name = "cut_id")
     private Cut cut;
 
     @ManyToOne
-    @JoinColumn(name = "clarityId")
+    @JoinColumn(name = "clarity_id")
     private Clarity clarity;
 
-    @ManyToOne
-    @JoinColumn(name = "polishId")
-    private Polish polish;
-
-    @ManyToOne
-    @JoinColumn(name = "symmetryId")
-    private Symmetry symmetry;
-
-    @ManyToOne
-    @JoinColumn(name = "fluorescenceId")
-    private Fluorescence fluorescence;
-
-    @OneToOne
-    @JoinColumn(name = "giaid", unique = true)
-    private GIA gia;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "gia_id", unique = true)
+    private Gia gia;
 
     private float price;
     private String img;
@@ -109,36 +96,13 @@ public class Diamond {
         this.clarity = clarity;
     }
 
-    public Polish getPolish() {
-        return polish;
-    }
 
-    public void setPolish(Polish polish) {
-        this.polish = polish;
-    }
-
-    public Symmetry getSymmetry() {
-        return symmetry;
-    }
-
-    public void setSymmetry(Symmetry symmetry) {
-        this.symmetry = symmetry;
-    }
-
-    public Fluorescence getFluorescence() {
-        return fluorescence;
-    }
-
-    public void setFluorescence(Fluorescence fluorescence) {
-        this.fluorescence = fluorescence;
-    }
-
-    public GIA getGia() {
+    public Gia getGia() {
         return gia;
     }
 
-    public void setGia(GIA giaId) {
-        this.gia = giaId;
+    public void setGia(Gia gia) {
+        this.gia = gia;
     }
 
     public float getPrice() {

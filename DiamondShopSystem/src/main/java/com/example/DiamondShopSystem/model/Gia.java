@@ -2,23 +2,26 @@ package com.example.DiamondShopSystem.model;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.sql.Date;
 
 @Entity
-@Table(name = "GIA")
-public class GIA {
+@Table(name = "Gia")
+public class Gia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long GIAId;
+    private Long giaId;
     private Date issueDate;
 
-    public Long getGIAId() {
-        return GIAId;
+    @OneToOne(mappedBy = "gia")
+    private Diamond diamond;
+
+    public Long getGiaId() {
+        return giaId;
     }
 
-    public void setGIAId(Long GIAId) {
-        this.GIAId = GIAId;
+    public void setGiaId(Long GiaId) {
+        this.giaId = giaId;
     }
 
     public Date getIssueDate() {

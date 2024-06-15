@@ -73,6 +73,7 @@ CREATE TABLE IF NOT EXISTS Carat(
     carat_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
     carat DECIMAL(3,2)
     );
+    
 CREATE TABLE IF NOT EXISTS Polish(
     polish_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
     polish_description VARCHAR(50)
@@ -93,9 +94,6 @@ CREATE TABLE IF NOT EXISTS Diamond(
     color_id BIGINT,
     cut_id BIGINT,
     clarity_id BIGINT,
-    polish_id BIGINT,
-    symmetry_id BIGINT,
-    fluorescence_id BIGINT,
     giaid BIGINT UNIQUE,
     price FLOAT,
     img VARCHAR(1000),
@@ -105,9 +103,6 @@ CREATE TABLE IF NOT EXISTS Diamond(
     FOREIGN KEY (color_id) REFERENCES Color(color_id),
     FOREIGN KEY (cut_id) REFERENCES Cut(cut_id),
     FOREIGN KEY (clarity_id) REFERENCES Clarity(clarity_id),
-    FOREIGN KEY (polish_id) REFERENCES Polish(polish_id),
-    FOREIGN KEY (symmetry_id) REFERENCES Symmetry(symmetry_id),
-    FOREIGN KEY (fluorescence_id) REFERENCES Fluorescence(fluorescence_id),
     FOREIGN KEY (giaid) REFERENCES GIA(giaid)
     );
 
@@ -138,16 +133,16 @@ CREATE TABLE IF NOT EXISTS Jewelry(
     name VARCHAR(50),
     material_id BIGINT,
     category_id BIGINT,
-    gemstone_id BIGINT,
     size_id BIGINT,
     img VARCHAR(400),
     price FLOAT,
+    `date` Date,
     FOREIGN KEY (diamond_id) REFERENCES Diamond(diamond_id),
     FOREIGN KEY (material_id) REFERENCES Material(material_id),
     FOREIGN KEY (category_id) REFERENCES Category(category_id),
-    FOREIGN KEY (gemstone_id) REFERENCES Gemstone(gemstone_id),
     FOREIGN KEY (size_id) REFERENCES Size(size_id)
     );
+    
 
 -- PRODUCT TABLE
 CREATE TABLE IF NOT EXISTS Product(

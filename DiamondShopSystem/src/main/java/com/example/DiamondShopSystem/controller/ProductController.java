@@ -1,9 +1,11 @@
 package com.example.DiamondShopSystem.controller;
 
+import com.example.DiamondShopSystem.dto.JewelryDTO;
 import com.example.DiamondShopSystem.model.Product;
 import com.example.DiamondShopSystem.model.ProductDetails;
 import com.example.DiamondShopSystem.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,15 @@ public class ProductController {
         return productService.findAllProducts();
     }
 
+//    @GetMapping("/products/jewelry")
+//    public List<JewelryDTO> getAllJewelryDTOs() {
+//        return productService.getAllJewelryDTOs();
+//    }
+    @GetMapping("/products/jewelry/{page}")
+    public Page<JewelryDTO> getAllJewelryDTOs(
+            @RequestParam(defaultValue = "0") int page) {
+        return productService.getAllJewelryDTOs(page);
+    }
     @GetMapping("/products/{id}")
     public Product getProductById(@PathVariable Long id) {
         return productService.findProductById(id);

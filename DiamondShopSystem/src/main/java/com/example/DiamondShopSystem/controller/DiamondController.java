@@ -1,5 +1,6 @@
 package com.example.DiamondShopSystem.controller;
 
+import com.example.DiamondShopSystem.dto.DiamondAttributeDTO;
 import com.example.DiamondShopSystem.model.Diamond;
 import com.example.DiamondShopSystem.service.DiamondService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import java.util.List;
 public class DiamondController {
     @Autowired
     private DiamondService diamondService;
+
 
     @GetMapping("/diamonds")
     public List<Diamond> getAllDiamonds() {
@@ -37,5 +39,10 @@ public class DiamondController {
     @DeleteMapping("/secure/diamonds/{id}")
     public void deleteDiamond(@PathVariable Long id) {
         diamondService.deleteDiamond(id);
+    }
+
+    @GetMapping("/diamonds/all")
+    public DiamondAttributeDTO getAllDiamondAttributes() {
+        return diamondService.getAllDiamondAttributes();
     }
 }

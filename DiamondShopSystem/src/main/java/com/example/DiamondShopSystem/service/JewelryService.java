@@ -1,7 +1,14 @@
 package com.example.DiamondShopSystem.service;
 
+import com.example.DiamondShopSystem.dto.AllDataDTO;
+import com.example.DiamondShopSystem.model.Category;
 import com.example.DiamondShopSystem.model.Jewelry;
+import com.example.DiamondShopSystem.model.Material;
+import com.example.DiamondShopSystem.model.Size;
+import com.example.DiamondShopSystem.repository.CategoryRepository;
 import com.example.DiamondShopSystem.repository.JewelryRepository;
+import com.example.DiamondShopSystem.repository.MaterialRepository;
+import com.example.DiamondShopSystem.repository.SizeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +24,25 @@ public class JewelryService {
     @Autowired
     private JewelryRepository jewelryRepository;
 
+    @Autowired
+    private SizeRepository sizeRepository;
+
+    @Autowired
+    private MaterialRepository materialRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    public AllDataDTO getAllData() {
+        List<Category> categories = categoryRepository.findAll();
+        List<Material> materials = materialRepository.findAll();
+        List<Size> sizes = sizeRepository.findAll();
+
+        return new AllDataDTO(categories, materials, sizes);
+    }
+
+    @Autowired
+    private ProductService productService;
     public List<Jewelry> findAllJewelry() {
         return jewelryRepository.findAll();
     }
@@ -26,8 +52,14 @@ public class JewelryService {
         return jewelry.orElse(null);
     }
 
+    public boolean checkNameExists(String name) {
+        return jewelryRepository.existsByName(name);
+    }
+
     public Jewelry saveJewelry(Jewelry jewelry) {
-        return jewelryRepository.save(jewelry);
+        Jewelry savedJewelry = jewelryRepository.save(jewelry);
+        productService.createProductForJewelry(savedJewelry);
+        return savedJewelry;
     }
 
     public Jewelry updateJewelry(Long id, Jewelry newJewelry) {
@@ -39,7 +71,6 @@ public class JewelryService {
                     existingJewelry.setDiamond(newJewelry.getDiamond());
                     existingJewelry.setMaterial(newJewelry.getMaterial());
                     existingJewelry.setCategory(newJewelry.getCategory());
-                    existingJewelry.setGemstone(newJewelry.getGemstone());
                     existingJewelry.setSize(newJewelry.getSize());
                     return jewelryRepository.save(existingJewelry);
                 }).orElseGet(() -> {
@@ -57,12 +88,6 @@ public class JewelryService {
                 .collect(Collectors.toList());
     }
 
-    public List<Jewelry> findAllByGemStoneId(Long gemstoneId) {
-        return jewelryRepository.findAll().stream()
-                .filter(jewelry -> jewelry.getGemstone() != null && jewelry.getGemstone().getGemstoneId().equals(gemstoneId))
-                .collect(Collectors.toList());
-    }
-
     public List<Jewelry> findAllByPriceRange(float minPrice, float maxPrice) {
         return jewelryRepository.findAll().stream()
                 .filter(jewelry -> jewelry.getPrice() >= minPrice && jewelry.getPrice() <= maxPrice)
@@ -72,6 +97,7 @@ public class JewelryService {
         Pageable pageable = PageRequest.of(page, 8, Sort.by("price"));
         return jewelryRepository.findAll(pageable);
     }
+
 }
 
 

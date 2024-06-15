@@ -1,19 +1,28 @@
 package com.example.DiamondShopSystem.dto;
 
 public class JewelryDTO {
+    private Long productId;
     private Long jewelryId;
     private String name;
-    private String img;
     private float price;
+    private String img;
 
-    public JewelryDTO() {
-    }
-
-    public JewelryDTO(Long jewelryId, String name, String img, float price) {
+    // Constructor
+    public JewelryDTO(Long productId, Long jewelryId, String name, float price, String img) {
+        this.productId = productId;
         this.jewelryId = jewelryId;
         this.name = name;
-        this.img = img;
         this.price = price;
+        this.img = img;
+    }
+
+    // Getters and Setters
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
     public Long getJewelryId() {
@@ -32,19 +41,19 @@ public class JewelryDTO {
         this.name = name;
     }
 
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
-
     public float getPrice() {
         return price;
     }
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 }

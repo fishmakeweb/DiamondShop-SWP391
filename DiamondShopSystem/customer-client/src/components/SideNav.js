@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const SideNav = ({ isOpen }) => {
   // States to control dropdown visibility
@@ -54,20 +55,22 @@ const SideNav = ({ isOpen }) => {
               }`}
             >
               <li className="mb-4">
-                <a
+                <Link
+                  to="/adddiamond"
                   href=""
                   className="text-gray-900 text-sm flex items-center hover:text-[#f84525]"
                 >
                   Diamond
-                </a>
+                </Link>
               </li>
               <li className="mb-4">
-                <a
+                <Link
+                  to="/addjewelry"
                   href=""
                   className="text-gray-900 text-sm flex items-center hover:text-[#f84525]"
                 >
                   Jewelry
-                </a>
+                </Link>
               </li>
             </ul>
           </li>
