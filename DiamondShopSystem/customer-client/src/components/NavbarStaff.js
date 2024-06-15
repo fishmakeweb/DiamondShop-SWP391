@@ -16,7 +16,7 @@ const NavbarStaff = ({ onToggleSidebar }) => {
   return (
     <>
       {/* navbar */}
-      <div className="py-2 px-6 bg-white border-collapse border-x-0 border border-black flex items-center shadow-md shadow-black/5 sticky top-0 left-0 z-30">
+      <div className="py-2 px-6 bg-white flex items-center shadow-md shadow-black/5 sticky top-0 left-0 z-30">
         <button
           type="button"
           className="text-lg text-gray-900 font-semibold sidebar-toggle"

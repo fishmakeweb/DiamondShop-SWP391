@@ -19,7 +19,7 @@ const SubmitMessage = ({ onClose }) => {
 
 const FormAddDiamond = () => {
   const [imagePreviewUrl, setImagePreviewUrl] = useState(
-    "https://ap-south-1.linodeobjects.com/diamondshop-img/1718362498585_Screenshot%202024-06-14%20175431.png"
+    "https://diamondshop-img.ap-south-1.linodeobjects.com/1718429728643_Screenshot%202024-06-15%20123518.png"
   );
   const [shapes, setShapes] = useState([]);
   const [measurements, setMeasurements] = useState([]);
@@ -127,12 +127,9 @@ const FormAddDiamond = () => {
   return (
     <>
       <div className="p-6">
-        <div
-          style={{ backgroundColor: "#f4f4f0" }}
-          className="sm:mx-32 lg:mx-32 xl:mx-72"
-        >
+        <div className="sm:mx-32 lg:mx-32 xl:mx-72">
           <div className="flex justify-between container mx-auto">
-            <div className="w-full">
+            <div className="w-full border-2 border-collapse">
               <div className="mt-4 px-4">
                 <h1 className="text-3xl font-semibold py-7 px-5">
                   ADD DIAMOND
