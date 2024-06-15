@@ -1,53 +1,123 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-function UpdateUser({ onClose }) {
+function UpdateUser({ onClose, profile }) {
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [address, setAddress] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (profile && profile.customer) {
+      const { fullName, email, address } = profile.customer;
+      setFullName(fullName || '');
+      setEmail(email || '');
+      setAddress(address || '');
+    }
+  }, [profile]);
+
+  const validateInputs = () => {
+    if (!fullName.trim() || !email.trim() || !address.trim()) {
+      setError('All fields are required');
+      return false;
+    }
+
+    if (!validateEmail(email)) {
+      setError('Please enter a valid email address');
+      return false;
+    }
+
+    setError('');
+    return true;
+  };
+
+  const validateEmail = (email) => {
+    // Basic email validation regex
+    const re =
+      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+
+    if (!validateInputs()) {
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const userData = {
+        fullName,
+        email,
+        address,
+      };
+      const response = await axios.put(`http://localhost:8080/api/secure/customers/${profile.customer.userId}`, userData);
+      console.log('Update successful', response);
+      onClose();
+    } catch (error) {
+      console.error('Operation failed: ', error);
+      setError('Operation failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
-      <div className="flex flex-col px-4 py-2.5 mt-24 w-full bg-white rounded-lg border border-solid border-slate-100 max-w-[1136px]">
-        <div className="flex gap-5 text-lg font-semibold leading-4 text-right text-slate-800">
-          <div className="flex-auto">Update Information</div>
-          <button onClick={onClose} className="text-gray-500">&times;</button>
+    <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+      <div className="flex flex-col px-6 py-5 mt-22 w-full bg-white rounded-lg border border-solid border-gray-200 max-w-3xl shadow-lg">
+        <div className="flex justify-between items-center text-lg font-semibold text-gray-800">
+          <div>Update Information</div>
+          <button onClick={onClose} className="text-gray-500 text-2xl">&times;</button>
         </div>
-        <div className="p-3 mt-12 bg-white rounded-lg border border-solid border-slate-100 text-slate-800">
-          <label htmlFor="userId">User ID *</label>
-          <input id="userId" type="text" className="w-full mt-1 p-2 border border-slate-300 rounded" />
-        </div>
-        <div className="flex gap-4 mt-4 text-slate-800">
-          <div className="grow p-3 bg-white rounded-lg border border-solid border-slate-100">
-            <label htmlFor="firstName">First Name *</label>
-            <input id="firstName" type="text" className="w-full mt-1 p-2 border border-slate-300 rounded" />
+        <form onSubmit={handleUpdate}>
+          <div className="flex flex-col gap-4 mt-4 text-gray-800">
+            <div className="flex flex-col p-3 bg-white rounded-lg border border-solid border-gray-200">
+              <label htmlFor="fullName" className="font-medium">Full Name *</label>
+              <input
+                id="fullName"
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                className="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div className="flex flex-col p-3 bg-white rounded-lg border border-solid border-gray-200">
+              <label htmlFor="email" className="font-medium">Email *</label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div className="flex flex-col p-3 bg-white rounded-lg border border-solid border-gray-200">
+              <label htmlFor="address" className="font-medium">Address *</label>
+              <input
+                id="address"
+                type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                className="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            {error && <div className="text-red-500">{error}</div>}
           </div>
-          <div className="grow p-3 bg-white rounded-lg border border-solid border-slate-100">
-            <label htmlFor="lastName">Last Name *</label>
-            <input id="lastName" type="text" className="w-full mt-1 p-2 border border-slate-300 rounded" />
+          <div className="flex justify-end gap-4 mt-6">
+            <button type="button" onClick={onClose} className="px-6 py-2 font-semibold text-gray-500 border border-gray-300 rounded-lg hover:bg-gray-100">
+              Cancel
+            </button>
+            <button type="submit" className="px-6 py-2 font-semibold text-white bg-black rounded-lg" disabled={loading}>
+              {loading ? 'Updating...' : 'Update'}
+            </button>
           </div>
-        </div>
-        <div className="flex gap-4 mt-4 text-slate-800">
-          <div className="p-3 bg-white rounded-lg border border-solid border-slate-100">
-            <label htmlFor="email">Email ID *</label>
-            <input id="email" type="email" className="w-full mt-1 p-2 border border-slate-300 rounded" />
-          </div>
-          <div className="p-3 bg-white rounded-lg border border-solid border-slate-100">
-            <label htmlFor="mobile">Phone No</label>
-            <input id="mobile" type="tel" className="w-full mt-1 p-2 border border-slate-300 rounded" />
-          </div>
-        </div>
-        <div className="flex gap-5 justify-between self-end mt-24">
-          <button className="px-6 py-2 font-semibold text-center text-white bg-sky-500 rounded-lg">
-            Update
-          </button>
-          <button onClick={onClose} className="my-auto text-right text-slate-400">
-            Cancel
-          </button>
-        </div>
+        </form>
       </div>
     </div>
   );
 }
-
-UpdateUser.propTypes = {
-  onClose: PropTypes.func.isRequired,
-};
 
 export default UpdateUser;
