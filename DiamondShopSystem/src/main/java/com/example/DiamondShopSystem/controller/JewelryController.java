@@ -1,5 +1,6 @@
 package com.example.DiamondShopSystem.controller;
 
+import com.example.DiamondShopSystem.dto.AllDataDTO;
 import com.example.DiamondShopSystem.dto.JewelryDTO;
 import com.example.DiamondShopSystem.model.Jewelry;
 import com.example.DiamondShopSystem.service.JewelryService;
@@ -50,31 +51,26 @@ public class JewelryController {
         return jewelryService.findAllByCategoryId(categoryId);
     }
 
-    @GetMapping("/jewelry/gemstones/{gemstoneId}")
-    public List<Jewelry> getJewelryByGemstone(@PathVariable Long gemstoneId) {
-        return jewelryService.findAllByGemStoneId(gemstoneId);
-    }
-
     @GetMapping("/jewelry/price/range")
     public List<Jewelry> getJewelryByPriceRange(@RequestParam("min") float minPrice, @RequestParam("max") float maxPrice) {
         return jewelryService.findAllByPriceRange(minPrice, maxPrice);
     }
 
-    @GetMapping("/jewelry/page")
-    public ResponseEntity<Page<JewelryDTO>> getJewelryPage(@RequestParam(defaultValue = "0") int page) {
-        Page<Jewelry> jewelryPage = jewelryService.getJewelryPage(page);
-        Page<JewelryDTO> dtoPage = jewelryPage.map(this::convertToDto);
-        return ResponseEntity.ok(dtoPage);
+    @GetMapping("/jewelry/all")
+    public AllDataDTO getAllData() {
+        return jewelryService.getAllData();
     }
 
-    private JewelryDTO convertToDto(Jewelry jewelry) {
-        // Manually convert Jewelry entity to JewelryDTO
-        JewelryDTO dto = new JewelryDTO();
-        dto.setJewelryId(jewelry.getJewelryId());
-        dto.setName(jewelry.getName());
-        dto.setPrice(jewelry.getPrice());
-        dto.setImg(jewelry.getImg());
-        // Set other DTO properties
-        return dto;
+    @GetMapping("/check-name/{name}")
+    public boolean checkNameExists(@PathVariable String name) {
+        return jewelryService.checkNameExists(name);
     }
+
+//    @GetMapping("/jewelry/page")
+//    public ResponseEntity<Page<JewelryDTO>> getJewelryPage(@RequestParam(defaultValue = "0") int page) {
+//        Page<Jewelry> jewelryPage = jewelryService.getJewelryPage(page);
+//        Page<JewelryDTO> dtoPage = jewelryPage.map(this::convertToDto);
+//        return ResponseEntity.ok(dtoPage);
+//    }
+
 }

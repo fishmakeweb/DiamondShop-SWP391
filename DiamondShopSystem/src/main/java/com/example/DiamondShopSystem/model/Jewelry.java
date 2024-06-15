@@ -24,9 +24,6 @@ public class Jewelry {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne
-    @JoinColumn(name = "gemstone_id")
-    private Gemstone gemstone;
 
     @ManyToOne
     @JoinColumn(name = "size_id")
@@ -87,14 +84,6 @@ public class Jewelry {
 
     public void setCategory(Category category) {
         this.category = category;
-    }
-
-    public Gemstone getGemstone() {
-        return gemstone;
-    }
-
-    public void setGemstone(Gemstone gemstone) {
-        this.gemstone = gemstone;
     }
 
     public Size getSize() {
