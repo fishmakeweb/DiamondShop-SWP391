@@ -14,7 +14,8 @@ import Staff from "./pages/Staff";
 import DiamondItem from "./pages/DiamondItem.js";
 import AdminPage from "./pages/AdminPage.jsx";
 import SaleStaff from "./components/SaleStaff.jsx";
-
+import AddJewelry from "./components/AddJewelry.jsx";
+import AddDiamond from "./components/AddDiamond.jsx";
 function App() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
@@ -47,6 +48,8 @@ function App() {
             <Route path="/staff" element={<Staff />} />
             <Route path="/salestaff" element={<SaleStaff />} />
             <Route path="/adminPage" element={<AdminPage />} />
+            <Route path="/addjewelry" element={<AddJewelry />} />
+            <Route path="/adddiamond" element={<AddDiamond />} />
           </Routes>
           <LoginModal isOpen={isLoginModalOpen} onClose={toggleLoginModal} />
         </div>
