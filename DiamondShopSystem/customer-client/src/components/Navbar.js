@@ -7,6 +7,7 @@ import CartContext from './CartContext';
 import AuthService from './AuthService';
 import { useNavigate } from 'react-router-dom';
 import Location from './Location';
+import UserProfileOverlay from '../pages/UserProfileOverlay';
 
 function HoverImage({ defaultSrc }) {
     const hoverSrc = defaultSrc + "-hover";
@@ -27,6 +28,8 @@ function Navbar() {
     const [isSignUpModalOpen, setSignUpModalOpen] = useState(false);
     const [isCartOpen, setCartOpen] = useState(false);
     const [isLocationOpen, setLocationOpen] = useState(false);
+    const [isUserProfileOverlayOpen, setUserProfileOverlayOpen] = useState(false);
+
     const navigate = useNavigate();
     const { cart } = useContext(CartContext);
 
@@ -35,6 +38,7 @@ function Navbar() {
         setSignUpModalOpen(false);
         setCartOpen(false);
         setLocationOpen(false);
+        setUserProfileOverlayOpen(false);
     };
 
     const toggleSignUpModal = () => {
@@ -42,6 +46,7 @@ function Navbar() {
         setLoginModalOpen(false);
         setCartOpen(false);
         setLocationOpen(false);
+        setUserProfileOverlayOpen(false);
     };
 
     const toggleCartModal = () => {
@@ -49,6 +54,7 @@ function Navbar() {
         setLoginModalOpen(false);
         setSignUpModalOpen(false);
         setLocationOpen(false);
+        setUserProfileOverlayOpen(false);
     };
 
     const toggleLocation = () => {
@@ -56,6 +62,15 @@ function Navbar() {
         setLoginModalOpen(false);
         setSignUpModalOpen(false);
         setCartOpen(false);
+        setUserProfileOverlayOpen(false);
+    };
+
+    const toggleUserProfileOverlay = () => {
+        setUserProfileOverlayOpen(!isUserProfileOverlayOpen);
+        setLoginModalOpen(false);
+        setSignUpModalOpen(false);
+        setCartOpen(false);
+        setLocationOpen(false);
     };
 
     const handleLogout = () => {
@@ -109,28 +124,32 @@ function Navbar() {
                         </div>
                     ) : (
                         <>
-                            <Link to="/profile" className="cursor-pointer">
-                                Profile
-                            </Link>
+                            <div onClick={toggleUserProfileOverlay} className="cursor-pointer">
+                            <HoverImage defaultSrc="https://png.pngtree.com/png-clipart/20191120/original/pngtree-outline-user-icon-png-image_5045523.jpg" />
+                            </div>
                             <div onClick={handleLogout} className="cursor-pointer">
                                 Logout
                             </div>
                         </>
                     )}
                 </div>
-                <LoginModal 
-                    isOpen={isLoginModalOpen} 
-                    onClose={toggleLoginModal} 
-                    openSignUp={toggleSignUpModal} 
+                <LoginModal
+                    isOpen={isLoginModalOpen}
+                    onClose={toggleLoginModal}
+                    openSignUp={toggleSignUpModal}
                 />
-                <SignUpModal 
-                    isOpen={isSignUpModalOpen} 
-                    onClose={toggleSignUpModal} 
-                    openLogin={toggleLoginModal} 
+                <SignUpModal
+                    isOpen={isSignUpModalOpen}
+                    onClose={toggleSignUpModal}
+                    openLogin={toggleLoginModal}
                 />
-                <Cart 
+                <Cart
                     isOpen={isCartOpen}
-                    onClose={toggleCartModal} 
+                    onClose={toggleCartModal}
+                />
+                <UserProfileOverlay
+                    isOpen={isUserProfileOverlayOpen}
+                    onClose={toggleUserProfileOverlay}
                 />
             </div>
             {isLocationOpen && <Location onClose={toggleLocation} />}
