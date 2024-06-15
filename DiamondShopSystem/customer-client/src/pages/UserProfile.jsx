@@ -1,35 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import DeletePopUp from '../components/DeleteUser.jsx';
 import UpdateUser from '../components/UpdateUser.jsx';
+import ChangePassword from './ChangePassword.jsx';
 import Navbar from '../components/Navbar.js';
 import Footer from '../components/Footer.js';
-import AuthService from '../components/AuthService.js'; // Ensure this path is correct
+import AuthService from '../components/AuthService.js';
 
 function UserProfile() {
-  const [showDeletePopUp, setShowDeletePopUp] = useState(false);
   const [showUpdateUser, setShowUpdateUser] = useState(false);
+  const [showChangePassword, setShowChangePassword] = useState(false);
   const [profile, setProfile] = useState(null);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false); // State for success message
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const data = await AuthService.getProfile(token);
-        setProfile(data);
-      } catch (error) {
-        console.error('Failed to fetch profile:', error);
-      }
-    };
     fetchProfile();
   }, []);
 
-  const handleDeleteClick = () => {
-    const confirmDelete = window.confirm('Are you sure you want to delete your profile?');
-    if (confirmDelete) {
-      AuthService.deleteProfile()
-          .then(() => window.location.reload())
-          .catch(error => console.error('Failed to delete profile:', error));
+  const fetchProfile = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const data = await AuthService.getProfile(token);
+      setProfile(data);
+    } catch (error) {
+      console.error('Failed to fetch profile:', error);
     }
   };
 
@@ -37,80 +29,119 @@ function UserProfile() {
     setShowUpdateUser(true);
   };
 
-  const handleClosePopUp = () => {
-    setShowDeletePopUp(false);
+  const handleChangePasswordClick = () => {
+    setShowChangePassword(true);
   };
 
   const handleCloseUpdate = () => {
     setShowUpdateUser(false);
+    fetchProfile();
+  };
+
+  const handleCloseChangePassword = () => {
+    setShowChangePassword(false);
+    fetchProfile();
+  };
+
+  const handlePasswordChangeSuccess = () => {
+    setShowSuccessMessage(true);
+
+    setTimeout(() => {
+      setShowSuccessMessage(false);
+    }, 1000);
   };
 
   if (!profile) {
     return <div>Loading...</div>;
   }
 
-  const { fullName, email, address } = profile.staff || profile.customer;
+  const { fullName, email, address, username } = profile.customer;
+  const { registeredDate } = profile.customer;
 
   return (
-      <div className="flex flex-col bg-white">
-        <Navbar />
-        <div className="w-full min-h-[32px] max-md:max-w-full" />
-        <div className="flex flex-col self-center mt-20 w-full max-w-[1121px] max-md:mt-10 max-md:max-w-full">
-          <div className="text-4xl text-center text-black max-md:max-w-full">
-            YOUR PROFILE
-          </div>
-          <div className="mt-7 max-md:max-w-full">
-            <div className="flex gap-5 max-md:flex-col max-md:gap-0">
-              <div className="flex flex-col w-[27%] max-md:ml-0 max-md:w-full">
-                <img
-                    loading="lazy"
-                    srcSet="..."
-                    className="shrink-0 max-w-full aspect-square w-[200px] max-md:mt-10 max-sm:ml-20"
-                />
+    <section className="w-full overflow-hidden bg-white">
+      <Navbar />
+      <div className="flex flex-col">
+        <img
+          src="https://images.unsplash.com/photo-1607090788189-3f52e15141d2?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="User Cover"
+          className="w-full h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80 object-cover"
+        />
+
+        <div className="sm:w-4/5 xs:w-11/12 mx-auto flex">
+          <h1 className="w-full text-left my-8 sm:mx-4 xs:pl-4 text-gray-800 text-black lg:text-4xl md:text-3xl sm:text-3xl xs:text-xl font-serif">
+            {fullName}
+          </h1>
+        </div>
+
+        <div className="w-11/12 lg:w-4/5 mx-auto flex flex-col gap-4 items-center relative lg:-top-8 md:-top-6 sm:-top-4 xs:-top-4">
+          <div className="w-full my-auto py-6 flex flex-col justify-center gap-2">
+            <div className="w-full flex flex-col sm:flex-row gap-2 justify-center">
+              <div className="w-full">
+                <dl className="text-black divide-y divide-gray-200">
+                  <div className="flex flex-col py-3">
+                    <dt className="mb-1 text-gray-500 md:text-lg">Full Name</dt>
+                    <dd className="text-lg font-semibold">{fullName}</dd>
+                  </div>
+                  <div className="flex flex-col py-3">
+                    <dt className="mb-1 text-gray-500 md:text-lg">Username</dt>
+                    <dd className="text-lg font-semibold">{username}</dd>
+                  </div>
+                  <div className="flex flex-col pt-3">
+                    <dt className="mb-1 text-gray-500 md:text-lg">Email</dt>
+                    <dd className="text-lg font-semibold">{email}</dd>
+                  </div>
+                </dl>
               </div>
-              <div className="flex flex-col ml-5 w-[73%] max-md:ml-0 max-md:w-full">
-                <div className="flex flex-col grow mt-7 max-md:mt-10 max-md:max-w-full">
-                  <div className="text-4xl font-semibold text-black max-md:max-w-full">
-                    Name: <span className="font-light">{fullName}</span>
+              <div className="w-full">
+                <dl className="text-black divide-y divide-gray-200">
+                  <div className="flex flex-col pb-3">
+                    <dt className="mb-1 text-gray-500 md:text-lg">Address</dt>
+                    <dd className="text-lg font-semibold">{address}</dd>
                   </div>
-                  <div className="mt-14 text-4xl font-semibold text-black max-md:mt-10 max-md:max-w-full">
-                    Email: <span className="font-light">{email}</span>
+                  <div className="flex flex-col pt-3">
+                    <dt className="mb-1 text-gray-500 md:text-lg">Registered Date</dt>
+                    <dd className="text-lg font-semibold">{registeredDate}</dd>
                   </div>
-                  <div className="mt-12 text-4xl font-semibold text-black max-md:mt-10 max-md:max-w-full">
-                    Address: <span className="font-light">{address}</span>
-                  </div>
-                  <div className="flex gap-5 justify-between items-start mt-12 max-w-full w-[332px] max-md:mt-10">
-                    <button
-                        className="px-4 py-2 bg-[#EFEBE8] text-black rounded max-md:mt-10"
-                        onClick={handleUpdateClick}
-                    >
-                      Update Profile
-                    </button>
-                    <button
-                        className="px-4 py-2 bg-[#EFEBE8] text-black rounded max-md:mt-10"
-                        onClick={handleDeleteClick}
-                    >
-                      Delete Profile
-                    </button>
-                  </div>
-                  {showUpdateUser && (
-                      <UpdateUser onClose={handleCloseUpdate} />
-                  )}
-                  {showDeletePopUp && (
-                      <DeletePopUp onClose={handleClosePopUp} />
-                  )}
-                </div>
+                </dl>
               </div>
             </div>
           </div>
+          <div className="flex justify-start gap-4 mt-4 w-full">
+            <button
+              onClick={handleUpdateClick}
+              className="px-6 py-2 font-semibold text-white bg-black rounded-lg hover:bg-gray-800"
+            >
+              Update Profile
+            </button>
+            <button
+              onClick={handleChangePasswordClick}
+              className="px-6 py-2 font-semibold text-white bg-black rounded-lg hover:bg-gray-800"
+            >
+              Change Password
+            </button>
+          </div>
         </div>
-        <Footer />
       </div>
+      <Footer />
+
+      {showUpdateUser && (
+        <UpdateUser onClose={handleCloseUpdate} profile={profile} />
+      )}
+
+      {showChangePassword && (
+        <ChangePassword onClose={() => { handleCloseChangePassword(); handlePasswordChangeSuccess(); }} profile={profile}/>
+      )}
+
+      {showSuccessMessage && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="bg-white border border-gray-300 p-4 rounded-lg shadow-md">
+            <p className="text-green-500 text-lg font-semibold">Password changed successfully!</p>
+          </div>
+        </div>
+      )}
+    </section>
   );
 }
-
-UserProfile.propTypes = {
-  onClose: PropTypes.func,
-};
 
 export default UserProfile;

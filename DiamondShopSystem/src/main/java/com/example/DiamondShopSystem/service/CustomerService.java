@@ -3,12 +3,16 @@ package com.example.DiamondShopSystem.service;
 import com.example.DiamondShopSystem.repository.CustomerRepository;
 import com.example.DiamondShopSystem.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CustomerService {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -32,14 +36,16 @@ public class CustomerService {
                     customer.setFullName(newCustomer.getFullName());
                     customer.setEmail(newCustomer.getEmail());
                     customer.setAddress(newCustomer.getAddress());
-                    customer.setRegisteredDate(newCustomer.getRegisteredDate());
-                    customer.setUsername(newCustomer.getUsername());
-                    customer.setPassword(newCustomer.getPassword());
                     return customerRepository.save(customer);
-                }).orElseGet(() -> {
-                    newCustomer.setUserId(id);
-                    return customerRepository.save(newCustomer);
-                });
+                }).orElseThrow(() -> new RuntimeException("Customer not found"));
+    }
+
+    public Customer changeUserPassword(Long id, Customer newCustomer){
+        return customerRepository.findById(id)
+                .map(customer -> {
+                    customer.setPassword(passwordEncoder.encode(newCustomer.getPassword()));
+                    return customerRepository.save(customer);
+                }).orElseThrow(() -> new RuntimeException("Customer not found"));
     }
 
     public void deleteUser(Long id) {
