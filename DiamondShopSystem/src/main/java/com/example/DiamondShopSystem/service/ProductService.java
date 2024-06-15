@@ -1,9 +1,16 @@
 package com.example.DiamondShopSystem.service;
 
+import com.example.DiamondShopSystem.dto.JewelryDTO;
+import com.example.DiamondShopSystem.model.Diamond;
+import com.example.DiamondShopSystem.model.Jewelry;
 import com.example.DiamondShopSystem.model.Product;
 import com.example.DiamondShopSystem.model.ProductDetails;
+import com.example.DiamondShopSystem.repository.DiamondRepository;
+import com.example.DiamondShopSystem.repository.JewelryRepository;
 import com.example.DiamondShopSystem.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +18,26 @@ import java.util.Optional;
 
 @Service
 public class ProductService {
+    private final int size = 8;
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private JewelryRepository jewelryRepository;
+
+    @Autowired
+    private DiamondRepository diamondRepository;
+    public Product createProductForJewelry(Jewelry jewelry) {
+        Product product = new Product();
+        product.setJewelry(jewelry);
+        return productRepository.save(product);
+    }
+
+    public Product createProductForDiamond(Diamond diamond) {
+        Product product = new Product();
+        product.setDiamond(diamond);
+        return productRepository.save(product);
+    }
     public List<Product> findAllProducts() {
         return productRepository.findAll();
     }
@@ -62,9 +86,6 @@ public class ProductService {
             details.setDiamondColor(product.getDiamond().getColor().getColorDescription());
             details.setDiamondCut(product.getDiamond().getCut().getCutDescription());
             details.setDiamondClarity(product.getDiamond().getClarity().getClarityDescription());
-            details.setDiamondPolish(product.getDiamond().getPolish().getPolishDescription());
-            details.setDiamondSymmetry(product.getDiamond().getSymmetry().getSymmetryDescription());
-            details.setDiamondFluorescence(product.getDiamond().getFluorescence().getFluorescenceDescription());
             details.setDiamondGiaId(product.getDiamond().getGia().toString());
             details.setDiamondPrice(product.getDiamond().getPrice());
             details.setDiamondImage(product.getDiamond().getImg());
@@ -77,9 +98,16 @@ public class ProductService {
             details.setJewelryPrice(product.getJewelry().getPrice());
             details.setJewelryMaterial(product.getJewelry().getMaterial().getMaterialName());
             details.setJewelryCategory(product.getJewelry().getCategory().getCategoryName());
-            details.setJewelryGemstone(product.getJewelry().getGemstone().getGemstoneName());
             details.setJewelrySize(product.getJewelry().getSize().toString());
         }
         return details;
+    }
+
+//    public List<JewelryDTO> getAllJewelryDTOs() {
+//        return productRepository.findAllJewelryDTOs();
+//    }
+
+    public Page<JewelryDTO> getAllJewelryDTOs(int page) {
+        return productRepository.findAllJewelryDTOs(PageRequest.of(page, size));
     }
 }
