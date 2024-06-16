@@ -65,26 +65,26 @@ const Slider = () => {
 
   return (
     <>
-      <div className="sliderAx h-auto">
+      <div className="sliderAx h-screen">
         <div id="slider-1" className="container mx-auto">
           <div
-            className="bg-cover bg-center h-auto text-white py-24 px-10 object-fill"
+            className="bg-cover bg-center h-auto text-white py-64 px-10 object-fill"
             style={{
               backgroundImage:
-                "url(https://images.unsplash.com/photo-1544427920-c49ccfb85579?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1422&q=80)",
+                "url(https://jewelry.ge/assets/%E1%83%A5%E1%83%90%E1%83%95%E1%83%94%E1%83%A0%E1%83%94%E1%83%91%E1%83%98/%E1%83%96%E1%83%9D%E1%83%9B%E1%83%90%E1%83%A8%E1%83%94%E1%83%AA%E1%83%95%E1%83%9A%E1%83%98%E1%83%9A%E1%83%98/1_1_1.jpg)",
             }}
           >
             <div className="md:w-1/2">
-              <p className="font-bold text-sm uppercase">Services</p>
-              <p className="text-3xl font-bold">Hello world</p>
+              {/* <p className="font-bold text-sm uppercase">Services</p> */}
+              <p className="text-3xl font-bold">Summer has arrived.</p>
               <p className="text-2xl mb-10 leading-none">
-                Carousel with TailwindCSS and jQuery
+                Shop for our new releases starting today.
               </p>
               <a
                 href="#"
-                className="bg-purple-800 py-4 px-8 text-white font-bold uppercase text-xs rounded hover:bg-gray-200 hover:text-gray-800"
+                className="border border-collapse border-white py-4 px-8 text-white font-bold uppercase text-xs rounded hover:bg-gray-200 hover:text-gray-800"
               >
-                Contact us
+                SHOP NOW
               </a>
             </div>
           </div>
@@ -92,22 +92,21 @@ const Slider = () => {
         </div>
         <div id="slider-2" className="container mx-auto">
           <div
-            className="bg-cover bg-top h-auto text-white py-24 px-10 object-fill"
+            className="bg-cover bg-top h-auto text-white py-64 px-10 object-fill"
             style={{
               backgroundImage:
-                "url(https://images.unsplash.com/photo-1544144433-d50aff500b91?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80)",
+                "url(https://i.pinimg.com/originals/88/d7/17/88d7179b77df5a3d9ca76c8d079adba0.jpg)",
             }}
           >
-            <p className="font-bold text-sm uppercase">Services</p>
-            <p className="text-3xl font-bold">Hello world</p>
-            <p className="text-2xl mb-10 leading-none">
-              Carousel with TailwindCSS and jQuery
-            </p>
+              <p className="text-3xl font-bold">Summer has arrived.</p>
+              <p className="text-2xl mb-10 leading-none">
+                Shop for our new releases starting today.
+              </p>
             <a
               href="#"
-              className="bg-purple-800 py-4 px-8 text-white font-bold uppercase text-xs rounded hover:bg-gray-200 hover:text-gray-800"
+              className="border border-collapse border-white py-4 px-8 text-white font-bold uppercase text-xs rounded hover:bg-gray-200 hover:text-gray-800"
             >
-              Contact us
+              SHOP NOW
             </a>
           </div>
           <br />

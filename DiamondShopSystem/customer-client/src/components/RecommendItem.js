@@ -40,7 +40,7 @@ const RecommendItem = ({ currentItemId }) => {
                     <div className="flex flex-col justify-center py-3 px-4 bg-white bg-opacity-0 text-zinc-800">
                         <img
                             loading="lazy"
-                            src={`/img/jewelry/${item.img}`}
+                            src={`${item.img}`}
                             alt={item.name}
                             className="w-64 h-64 object-cover mx-auto"
                         />

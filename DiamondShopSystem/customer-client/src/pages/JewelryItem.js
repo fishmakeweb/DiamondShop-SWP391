@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar';
+import NewNavbar from '../components/NewNavbar.js';
 import Footer from '../components/Footer';
 import RecommendItem from '../components/RecommendItem';
 import axios from '../axios.js';
@@ -85,7 +85,7 @@ function JewelryItemData({ data }) {
 }
 
 function JewelryItem() {
-  const { jewelryId } = useParams();
+  const { productId } = useParams();
   const [itemDetails, setItemDetails] = useState(null);
   const { addToCart } = useContext(CartContext);
   const [buttonText, setButtonText] = useState('ADD TO BAG');
@@ -98,23 +98,22 @@ function JewelryItem() {
         }, 1500);
       }
   useEffect(() => {
-    axios.get(`/jewelry/${jewelryId}`)
-      .then(response => setItemDetails(response.data))
+    axios.get(`/products/${productId}`)
+      .then(response => setItemDetails(response.data.jewelry))
       .catch(error => console.error('Error fetching jewelry details:', error));
-  }, [jewelryId]);
+  }, [productId]);
 
   if (!itemDetails) return <div>Loading...</div>;
 
   return (
     <div className="flex flex-col bg-white">
-      <div className="h-24 w-full"></div>
-      <Navbar />
+      <NewNavbar />
       <div className="self-center mt-20 w-full max-w-[1214px] max-md:mt-10 max-md:max-w-full">
         <div className="flex gap-5 max-md:flex-col max-md:gap-0">
           <div className="flex flex-col w-2/5 max-md:ml-0 max-md:w-full">
             <img
               loading="lazy"
-              src={`https://diamond-shop-swp-391.vercel.app/img/jewelry/${itemDetails.img}`}
+              src={`${itemDetails.img}`}
               alt={itemDetails.name}
               className="mt-20 w-80 h-80 object-cover mx-auto"
             />
