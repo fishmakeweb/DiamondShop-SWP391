@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const NewNavbar = () => {
   return (
@@ -47,22 +48,22 @@ const NewNavbar = () => {
                   <p className="text-sm leading-5">HOME</p>
                 </div>
                 <div className="py-1">
-                  <a
+                  <Link to="/diamonds"
                     href="javascript:void(0)"
                     tabIndex={0}
                     className="text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left font-semibold"
                     role="menuitem"
                   >
                     Diamond
-                  </a>
-                  <a
+                  </Link>
+                  <Link to="/jewelry/page/1"
                     href="javascript:void(0)"
                     tabIndex={1}
                     className="text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left font-semibold"
                     role="menuitem"
                   >
                     Jewelry
-                  </a>
+                  </Link>
                   <a
                     href="javascript:void(0)"
                     tabIndex={2}
@@ -91,22 +92,20 @@ const NewNavbar = () => {
         <div className="inline-flex">
           <a className="_o6689fn" href="/">
             <div className="md:flex custom-hide">
-              <a
+              <Link to="/diamonds"
                 className="inline-block py-2 px-3 hover:bg-gray-200 rounded-full font-semibold"
-                href="#"
               >
                 <div className="flex items-center relative cursor-pointer whitespace-nowrap">
                   Diamond
                 </div>
-              </a>
-              <a
+              </Link>
+              <Link to="/jewelry/page/1"
                 className="inline-block py-2 px-3 hover:bg-gray-200 rounded-full font-semibold"
-                href="#"
               >
                 <div className="flex items-center relative cursor-pointer whitespace-nowrap">
                   Jewelry
                 </div>
-              </a>
+              </Link>
               <a
                 className="inline-block py-2 px-3 hover:bg-gray-200 rounded-full font-semibold"
                 href="#"
@@ -123,12 +122,11 @@ const NewNavbar = () => {
         <div className="hidden sm:block flex-shrink flex-grow-0 justify-start px-2">
           <div className="inline-block">
             <div className="inline-flex items-center max-w-full">
-              <a
-                href="#"
+              <Link to="/"
                 className="flex items-center pb-4 border-b border-b-gray-400 md:block custom-hide"
               >
                 <h2 className="font-bold text-2xl">H E P H A E S T U S</h2>
-              </a>
+              </Link>
             </div>
           </div>
         </div>

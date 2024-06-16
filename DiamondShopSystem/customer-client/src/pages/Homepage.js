@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
-import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar';
+// import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
+import NewNavbar from "../components/NewNavbar";
+import Slider from "../components/Slider";
 
 function Homepage() {
   useEffect(() => {
@@ -9,29 +10,8 @@ function Homepage() {
   }, []);
   return (
     <div className="flex flex-col bg-white">
-      <div className="h-24 w-full"></div>
-      <div className="flex overflow-hidden relative flex-col items-start p-20 -mt-3 w-full shadow-sm min-h-[856px] max-md:px-5 max-md:max-w-full">
-        <img
-          loading="lazy"
-          srcSet="https://ap-south-1.linodeobjects.com/diamondshop-img/1718343911373_background-homepage.jpg"
-          alt="Background"
-          className="object-cover absolute inset-0 size-full z-0"
-        />
-
-        <div className="relative mt-80 ml-4 z-0 max-md:mt-10 max-md:max-w-full">
-          <h1 className="text-7xl text-center text-yellow-300 max-md:text-4xl">
-            the summer collection
-          </h1>
-          <p className="mt-7 text-2xl text-black font-[324]">
-            Summer has arrived.<br />
-            Shop for our new releases starting today.
-          </p>
-          <Link to="/jewelry" className="mt-5 text-xl text-center cursor-pointer hover:bg-white hover:text-black transition duration-300 ease-in-out p-2 border border-black border-solid inline-block w-52" style={{ width: '210px' }}>  {/* 210px width explicitly set */}
-            SHOP NOW
-          </Link>
-        </div>
-      </div>
-      <Navbar />
+            <NewNavbar />
+            <Slider />
       <div className="self-center mt-11 text-4xl text-center text-black max-md:mt-10">
         Shop by category
       </div>

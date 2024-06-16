@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../components/Navbar.js";
-import Footer from "../components/Footer.js";
+import NewNavbar from "../components/NewNavbar.js";
 import DiamondList from "../components/DiamondList";
 import axios from '../axios.js';
 import '../style/Diamond.css'; 
@@ -92,8 +91,9 @@ function Diamond() {
   }
 
   return (
+    
     <div className="flex overflow-hidden flex-col items-center pb-20 bg-white z-0">
-      <div className="self-stretch w-full bg-black min-h-[32px] max-md:max-w-full" />
+            <NewNavbar />
       <div className="mt-36 text-4xl text-center text-black max-md:mt-10">
         Diamond
       </div>
@@ -229,8 +229,6 @@ function Diamond() {
 
         <DiamondList items={filteredDiamonds} />
       </div>
-      <Navbar />
-      <Footer />
     </div>
   );
 }

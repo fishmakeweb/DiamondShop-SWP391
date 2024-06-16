@@ -1,53 +1,63 @@
-import React, { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import JewelryList from "../components/JewelryList";
-import axios from "../axios.js";
+import React, {useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { Link } from 'react-router-dom';
+import SortBar from "../components/sortbar";
+import Pagination from "../components/Pagination";
+import NewNavbar from "../components/NewNavbar";
 
-function Jewelry() {
-  const [jewelryItems, setJewelryItems] = useState([]);
-  const [priceRange, setPriceRange] = useState("");
-  const [filteredJewelry, setFilteredJewelry] = useState([]);
-  const [categories, setCategories] = useState("");
+
+
+export default function Jewelry() {
+  const { page_number } = useParams(); // Get page_number from URL
+  const navigate = useNavigate();
+  const [items, setItems] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalElements, setTotalElements] = useState();
 
   useEffect(() => {
+    const pageNumber = parseInt(page_number, 10) || 1;
     axios
-      .get("http://localhost:8080/api/jewelry")
-      .then((response) => {
-        setJewelryItems(response.data);
-        setFilteredJewelry(response.data);
+      .get(`http://localhost:8080/api/products/jewelry/${pageNumber}`)
+      .then(response => {
+        setItems(response.data.content);
+        setTotalPages(response.data.totalPages);
+        setTotalElements(response.data.totalElements);
+        console.log(response);
       })
-      .catch((error) => console.error("Error fetching jewelry data:", error));
-  }, []);
 
-  useEffect(() => {
-    let filtered = jewelryItems;
+      .catch(error => console.error("Error fetching jewelry data:", error));
+  }, [page_number]);
 
-    if (priceRange) {
-      const [from, to] = priceRange.split("-").map(Number);
-      if (!isNaN(to)) {
-        filtered = jewelryItems.filter(
-          (jewelry) =>
-            jewelry.price >= parseFloat(from) && jewelry.price <= parseFloat(to)
-        );
-      }
-    }
-    setFilteredJewelry(filtered);
-  }, [priceRange, jewelryItems]);
+  const handlePageChange = (newPage) => {
+    navigate(`/jewelry/page/${newPage}`); // Update URL when page changes
+  };
 
   return (
-    <div className="flex flex-col bg-white">
-      <div className="h-24 w-full"></div>
-      <Navbar />
-
-      <div className="self-center mt-16 text-4xl text-center text-black">
-        Jewelry
-      </div>
-
-      <JewelryList items={filteredJewelry} />
-      <Footer />
+    <div className="bg-white">
+      <NewNavbar/>
+      <h1 className="self-center mt-32 mb-32 text-4xl text-center text-black">Jewelry</h1>
+      <SortBar />
+      <section className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5">
+        {items.map((item) => (
+          <div key={item.productId} className="w-72 bg-white rounded-xl hover:shadow-md duration-500">
+            <Link to={`/jewelry/${item.productId}`}>
+              <img
+                src={`${item.img}`}
+                alt={item.name}
+                className="w-64 h-64 mt-2 mb-2 object-cover mx-auto"
+              />
+              <div className="px-4 py-3">
+                <p className="text-darkgray text-sm font-normal truncate capitalize">{item.name}</p>
+                <div className="flex items-center">
+                  <p className="text-lightgray text-sm font-normal my-3">${item.price}</p>
+                </div>
+              </div>
+            </Link>
+          </div>
+        ))}
+      </section>
+      <Pagination totalPages={totalPages} currentPage={parseInt(page_number, 10) || 1} onPageChange={handlePageChange} />
     </div>
   );
 }
-
-export default Jewelry;
