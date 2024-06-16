@@ -112,6 +112,7 @@ public class ProductService {
         List<Product> products = productRepository.findAllByOrderByProductIdAsc();
 
         List<JewelryDTO> jewelryDTOS = products.stream()
+                .filter(product -> product.getJewelry() != null)
                 .skip((long) (page - 1) * size)
                 .limit(size)
                 .map(product -> new JewelryDTO(
@@ -119,7 +120,8 @@ public class ProductService {
                         product.getJewelry().getJewelryId(),
                         product.getJewelry().getName(),
                         product.getJewelry().getPrice(),
-                        product.getJewelry().getImg()
+                        product.getJewelry().getImg(),
+                        product.getJewelry().getQuantity()
                 ))
                 .collect(Collectors.toList());
 

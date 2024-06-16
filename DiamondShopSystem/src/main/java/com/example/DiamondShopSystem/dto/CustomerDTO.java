@@ -1,7 +1,5 @@
 package com.example.DiamondShopSystem.dto;
 
-import com.example.DiamondShopSystem.model.Cart;
-
 import java.sql.Date;
 
 public class CustomerDTO {
@@ -12,7 +10,6 @@ public class CustomerDTO {
     private String password;
     private String address;
     private Date registeredDate;
-    private Cart cart;
     // Getters and setters
     public Long getUserId() {
         return userId;
@@ -70,11 +67,4 @@ public class CustomerDTO {
         this.registeredDate = registeredDate;
     }
 
-    public Cart getCart() {
-        return cart;
-    }
-
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
 }

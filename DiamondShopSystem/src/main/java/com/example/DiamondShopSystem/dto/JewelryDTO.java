@@ -6,14 +6,16 @@ public class JewelryDTO {
     private String name;
     private float price;
     private String img;
+    private int quantity;
 
     // Constructor
-    public JewelryDTO(Long productId, Long jewelryId, String name, float price, String img) {
+    public JewelryDTO(Long productId, Long jewelryId, String name, float price, String img, int quantity) {
         this.productId = productId;
         this.jewelryId = jewelryId;
         this.name = name;
         this.price = price;
         this.img = img;
+        this.quantity = quantity;
     }
 
     // Getters and Setters
@@ -55,5 +57,13 @@ public class JewelryDTO {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

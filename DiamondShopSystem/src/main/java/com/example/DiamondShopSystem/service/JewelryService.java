@@ -1,14 +1,8 @@
 package com.example.DiamondShopSystem.service;
 
 import com.example.DiamondShopSystem.dto.AllDataDTO;
-import com.example.DiamondShopSystem.model.Category;
-import com.example.DiamondShopSystem.model.Jewelry;
-import com.example.DiamondShopSystem.model.Material;
-import com.example.DiamondShopSystem.model.Size;
-import com.example.DiamondShopSystem.repository.CategoryRepository;
-import com.example.DiamondShopSystem.repository.JewelryRepository;
-import com.example.DiamondShopSystem.repository.MaterialRepository;
-import com.example.DiamondShopSystem.repository.SizeRepository;
+import com.example.DiamondShopSystem.model.*;
+import com.example.DiamondShopSystem.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,6 +27,12 @@ public class JewelryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private DiamondRepository diamondRepository;
+
+    @Autowired
+    private ProductService productService;
+
     public AllDataDTO getAllData() {
         List<Category> categories = categoryRepository.findAll();
         List<Material> materials = materialRepository.findAll();
@@ -41,8 +41,6 @@ public class JewelryService {
         return new AllDataDTO(categories, materials, sizes);
     }
 
-    @Autowired
-    private ProductService productService;
     public List<Jewelry> findAllJewelry() {
         return jewelryRepository.findAll();
     }
@@ -57,6 +55,10 @@ public class JewelryService {
     }
 
     public Jewelry saveJewelry(Jewelry jewelry) {
+        if (jewelry.getDiamond() != null) {
+            Optional<Diamond> diamond = diamondRepository.findById(jewelry.getDiamond().getDiamondId());
+            diamond.ifPresent(jewelry::setDiamond);
+        }
         Jewelry savedJewelry = jewelryRepository.save(jewelry);
         productService.createProductForJewelry(savedJewelry);
         return savedJewelry;
@@ -93,10 +95,10 @@ public class JewelryService {
                 .filter(jewelry -> jewelry.getPrice() >= minPrice && jewelry.getPrice() <= maxPrice)
                 .collect(Collectors.toList());
     }
-    public Page<Jewelry> getJewelryPage(int page) {
-        Pageable pageable = PageRequest.of(page, 8, Sort.by("price"));
-        return jewelryRepository.findAll(pageable);
-    }
+//    public Page<Jewelry> getJewelryPage(int page, int size) {
+//        Pageable pageable = PageRequest.of(page, size);
+//        return jewelryRepository.findAll(pageable);
+//    }
 
 }
 
