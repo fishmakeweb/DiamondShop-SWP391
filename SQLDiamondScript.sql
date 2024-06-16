@@ -154,6 +154,7 @@ CREATE TABLE IF NOT EXISTS `order`(
     FOREIGN KEY (user_id) REFERENCES customer(user_id)
     );
 -- ORDER DETAIL TABLE
+
 CREATE TABLE IF NOT EXISTS order_detail(
     product_id BIGINT,
     order_id BIGINT,
