@@ -26,8 +26,11 @@ public class OrderController {
 
     @PostMapping
     public Order createOrder(@RequestBody Order order) {
-        return orderService.saveOrder(order);
+        return orderService.createOrder(order);
     }
+
+    @PostMapping ("/checkOut/{id}")
+    public Order saveOrder(@RequestBody Order order) { return  orderService.saveOrderOnCheckOut(order); }
 
     @DeleteMapping("/{id}")
     public void deleteOrder(@PathVariable Long id) {

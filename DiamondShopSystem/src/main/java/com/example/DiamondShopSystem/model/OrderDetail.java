@@ -1,7 +1,6 @@
 package com.example.DiamondShopSystem.model;
 
 import jakarta.persistence.*;
-
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -9,6 +8,7 @@ import java.util.Objects;
 @Table(name = "OrderDetail")
 @IdClass(OrderDetail.OrderDetailId.class)
 public class OrderDetail {
+
     @Id
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -19,7 +19,14 @@ public class OrderDetail {
     @JoinColumn(name = "order_id")
     private Order order;
 
+    @Column(nullable = false)
+    private int quantity;
+
+    @Column(nullable = false)
+    private int unitPrice;
+
     // Getters and Setters
+
     public Product getProduct() {
         return product;
     }
@@ -36,6 +43,22 @@ public class OrderDetail {
         this.order = order;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(int unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
     // Composite key class
     public static class OrderDetailId implements Serializable {
         private Long product;
@@ -43,19 +66,24 @@ public class OrderDetail {
 
         public OrderDetailId() {
         }
+
         public OrderDetailId(Long product, Long order) {
             this.product = product;
             this.order = order;
         }
+
         public Long getProduct() {
             return product;
         }
+
         public void setProduct(Long product) {
             this.product = product;
         }
+
         public Long getOrder() {
             return order;
         }
+
         public void setOrder(Long order) {
             this.order = order;
         }
