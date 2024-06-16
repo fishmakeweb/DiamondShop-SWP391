@@ -5,10 +5,9 @@ import com.example.DiamondShopSystem.dto.CustomerDTO;
 import com.example.DiamondShopSystem.dto.ReqRes;
 import com.example.DiamondShopSystem.dto.RoleDTO;
 import com.example.DiamondShopSystem.dto.StaffDTO;
-import com.example.DiamondShopSystem.model.Customer;
-import com.example.DiamondShopSystem.model.Role;
-import com.example.DiamondShopSystem.model.Staff;
+import com.example.DiamondShopSystem.model.*;
 import com.example.DiamondShopSystem.repository.CustomerRepository;
+import com.example.DiamondShopSystem.repository.OrderRepository;
 import com.example.DiamondShopSystem.repository.RoleRepository;
 import com.example.DiamondShopSystem.repository.StaffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +46,8 @@ public class AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private OrderRepository orderRepository;
 
     public ReqRes registerStaff(ReqRes registrationRequest) {
         ReqRes resp = new ReqRes();
@@ -109,9 +110,22 @@ public class AuthService {
             Customer customerResult = customerRepository.save(customer);
 
             if (customerResult.getUserId() > 0) {
+                // Create an Order for the registered customer, but do not set orderDate yet
+                Order order = new Order();
+                order.setCustomer(customerResult);
+
+                // Set the default order status to 1
+                OrderStatus defaultOrderStatus = new OrderStatus();
+                defaultOrderStatus.setStatusId(1L); // Assuming statusId 1 is the default status
+                order.setOrderStatus(defaultOrderStatus);
+
+                order.setTotalPrice(0); // Set initial total price, if required
+
+                orderRepository.save(order);
+
                 CustomerDTO customerDTO = convertToCustomerDTO(customerResult);
                 resp.setCustomer(customerDTO);
-                resp.setMessage("Customer Saved Successfully");
+                resp.setMessage("Customer and Order Saved Successfully");
                 resp.setStatusCode(200);
             }
         } catch (Exception e) {
@@ -122,6 +136,8 @@ public class AuthService {
 
         return resp;
     }
+
+
 
     private boolean isUsernameExists(String username) {
         return staffRepository.findByUsername(username).isPresent() || customerRepository.findByUsername(username).isPresent();

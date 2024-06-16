@@ -15,7 +15,7 @@ public class Order {
     @JoinColumn(name = "user_id", nullable = false)
     private Customer customer;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     @Temporal(TemporalType.DATE)
     private Date orderDate;
 
