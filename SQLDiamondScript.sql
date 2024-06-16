@@ -156,9 +156,9 @@ CREATE TABLE IF NOT EXISTS orderprocess(
 );
 -- ORDER DETAIL TABLE
 CREATE TABLE IF NOT EXISTS orderdetail(
+	orderdetail_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     product_id BIGINT,
     order_id BIGINT,
-    PRIMARY KEY (product_id, order_id),
     FOREIGN KEY (product_id) REFERENCES product(product_id),
     FOREIGN KEY (order_id) REFERENCES `order`(order_id)
     );

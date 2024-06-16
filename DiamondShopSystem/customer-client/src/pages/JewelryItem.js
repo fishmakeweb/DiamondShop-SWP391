@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import NewNavbar from '../components/NewNavbar.js';
-import Footer from '../components/Footer';
-import RecommendItem from '../components/RecommendItem';
-import axios from '../axios.js';
-import CartContext from '../components/CartContext.js';
-
+import React, { useEffect, useState, useContext } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import NewNavbar from "../components/NewNavbar.js";
+import Footer from "../components/Footer";
+import RecommendItem from "../components/RecommendItem";
+import axios from "../axios.js";
+import CartContext from "../components/CartContext.js";
+import AuthService from "../components/AuthService.js";
 const Item = () => {
   let navigate = useNavigate();
   return (
@@ -53,7 +53,9 @@ function JewelryDetails({ jewelry }) {
           {jewelry.size && jewelry.size.sizeNumber && jewelry.size.unit && (
             <tr>
               <th>Size:</th>
-              <td>{jewelry.size.sizeNumber} ({jewelry.size.unit})</td>
+              <td>
+                {jewelry.size.sizeNumber} ({jewelry.size.unit})
+              </td>
             </tr>
           )}
         </tbody>
@@ -88,19 +90,35 @@ function JewelryItem() {
   const { productId } = useParams();
   const [itemDetails, setItemDetails] = useState(null);
   const { addToCart } = useContext(CartContext);
-  const [buttonText, setButtonText] = useState('ADD TO BAG');
- 
-    const handleClick = () => {
-        setButtonText('ADDED');
- 
-        setTimeout(() => {
-            setButtonText('ADD TO BAG');
-        }, 1500);
-      }
+  const [buttonText, setButtonText] = useState("ADD TO BAG");
+  const [userId, setUserId] = useState();
   useEffect(() => {
-    axios.get(`/products/${productId}`)
-      .then(response => setItemDetails(response.data.jewelry))
-      .catch(error => console.error('Error fetching jewelry details:', error));
+    const userIdFromService = AuthService.getUserId();
+    if (userIdFromService) {
+      setUserId(userIdFromService);
+    } else {
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+      if (storedUser) {
+        setUserId(storedUser.userId);
+      }
+    }
+  }, []);
+
+  const handleClick = () => {
+    axios
+      .post(`/order_details/addProductToOrder`, { productId, userId })
+      .then(() => {
+        setButtonText("ADDED");
+      });
+  };
+
+  useEffect(() => {
+    axios
+      .get(`/products/${productId}`)
+      .then((response) => setItemDetails(response.data.jewelry))
+      .catch((error) =>
+        console.error("Error fetching jewelry details:", error)
+      );
   }, [productId]);
 
   if (!itemDetails) return <div>Loading...</div>;
@@ -122,7 +140,9 @@ function JewelryItem() {
             <div className="flex flex-col px-5 mt-10 max-md:mt-10 max-md:max-w-full">
               <div className="flex gap-5 justify-between max-md:flex-wrap max-md:max-w-full">
                 <div className="flex flex-col">
-                  <div className="text-base hover:text-custom-brown text-neutral-600"><Item /></div>
+                  <div className="text-base hover:text-custom-brown text-neutral-600">
+                    <Item />
+                  </div>
                   <div className="mt-11 text-4xl text-black max-md:mt-10">
                     {itemDetails.name}
                   </div>
@@ -149,7 +169,8 @@ function JewelryItem() {
                 onClick={() => {
                   addToCart(itemDetails);
                   handleClick();
-                }}>
+                }}
+              >
                 {buttonText}
               </button>
               <JewelryItemData data={itemDetails} />

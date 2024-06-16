@@ -25,6 +25,8 @@ public class OrderDetail {
     @Column(nullable = false)
     private int unitPrice;
 
+    // Getters and Setters
+
     public Product getProduct() {
         return product;
     }

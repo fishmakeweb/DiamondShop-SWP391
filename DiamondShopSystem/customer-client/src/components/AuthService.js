@@ -2,7 +2,7 @@ import axios from "axios";
 
 class AuthService {
   static BASE_URL = "http://localhost:8080/api/auth";
-
+  static USER_ID = null;
   static async login(username, password) {
     try {
       const response = await axios.post(`${this.BASE_URL}/login`, {
@@ -10,6 +10,7 @@ class AuthService {
         password,
       });
       const { token, refreshToken, staff, customer } = response.data;
+      this.USER_ID = customer ? customer.userId : null; // Store userId in the static variable
       if (token != null) {
         localStorage.setItem("token", token);
         localStorage.setItem("refreshToken", refreshToken);
@@ -25,6 +26,10 @@ class AuthService {
     } catch (error) {
       throw error;
     }
+  }
+
+  static getUserId() {
+    return this.USER_ID;
   }
 
   static async registerCustomer(userData) {
