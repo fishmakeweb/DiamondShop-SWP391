@@ -23,7 +23,7 @@ public class OrderDetail {
     private int quantity;
 
     @Column(nullable = false)
-    private int unitPrice;
+    private float unitPrice;
 
     // Getters and Setters
 
@@ -51,11 +51,11 @@ public class OrderDetail {
         this.quantity = quantity;
     }
 
-    public int getUnitPrice() {
+    public float getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(int unitPrice) {
+    public void setUnitPrice(float unitPrice) {
         this.unitPrice = unitPrice;
     }
 
