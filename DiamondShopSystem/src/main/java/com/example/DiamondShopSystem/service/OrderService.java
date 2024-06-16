@@ -1,6 +1,10 @@
 package com.example.DiamondShopSystem.service;
 
+import com.example.DiamondShopSystem.model.Customer;
 import com.example.DiamondShopSystem.model.Order;
+import com.example.DiamondShopSystem.model.OrderDetail;
+import com.example.DiamondShopSystem.repository.CustomerRepository;
+import com.example.DiamondShopSystem.repository.OrderDetailRepository;
 import com.example.DiamondShopSystem.repository.OrderRepository;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +17,8 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private OrderDetailRepository orderDetailRepository;
     public List<Order> findAllOrders() {
         return orderRepository.findAll();
     }
@@ -35,4 +41,21 @@ public class OrderService {
     public void deleteOrder(Long id) {
         orderRepository.deleteById(id);
     }
+
+    @Autowired
+    CustomerRepository customerRepository;
+
+    @Autowired
+    private JWTUtils jwtUtils;
+
+    public List<OrderDetail> getCartByUserId(Long userId) {
+        Order order = orderRepository.findByCustomerUserIdAndOrderStatusStatusId(userId, 1L);
+
+        if (order == null) {
+            throw new RuntimeException("No active cart found for user");
+        }
+
+        return orderDetailRepository.findByOrderOrderId(order.getOrderId());
+    }
+
 }

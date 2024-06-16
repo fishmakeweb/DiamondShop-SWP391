@@ -1,6 +1,7 @@
 package com.example.DiamondShopSystem.controller;
 
 import com.example.DiamondShopSystem.model.Order;
+import com.example.DiamondShopSystem.model.OrderDetail;
 import com.example.DiamondShopSystem.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -35,5 +36,10 @@ public class OrderController {
     @DeleteMapping("/{id}")
     public void deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
+    }
+
+    @GetMapping("/getCart/{userId}")
+    public List<OrderDetail> getCartByUserId(@PathVariable Long userId) {
+        return orderService.getCartByUserId(userId);
     }
 }

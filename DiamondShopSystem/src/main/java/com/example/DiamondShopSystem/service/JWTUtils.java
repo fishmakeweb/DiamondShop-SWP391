@@ -1,5 +1,6 @@
 package com.example.DiamondShopSystem.service;
 
+import com.example.DiamondShopSystem.model.Customer;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -63,5 +64,9 @@ public class JWTUtils {
 
     public boolean isTokenExpired(String token) {
         return extractClaim(token, Claims::getExpiration).before(new Date());
+    }
+
+    public Long extractUserId(String token) {
+        return extractClaim(token, claims -> Long.parseLong(claims.get("userId").toString()));
     }
 }
