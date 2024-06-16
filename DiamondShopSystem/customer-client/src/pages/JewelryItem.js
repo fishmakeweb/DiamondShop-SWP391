@@ -4,7 +4,6 @@ import NewNavbar from "../components/NewNavbar.js";
 import Footer from "../components/Footer";
 import RecommendItem from "../components/RecommendItem";
 import axios from "../axios.js";
-import CartContext from "../components/CartContext.js";
 import AuthService from "../components/AuthService.js";
 const Item = () => {
   let navigate = useNavigate();
@@ -88,29 +87,36 @@ function JewelryItemData({ data }) {
 
 function JewelryItem() {
   const { productId } = useParams();
-  const [itemDetails, setItemDetails] = useState(null);
-  const { addToCart } = useContext(CartContext);
-  const [buttonText, setButtonText] = useState("ADD TO BAG");
-  const [userId, setUserId] = useState();
-  useEffect(() => {
-    const userIdFromService = AuthService.getUserId();
-    if (userIdFromService) {
-      setUserId(userIdFromService);
-    } else {
-      const storedUser = JSON.parse(localStorage.getItem("user"));
-      if (storedUser) {
-        setUserId(storedUser.userId);
-      }
-    }
-  }, []);
 
-  const handleClick = () => {
-    axios
-      .post(`/order_details/addProductToOrder`, { productId, userId })
+  const [itemDetails, setItemDetails] = useState(null);
+  const [buttonText, setButtonText] = useState("ADD TO BAG");
+
+
+
+
+  const handleClick = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.log("No token found, user might not be logged in.");
+      return;
+    }
+  
+    axios.post('/order_details/addToCart', null, {
+        params: {
+          productId: productId, // Assuming productId is directly on itemDetails
+          productImg: itemDetails.img,
+          productPrice: itemDetails.price,
+        },
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then(() => {
         setButtonText("ADDED");
+      })
+      .catch(error => {
+        console.error("Error adding item to cart:", error);
       });
   };
+  
 
   useEffect(() => {
     axios
@@ -167,7 +173,6 @@ function JewelryItem() {
               <button
                 className="justify-center w-36 self-start px-4 py-4 mt-9 text-lg border border-solid bg-opacity-0 border-neutral-700 text-neutral-700 hover:bg-custom-brown hover:text-white"
                 onClick={() => {
-                  addToCart(itemDetails);
                   handleClick();
                 }}
               >

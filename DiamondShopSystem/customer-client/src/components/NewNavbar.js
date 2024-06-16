@@ -1,12 +1,9 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import Cart from "./Cart";
-import CartContext from './CartContext';
 
 const NewNavbar = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const { cart } = useContext(CartContext);
-
 
   const toggleCartModal = () => {
     setIsCartOpen(!isCartOpen);
@@ -199,9 +196,9 @@ const NewNavbar = () => {
                       >
                         <path d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42C7.28,15 7.17,14.89 7.17,14.75L7.2,14.65L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.59C21,5.39 21.06,5.2 21.06,5A1,1 0 0,0 20.06,4H5.21L4.27,2H1Z" />
                       </svg>
-                      {cart.length > 0 && (
+                      {/* {cart.length > 0 && (
                         <div className="absolute top-0 right-0 w-2 h-2 bg-[#B6A69D] rounded-full"></div>
-                      )}
+                      )} */}
                     </div>
                   </div>
                 </button>

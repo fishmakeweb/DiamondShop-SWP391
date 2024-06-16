@@ -1,10 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import "../style/DiamondList.css";
-import CartContext from './CartContext.js';
 
 function DiamondList({ items }) {
     const [currentPage, setCurrentPage] = useState(0);
-    const { addToCart } = useContext(CartContext);
     const itemsPerPage = 8;
 
     const totalPages = Math.ceil(items.length / itemsPerPage);
@@ -44,7 +42,7 @@ function DiamondList({ items }) {
                             <td>{item.price}</td>
                             <td>{item.gia.issueDate}</td>
                             <td> <button
-                                onClick={() => addToCart(item)}
+                            
                                 className=""
                                 >
                                 Add to Cart

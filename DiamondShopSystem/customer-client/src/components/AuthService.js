@@ -67,6 +67,19 @@ class AuthService {
     }
   }
 
+  static async getCart(token) {
+    try {
+      const response = await axios.get(`http://localhost:8080/api/orders/getcart`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  
+
   static async refreshToken() {
     try {
       const refreshToken = localStorage.getItem("refreshToken");
