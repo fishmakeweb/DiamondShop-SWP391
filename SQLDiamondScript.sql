@@ -71,7 +71,8 @@ CREATE TABLE IF NOT EXISTS carat(
 
 CREATE TABLE IF NOT EXISTS gia(
     gia_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
-    issue_date DATE
+    issue_date DATE,
+    gia_number VARCHAR(50) UNIQUE
 );
 
 -- DIAMOND TABLE
@@ -122,6 +123,7 @@ CREATE TABLE IF NOT EXISTS jewelry(
     size_id BIGINT,
     img VARCHAR(400),
     price FLOAT,
+    quantity INT,
     `date` Date,
     FOREIGN KEY (diamond_id) REFERENCES diamond(diamond_id),
     FOREIGN KEY (material_id) REFERENCES material(material_id),
@@ -138,21 +140,6 @@ CREATE TABLE IF NOT EXISTS product(
     FOREIGN KEY (jewelry_id) REFERENCES jewelry(jewelry_id)
     );
 
--- CART TABLE
-CREATE TABLE IF NOT EXISTS cart(
-    cart_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
-    customer_id BIGINT,
-    FOREIGN KEY (customer_id) REFERENCES customer(user_id)
-    );
-
--- CART-ITEM TABLE
-CREATE TABLE IF NOT EXISTS cart_item(
-    cart_id BIGINT,
-    product_id BIGINT,
-    PRIMARY KEY (cart_id, product_id),
-    FOREIGN KEY (cart_id) REFERENCES cart(cart_id),
-    FOREIGN KEY (product_id) REFERENCES product(product_id)
-    );
 
 -- ORDER TABLE
 CREATE TABLE IF NOT EXISTS `order`(
@@ -161,7 +148,12 @@ CREATE TABLE IF NOT EXISTS `order`(
     order_date DATE,
     FOREIGN KEY (user_id) REFERENCES customer(user_id)
     );
-
+CREATE TABLE IF NOT EXISTS orderprocess(
+	orderprocess_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    order_id BIGINT,
+    orderprocess_description VARCHAR(200),
+    FOREIGN KEY (order_id) REFERENCES `order`(order_id)
+);
 -- ORDER DETAIL TABLE
 CREATE TABLE IF NOT EXISTS orderdetail(
     product_id BIGINT,
@@ -228,14 +220,6 @@ INSERT INTO carat (carat) VALUES
 (1.50),
 (2.00);
 
-
-
-INSERT INTO gia (gia_id,issue_date) VALUES
-(1,'2024-01-01'),
-(2,'2024-02-01'),
-(3,'2024-03-01'),
-(4,'2024-04-01'),
-(5,'2024-05-01');
 
 -- Example entries for Jewelry table (ten for each category)
 -- Engagement Rings
