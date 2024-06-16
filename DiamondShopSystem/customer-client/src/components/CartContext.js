@@ -1,30 +1,44 @@
 import React, { createContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import AuthService from './AuthService';
+import axios from 'axios';
 
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
-  // Load cart data from cookies on component mount
   useEffect(() => {
-    const savedCart = Cookies.get('cart');
-    if (savedCart) {
-      setCart(JSON.parse(savedCart));
+    if (AuthService.isAuthenticated()) {
+      const savedCart = Cookies.get('cart');
+      if (savedCart) {
+        const parsedCart = JSON.parse(savedCart).map(item => ({ ...item, quantity: 1 }));
+        setCart(parsedCart);
+      }
     }
   }, []);
 
-  const addToCart = (item) => {
+  const addToCart = async(item) => {
+    const token = localStorage.getItem("token");
+    
+
+
+
+
     setCart((prevCart) => {
       const itemIndex = prevCart.findIndex((cartItem) => cartItem.jewelryId === item.jewelryId);
       if (itemIndex !== -1) {
-        // Item already exists in cart
-        return prevCart;
+        const updatedCart = prevCart.map((cartItem, index) => {
+          if (index === itemIndex) {
+            return { ...cartItem, quantity: cartItem.quantity + 1 };
+          }
+          return cartItem;
+        });
+        Cookies.set('cart', JSON.stringify(updatedCart)); 
+        return updatedCart;
       } else {
-        // Add new item to cart
-        console.log(item.jewelryId);
-        const newCart = [...prevCart, {...item}];
-        Cookies.set('cart', JSON.stringify(newCart)); // Convert newCart to string before storing
+        const newCart = [...prevCart, { ...item, quantity: 1 }];
+        Cookies.set('cart', JSON.stringify(newCart));
         return newCart;
       }
     });
@@ -33,7 +47,7 @@ export const CartProvider = ({ children }) => {
   const removeFromCart = (itemId) => {
     setCart((prevCart) => {
       const updatedCart = prevCart.filter((item) => item.jewelryId !== itemId);
-      Cookies.set('cart', JSON.stringify(updatedCart)); // Convert updatedCart to string before storing
+      Cookies.set('cart', JSON.stringify(updatedCart)); 
       return updatedCart;
     });
   };
