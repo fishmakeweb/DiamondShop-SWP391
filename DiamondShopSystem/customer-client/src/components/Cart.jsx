@@ -38,8 +38,8 @@ function Cart({ isOpen, onClose }) {
                 {cart.map((item) => (
                   <li key={item.jewelryId} className="py-4 flex items-center">
                     <img
-                    loading="lazy"
-                      src={`/img/jewelry/${item.img}`}
+                      loading="lazy"
+                      src={`${item.img}`}
                       alt={item.name}
                       className="w-24 h-24 rounded-md object-cover"
                     />
@@ -67,7 +67,7 @@ function Cart({ isOpen, onClose }) {
           <div className="flex justify-center pb-4">
             <button
               className="mt-5 bg-black text-white text-xl px-24 py-6 rounded-md hover:bg-[#B6A69D]"
-              onClick={() => {/* Handle checkout action here */}}
+              onClick={() => {/* Handle checkout action here */ }}
             >
               Check Out
             </button>

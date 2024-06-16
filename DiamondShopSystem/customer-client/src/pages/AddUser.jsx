@@ -119,7 +119,6 @@ function AddUser({ isOpen, onClose, user }) {
                             <option value="">Select Role</option>
                             <option value="ROLE_ADMIN">Admin</option>
                             <option value="ROLE_SALE">Sales</option>
-                            <option value="ROLE_DELIVERY">Delivery</option>
                         </select>
                         {validationErrors.role && <div className="text-red-500">{validationErrors.role}</div>}
                     </div>

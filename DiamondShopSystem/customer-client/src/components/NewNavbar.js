@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import Cart from "./Cart";
+import CartContext from './CartContext';
 
 const NewNavbar = () => {
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const { cart } = useContext(CartContext);
+
+
+  const toggleCartModal = () => {
+    setIsCartOpen(!isCartOpen);
+  };
+
   return (
     <>
       <nav className="bg-white w-full flex relative justify-between items-center mx-auto px-7 h-20">
@@ -48,16 +58,16 @@ const NewNavbar = () => {
                   <p className="text-sm leading-5">HOME</p>
                 </div>
                 <div className="py-1">
-                  <Link to="/diamonds"
-                    href="javascript:void(0)"
+                  <Link
+                    to="/diamonds"
                     tabIndex={0}
                     className="text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left font-semibold"
                     role="menuitem"
                   >
                     Diamond
                   </Link>
-                  <Link to="/jewelry/page/1"
-                    href="javascript:void(0)"
+                  <Link
+                    to="/jewelry/page/1"
                     tabIndex={1}
                     className="text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left font-semibold"
                     role="menuitem"
@@ -92,14 +102,16 @@ const NewNavbar = () => {
         <div className="inline-flex">
           <a className="_o6689fn" href="/">
             <div className="md:flex custom-hide">
-              <Link to="/diamonds"
+              <Link
+                to="/diamonds"
                 className="inline-block py-2 px-3 hover:bg-gray-200 rounded-full font-semibold"
               >
                 <div className="flex items-center relative cursor-pointer whitespace-nowrap">
                   Diamond
                 </div>
               </Link>
-              <Link to="/jewelry/page/1"
+              <Link
+                to="/jewelry/page/1"
                 className="inline-block py-2 px-3 hover:bg-gray-200 rounded-full font-semibold"
               >
                 <div className="flex items-center relative cursor-pointer whitespace-nowrap">
@@ -122,7 +134,8 @@ const NewNavbar = () => {
         <div className="hidden sm:block flex-shrink flex-grow-0 justify-start px-2">
           <div className="inline-block">
             <div className="inline-flex items-center max-w-full">
-              <Link to="/"
+              <Link
+                to="/"
                 className="flex items-center pb-4 border-b border-b-gray-400 md:block custom-hide"
               >
                 <h2 className="font-bold text-2xl">H E P H A E S T U S</h2>
@@ -176,6 +189,7 @@ const NewNavbar = () => {
                 <button
                   type="button"
                   className="inline-block py-2 px-3 hover:bg-gray-200 rounded-full relative"
+                  onClick={toggleCartModal}
                 >
                   <div className="flex items-center h-5">
                     <div className="_xpkakx">
@@ -183,8 +197,11 @@ const NewNavbar = () => {
                         className="flex-1 w-8 h-6 fill-current"
                         viewBox="0 0 24 24"
                       >
-                        <path d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75C7.17,14.7 7.18,14.66 7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.5C20.95,5.34 21,5.17 21,5A1,1 0 0,0 20,4H5.21L4.27,2M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z" />
+                        <path d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42C7.28,15 7.17,14.89 7.17,14.75L7.2,14.65L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.59C21,5.39 21.06,5.2 21.06,5A1,1 0 0,0 20.06,4H5.21L4.27,2H1Z" />
                       </svg>
+                      {cart.length > 0 && (
+                        <div className="absolute top-0 right-0 w-2 h-2 bg-[#B6A69D] rounded-full"></div>
+                      )}
                     </div>
                   </div>
                 </button>
@@ -198,43 +215,16 @@ const NewNavbar = () => {
                 >
                   <div className="pl-1">
                     <svg
+                      className="w-6 h-6 text-gray-700"
                       viewBox="0 0 32 32"
                       xmlns="http://www.w3.org/2000/svg"
-                      aria-hidden="true"
-                      role="presentation"
-                      focusable="false"
-                      style={{
-                        display: "block",
-                        fill: "none",
-                        height: 16,
-                        width: 16,
-                        stroke: "currentcolor",
-                        strokeWidth: 3,
-                        overflow: "visible",
-                      }}
                     >
-                      <g fill="none" fillRule="nonzero">
-                        <path d="m2 16h28" />
-                        <path d="m2 24h28" />
-                        <path d="m2 8h28" />
+                      <g fill="none">
+                        <path
+                          d="m16 2c3.866 0 7 3.134 7 7v5h1c1.1046 0 2 .89543 2 2v13c0 1.1046-.8954 2-2 2h-16c-1.10457 0-2-.8954-2-2v-13c0-1.10457.89543-2 2-2h1v-5c0-3.866 3.13401-7 7-7zm0 18c-2.2091 0-4 1.7909-4 4h8c0-2.2091-1.7909-4-4-4zm0-13c-2.2091 0-4 1.7909-4 4v5h8v-5c0-2.2091-1.7909-4-4-4z"
+                          fill="currentColor"
+                        />
                       </g>
-                    </svg>
-                  </div>
-                  <div className="block flex-grow-0 flex-shrink-0 h-10 w-12 pl-5">
-                    <svg
-                      viewBox="0 0 32 32"
-                      xmlns="http://www.w3.org/2000/svg"
-                      aria-hidden="true"
-                      role="presentation"
-                      focusable="false"
-                      style={{
-                        display: "block",
-                        height: "100%",
-                        width: "100%",
-                        fill: "currentcolor",
-                      }}
-                    >
-                      <path d="m16 .7c-8.437 0-15.3 6.863-15.3 15.3s6.863 15.3 15.3 15.3 15.3-6.863 15.3-15.3-6.863-15.3-15.3-15.3zm0 28c-4.021 0-7.605-1.884-9.933-4.81a12.425 12.425 0 0 1 6.451-4.4 6.507 6.507 0 0 1 -3.018-5.49c0-3.584 2.916-6.5 6.5-6.5s6.5 2.916 6.5 6.5a6.513 6.513 0 0 1 -3.019 5.491 12.42 12.42 0 0 1 6.452 4.4c-2.328 2.925-5.912 4.809-9.933 4.809z" />
                     </svg>
                   </div>
                 </button>
@@ -244,19 +234,10 @@ const NewNavbar = () => {
         </div>
         {/* end login */}
       </nav>
-
-      <style jsx>{`
-        @media (max-width: 996px) {
-          .custom-hide {
-            display: none;
-          }
-        }
-        .dropdown:focus-within .dropdown-menu {
-          opacity: 1;
-          transform: translate(0) scale(1);
-          visibility: visible;
-        }
-      `}</style>
+      <Cart
+        isOpen={isCartOpen}
+        onClose={toggleCartModal}
+      />
     </>
   );
 };

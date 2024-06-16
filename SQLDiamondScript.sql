@@ -139,31 +139,30 @@ CREATE TABLE IF NOT EXISTS product(
     FOREIGN KEY (diamond_id) REFERENCES diamond(diamond_id),
     FOREIGN KEY (jewelry_id) REFERENCES jewelry(jewelry_id)
     );
-
-
+CREATE TABLE IF NOT EXISTS order_status(
+	status_id BIGINT primary key AUTO_INCREMENT,
+    status_description VARCHAR(200)
+);
 -- ORDER TABLE
 CREATE TABLE IF NOT EXISTS `order`(
     order_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
     user_id BIGINT,
     order_date DATE,
+    status_id BIGINT,
+    total_price FLOAT,
+    FOREIGN KEY (status_id) REFERENCES order_status(status_id),
     FOREIGN KEY (user_id) REFERENCES customer(user_id)
     );
-CREATE TABLE IF NOT EXISTS orderprocess(
-	orderprocess_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    order_id BIGINT,
-    orderprocess_description VARCHAR(200),
-    FOREIGN KEY (order_id) REFERENCES `order`(order_id)
-);
 -- ORDER DETAIL TABLE
-CREATE TABLE IF NOT EXISTS orderdetail(
+CREATE TABLE IF NOT EXISTS order_detail(
     product_id BIGINT,
     order_id BIGINT,
+    quantity BIGINT,
+    unit_price FLOAT,
     PRIMARY KEY (product_id, order_id),
     FOREIGN KEY (product_id) REFERENCES product(product_id),
     FOREIGN KEY (order_id) REFERENCES `order`(order_id)
     );
-
-
 
 -- ARTICLE TABLE
 CREATE TABLE IF NOT EXISTS article(
@@ -253,6 +252,12 @@ INSERT INTO size (type, size_number, unit) VALUES
 ('Pendant Height', 1, 'inches'),
 ('Pendant Height', 1.5, 'inches'),
 ('Pendant Height', 2, 'inches');
+
+INSERT INTO order_status (status_description) VALUES
+('In Cart'),
+('Pending Verification'),
+('Processing'),
+('Success');
 
 -- Inserting Articles
 INSERT INTO article (title, content) VALUES

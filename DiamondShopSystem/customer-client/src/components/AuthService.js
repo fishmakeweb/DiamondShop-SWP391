@@ -62,17 +62,6 @@ class AuthService {
     }
   }
 
-  static async deleteProfile(token) {
-    try {
-      const response = await axios.delete(`${this.BASE_URL}/profile`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  }
-
   static async refreshToken() {
     try {
       const refreshToken = localStorage.getItem("refreshToken");
