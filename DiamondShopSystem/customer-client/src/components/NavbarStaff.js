@@ -1,9 +1,14 @@
 import React, { useState } from "react";
+import AuthService from "./AuthService";
+import { useNavigate } from "react-router-dom";
 
 const NavbarStaff = ({ onToggleSidebar }) => {
+  const navigate = useNavigate();
   const [isSearchDropdownOpen, setIsSearchDropdownOpen] = useState(false);
   const [isNotificationDropdownOpen, setIsNotificationDropdownOpen] =
     useState(false);
+
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false); // State to handle user menu dropdown
 
   const toggleSearchDropdown = () => {
     setIsSearchDropdownOpen(!isSearchDropdownOpen);
@@ -11,6 +16,14 @@ const NavbarStaff = ({ onToggleSidebar }) => {
 
   const toggleNotificationDropdown = () => {
     setIsNotificationDropdownOpen(!isNotificationDropdownOpen);
+  };
+  const toggleUserMenu = () => setIsUserMenuOpen(!isUserMenuOpen); // Toggle user menu dropdown
+  const handleLogout = () => {
+    if (window.confirm("Are you sure you want to logout?")) {
+      navigate("/");
+      AuthService.logout();
+      window.location.reload();
+    }
   };
 
   return (
@@ -336,7 +349,11 @@ const NavbarStaff = ({ onToggleSidebar }) => {
             </svg>
           </button>
           <li className="dropdown ml-3">
-            <button type="button" className="dropdown-toggle flex items-center">
+            <button
+              type="button"
+              className="dropdown-toggle flex items-center"
+              onClick={toggleUserMenu}
+            >
               <div className="flex-shrink-0 w-10 h-10 relative">
                 <div className="p-1 bg-white rounded-full focus:outline-none focus:ring">
                   <img
@@ -355,38 +372,35 @@ const NavbarStaff = ({ onToggleSidebar }) => {
                 <p className="text-xs text-gray-500">Sale staff</p>
               </div>
             </button>
-            <ul className="dropdown-menu shadow-md shadow-black/5 z-30 hidden py-1.5 rounded-md bg-white border border-gray-100 w-full max-w-[140px]">
-              <li>
-                <a
-                  href="#"
-                  className="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-[#f84525] hover:bg-gray-50"
-                >
-                  Profile
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-[#f84525] hover:bg-gray-50"
-                >
-                  Settings
-                </a>
-              </li>
-              <li>
-                <form method="POST" action="">
+            {isUserMenuOpen && (
+              <ul className="dropdown-menu shadow-md shadow-black/5 z-30 py-1.5 rounded-md bg-white border border-gray-100 w-full max-w-[140px]">
+                <li>
                   <a
+                    href="#"
+                    className="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-[#f84525] hover:bg-gray-50"
+                  >
+                    Profile
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-[#f84525] hover:bg-gray-50"
+                  >
+                    Settings
+                  </a>
+                </li>
+                <li>
+                  <button
                     role="menuitem"
                     className="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-[#f84525] hover:bg-gray-50 cursor-pointer"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      this.closest("form").submit();
-                    }}
+                    onClick={handleLogout}
                   >
                     Log Out
-                  </a>
-                </form>
-              </li>
-            </ul>
+                  </button>
+                </li>
+              </ul>
+            )}
           </li>
         </ul>
       </div>
