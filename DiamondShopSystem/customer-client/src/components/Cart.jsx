@@ -1,10 +1,62 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import axios from "axios";
 import CartContext from "./CartContext";
 
 function Cart({ isOpen, onClose }) {
-  const { cart, removeFromCart } = useContext(CartContext);
+  const { cart, removeFromCart, getTotalAmount, incrementQuantity, decrementQuantity } = useContext(CartContext);
+  const [itemDetails, setItemDetails] = useState([]);
+
+  useEffect(() => {
+    if (isOpen) {
+      fetchCarts().then(cartItems => {
+        fetchItemDetails(cartItems);
+      });
+    }
+  }, [isOpen]);
+
+  const fetchCarts = async () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const userId = user.userId;
+
+    try {
+      const response = await axios.get(`http://localhost:8080/api/orders/getCart/${userId}`);
+      return response.data.map(item => ({
+        productId: item.product.productId,
+        orderId: item.order.orderId,
+        quantity: item.quantity,
+        unitPrice: item.unitPrice,
+      }));
+    } catch (error) {
+      console.error("Error fetching users data:", error);
+      return [];
+    }
+  };
+
+  const fetchItemDetails = async (cartItems) => {
+    try {
+      const detailsPromises = cartItems.map(async (item) => {
+        const response = await axios.get(`http://localhost:8080/api/jewelry/${item.productId}`);
+        return {
+          jewelryId: response.data.jewelryId,
+          name: response.data.name,
+          img: response.data.img,
+          price: item.unitPrice,   
+          quantity: item.quantity
+        };
+      });
+
+      const details = await Promise.all(detailsPromises);
+      setItemDetails(details);
+    } catch (error) {
+      console.error("Error fetching product details:", error);
+    }
+  };
 
   if (!isOpen) return null;
+
+  const handleCheckout = () => {
+    console.log("Implementing checkout logic...");
+  };
 
   return (
     <div className="fixed top-0 left-0 bg-black bg-opacity-80 flex justify-end h-full w-full">
@@ -29,13 +81,13 @@ function Cart({ isOpen, onClose }) {
             />
           </div>
           <div className="flex flex-col justify-center items-center h-full">
-            {cart.length === 0 ? (
+            {itemDetails.length === 0 ? (
               <p className="text-xl text-center font-medium text-neutral-600">
                 Your cart is currently empty.
               </p>
             ) : (
               <ul className="divide-y divide-gray-200 w-full">
-                {cart.map((item) => (
+                {itemDetails.map((item) => (
                   <li key={item.jewelryId} className="py-4 flex items-center">
                     <img
                       loading="lazy"
@@ -48,8 +100,13 @@ function Cart({ isOpen, onClose }) {
                         {item.name}
                       </p>
                       <p className="text-sm text-gray-500">
-                        Price: ${item.price.toFixed(2)}
+                        Price: ${item.price}
                       </p>
+                      <div className="flex items-center">
+                        <button className="text-sm text-gray-600 px-3 py-1 bg-gray-200 rounded-md" onClick={() => decrementQuantity(item.jewelryId)}>-</button>
+                        <p className="text-sm text-gray-500 mx-2">{item.quantity}</p>
+                        <button className="text-sm text-gray-600 px-3 py-1 bg-gray-200 rounded-md" onClick={() => incrementQuantity(item.jewelryId)}>+</button>
+                      </div>
                     </div>
                     <button
                       className="text-sm text-red-600 ml-3"
@@ -63,14 +120,19 @@ function Cart({ isOpen, onClose }) {
             )}
           </div>
         </div>
-        {cart.length > 0 && (
-          <div className="flex justify-center pb-4">
-            <button
-              className="mt-5 bg-black text-white text-xl px-24 py-6 rounded-md hover:bg-[#B6A69D]"
-              onClick={() => {/* Handle checkout action here */ }}
-            >
-              Check Out
-            </button>
+        {itemDetails.length > 0 && (
+          <div className="mt-4">
+            <p className="text-lg font-semibold text-center">
+              Total Amount: ${getTotalAmount().toFixed(2)}
+            </p>
+            <div className="flex justify-center mt-4">
+              <button
+                className="bg-black text-white text-xl px-28 py-6 rounded-md hover:bg-[#B6A69D]"
+                onClick={handleCheckout}
+              >
+                Check Out
+              </button>
+            </div>
           </div>
         )}
       </div>
