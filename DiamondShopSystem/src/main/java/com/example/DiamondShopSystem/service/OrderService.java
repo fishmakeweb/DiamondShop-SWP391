@@ -2,6 +2,7 @@ package com.example.DiamondShopSystem.service;
 
 import com.example.DiamondShopSystem.model.Order;
 import com.example.DiamondShopSystem.repository.OrderRepository;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -21,8 +22,14 @@ public class OrderService {
         return order.orElse(null);
     }
 
-    public Order saveOrder(Order order) {
+    public Order createOrder(Order order) {
         return orderRepository.save(order);
+    }
+
+    //Place holder
+    public Order saveOrderOnCheckOut(Order order){
+        //Not completed
+        return new Order();
     }
 
     public void deleteOrder(Long id) {
