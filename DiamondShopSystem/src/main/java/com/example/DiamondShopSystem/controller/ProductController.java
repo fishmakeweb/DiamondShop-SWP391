@@ -24,6 +24,7 @@ public class ProductController {
         return productService.findAllProducts();
     }
 
+
 //    @GetMapping("/products/jewelry")
 //    public List<JewelryDTO> getAllJewelryDTOs() {
 //        return productService.getAllJewelryDTOs();

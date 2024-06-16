@@ -12,18 +12,24 @@ import java.util.List;
 @Entity
 @Table(name = "Customer")
 public class Customer implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
+
     private String fullName;
+
     private String email;
+
     private String address;
+
     private Date registeredDate; // Use java.sql.Date
+
     private String username;
+
     private String password;
 
-
-
+    // Implementing methods from UserDetails interface
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
