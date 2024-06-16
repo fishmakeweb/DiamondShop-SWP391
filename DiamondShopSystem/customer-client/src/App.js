@@ -16,7 +16,6 @@ import AdminPage from "./pages/AdminPage.jsx";
 import SaleStaff from "./components/SaleStaff.jsx";
 import AddJewelry from "./components/AddJewelry.jsx";
 import AddDiamond from "./components/AddDiamond.jsx";
-import CompletelyNavbar from "./components/CompletelyNavbar.jsx";
 
 function App() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -33,7 +32,7 @@ function App() {
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<Homepage />} />
-            <Route path="/jewelry" element={<Jewelry />} />
+            <Route path="/jewelry/page/:productId" element={<Jewelry />} />
             <Route path="/diamonds" element={<Diamond />} />
             <Route path="/diamonds/:diamondId" element={<DiamondItem />} />
             <Route
@@ -44,7 +43,7 @@ function App() {
               path="/jewelry/gemstones/:gemstoneid"
               element={<Gemstone />}
             />
-            <Route path="/jewelry/:jewelryId" element={<JewelryItem />} />
+            <Route path="/jewelry/:productId" element={<JewelryItem />} />
             <Route path="/profile" element={<UserProfile />} />{" "}
             {/* Add profile route */}
             <Route path="/staff" element={<Staff />} />
@@ -52,7 +51,6 @@ function App() {
             <Route path="/adminPage" element={<AdminPage />} />
             <Route path="/addjewelry" element={<AddJewelry />} />
             <Route path="/adddiamond" element={<AddDiamond />} />
-            <Route path="/completenavbar" element={<CompletelyNavbar />} />
           </Routes>
           <LoginModal isOpen={isLoginModalOpen} onClose={toggleLoginModal} />
         </div>

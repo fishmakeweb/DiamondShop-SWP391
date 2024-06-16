@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
 import "../style/DiamondList.css";
 import CartContext from './CartContext.js';
 
@@ -28,10 +27,7 @@ function DiamondList({ items }) {
                         <th>Color</th>
                         <th>Clarity</th>
                         <th>Cut</th>
-                        <th>Polish</th>
                         <th>Price</th>
-                        <th>Symmetry</th>
-                        <th>Fluorescence</th>
                         <th>GIA</th>
                         <th>Buy</th>
                     </tr>
@@ -45,10 +41,7 @@ function DiamondList({ items }) {
                             <td>{item.color.colorDescription}</td>
                             <td>{item.clarity.clarityDescription}</td>
                             <td>{item.cut.cutDescription}</td>
-                            <td>{item.polish.polishDescription}</td>
                             <td>{item.price}</td>
-                            <td>{item.symmetry.symmetryDescription}</td>
-                            <td>{item.fluorescence.fluorescenceDescription}</td>
                             <td>{item.gia.issueDate}</td>
                             <td> <button
                                 onClick={() => addToCart(item)}
