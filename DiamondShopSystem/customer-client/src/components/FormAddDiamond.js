@@ -113,7 +113,7 @@ const FormAddDiamond = () => {
     };
 
     try {
-      const response = await axios.post("/secure/diamonds", diamondData);
+      await axios.post("/secure/diamonds", diamondData);
       setShowSubmitMessage(true);
     } catch (error) {
       console.error("Add diamond fail:", error);

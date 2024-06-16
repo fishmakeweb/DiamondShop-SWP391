@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class DiamondService {
@@ -52,9 +53,22 @@ public class DiamondService {
 
     @Transactional
     public Diamond saveDiamond(Diamond diamond) {
+        if (diamond.getGia() != null) {
+            Gia gia = diamond.getGia();
+            gia.setGiaNumber(generateUniqueGiaNumber());
+            giaRepository.save(gia);
+        }
         Diamond savedDiamond = diamondRepository.save(diamond);
         productService.createProductForDiamond(savedDiamond);
         return savedDiamond;
+    }
+
+    private String generateUniqueGiaNumber() {
+        String giaNumber;
+        do {
+            giaNumber = "GIA-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        } while (giaRepository.existsByGiaNumber(giaNumber));
+        return giaNumber;
     }
 
     public Diamond updateDiamond(Long id, Diamond newDiamond) {

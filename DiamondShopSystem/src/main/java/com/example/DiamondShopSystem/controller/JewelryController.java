@@ -3,6 +3,7 @@ package com.example.DiamondShopSystem.controller;
 import com.example.DiamondShopSystem.dto.AllDataDTO;
 import com.example.DiamondShopSystem.dto.JewelryDTO;
 import com.example.DiamondShopSystem.model.Jewelry;
+import com.example.DiamondShopSystem.repository.JewelryRepository;
 import com.example.DiamondShopSystem.service.JewelryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,8 @@ public class JewelryController {
     @Autowired
     private JewelryService jewelryService;
 
+    @Autowired
+    private JewelryRepository jewelryRepository;
     @GetMapping("/jewelry")
     public List<Jewelry> getAllJewelry() {
         return jewelryService.findAllJewelry();
@@ -61,16 +64,16 @@ public class JewelryController {
         return jewelryService.getAllData();
     }
 
-    @GetMapping("/check-name/{name}")
+    @GetMapping("/jewelry/check-name/{name}")
     public boolean checkNameExists(@PathVariable String name) {
         return jewelryService.checkNameExists(name);
     }
 
-//    @GetMapping("/jewelry/page")
-//    public ResponseEntity<Page<JewelryDTO>> getJewelryPage(@RequestParam(defaultValue = "0") int page) {
-//        Page<Jewelry> jewelryPage = jewelryService.getJewelryPage(page);
-//        Page<JewelryDTO> dtoPage = jewelryPage.map(this::convertToDto);
-//        return ResponseEntity.ok(dtoPage);
-//    }
+    @GetMapping("/jewelry/page")
+    public Page<Jewelry> getAllJewelryPage(@RequestParam(defaultValue = "1") int page,
+      @RequestParam(defaultValue = "8") int size) {
+        Pageable pageable = PageRequest.of(page - 1, size); // page - 1 because page index starts from 0
+        return jewelryRepository.findAll(pageable);
+    }
 
 }

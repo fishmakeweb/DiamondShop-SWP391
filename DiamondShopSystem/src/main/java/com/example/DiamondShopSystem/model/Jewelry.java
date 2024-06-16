@@ -1,33 +1,52 @@
 package com.example.DiamondShopSystem.model;
 
 import jakarta.persistence.*;
+import java.util.Date;
 
 @Entity
-@Table(name = "Jewelry")
+@Table(name = "jewelry")
 public class Jewelry {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long jewelryId;
-    private String name;
-    private String img;
-    private float price;
 
     @ManyToOne
     @JoinColumn(name = "diamond_id")
     private Diamond diamond;
 
+    @Column(name = "name", nullable = false, length = 50)
+    private String name;
+
     @ManyToOne
-    @JoinColumn(name = "material_id")
+    @JoinColumn(name = "material_id", nullable = false)
     private Material material;
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-
     @ManyToOne
-    @JoinColumn(name = "size_id")
+    @JoinColumn(name = "size_id", nullable = false)
     private Size size;
+
+    @Column(name = "img", length = 400)
+    private String img;
+
+    @Column(name = "price", nullable = false)
+    private float price;
+
+    @Column(name = "quantity", nullable = false)
+    private int quantity;
+
+    @Column(name = "date")
+    @Temporal(TemporalType.DATE)
+    private Date date;
+
+    @PrePersist
+    protected void onCreate() {
+        date = new Date();
+    }
 
     // Getters and Setters
     public Long getJewelryId() {
@@ -38,36 +57,20 @@ public class Jewelry {
         this.jewelryId = jewelryId;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
     public Diamond getDiamond() {
         return diamond;
     }
 
     public void setDiamond(Diamond diamond) {
         this.diamond = diamond;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Material getMaterial() {
@@ -92,5 +95,37 @@ public class Jewelry {
 
     public void setSize(Size size) {
         this.size = size;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }
