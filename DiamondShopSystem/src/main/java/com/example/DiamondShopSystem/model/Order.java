@@ -4,19 +4,30 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "`Order`")  // Using backticks for SQL reserved keyword
+@Table(name = "`order`") // `order` is a reserved keyword in SQL, hence backticks are used
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private Customer customer;
 
+    @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date orderDate;
 
+    @ManyToOne
+    @JoinColumn(name = "status_id", nullable = false)
+    private OrderStatus orderStatus;
+
+    @Column(nullable = false)
+    private float totalPrice;
+
     // Getters and Setters
+
     public Long getOrderId() {
         return orderId;
     }
@@ -39,5 +50,21 @@ public class Order {
 
     public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public float getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(float totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }
