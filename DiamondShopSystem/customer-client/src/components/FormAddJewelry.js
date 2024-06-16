@@ -19,28 +19,35 @@ const SubmitMessage = ({ onClose }) => {
 
 const FormAddJewelry = () => {
   const [imagePreviewUrl, setImagePreviewUrl] = useState(
-    "https://ap-south-1.linodeobjects.com/diamondshop-img/1718362498585_Screenshot%202024-06-14%20175431.png"
+    "https://diamondshop-img.ap-south-1.linodeobjects.com/1718429728643_Screenshot%202024-06-15%20123518.png"
   );
   const [categories, setCategories] = useState([]);
   const [materials, setMaterials] = useState([]);
   const [sizes, setSizes] = useState([]);
+  const [diamonds, setDiamonds] = useState([]);
   const [jewelryName, setJewelryName] = useState("");
   const [jewelryPrice, setJewelryPrice] = useState("");
   const [jewelryUrl, setJewelryUrl] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedMaterial, setSelectedMaterial] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
+  const [selectedDiamond, setSelectedDiamond] = useState("");
+  const [jewelryQuantity, setJewelryQuantity] = useState("");
   const [showSubmitMessage, setShowSubmitMessage] = useState(false);
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    // Fetch categories, materials, and sizes from the API
+    // Fetch categories, materials, sizes, and diamonds from the API
     const fetchData = async () => {
       try {
-        const response = await axios.get("/jewelry/all");
-        setCategories(response.data.categories);
-        setMaterials(response.data.materials);
-        setSizes(response.data.sizes);
+        const [jewelryResponse, diamondResponse] = await Promise.all([
+          axios.get("/jewelry/all"),
+          axios.get("/diamonds"),
+        ]);
+        setCategories(jewelryResponse.data.categories);
+        setMaterials(jewelryResponse.data.materials);
+        setSizes(jewelryResponse.data.sizes);
+        setDiamonds(diamondResponse.data);
       } catch (error) {
         console.error("Error fetching data: ", error);
       }
@@ -78,13 +85,14 @@ const FormAddJewelry = () => {
     if (!selectedMaterial) newErrors.selectedMaterial = "Material is required.";
     if (!selectedSize) newErrors.selectedSize = "Size is required.";
     if (!jewelryUrl) newErrors.jewelryUrl = "File image is required";
+    if (!jewelryQuantity) newErrors.jewelryQuantity = "Quantity is required.";
+    if (jewelryQuantity && jewelryQuantity <= 0)
+      newErrors.jewelryQuantity = "Quantity must be greater than 0.";
 
     // Check if the jewelry name is unique
     if (jewelryName) {
       try {
-        const response = await axios.get(
-          `/api/jewelry/check-name/${jewelryName}`
-        );
+        const response = await axios.get(`/jewelry/check-name/${jewelryName}`);
         if (response.data) {
           newErrors.jewelryName = "Jewelry name already exists.";
         }
@@ -98,7 +106,6 @@ const FormAddJewelry = () => {
   };
 
   const handleSubmit = async (e) => {
-    console.log();
     e.preventDefault();
     const isValid = await validate();
     if (!isValid) return;
@@ -107,6 +114,8 @@ const FormAddJewelry = () => {
       name: jewelryName,
       img: jewelryUrl,
       price: jewelryPrice,
+      quantity: jewelryQuantity,
+      date: new Date(), // Add the current date
       material: {
         materialId: selectedMaterial,
       },
@@ -116,13 +125,14 @@ const FormAddJewelry = () => {
       size: {
         sizeId: selectedSize,
       },
+      diamond: selectedDiamond ? { diamondId: selectedDiamond } : null,
     };
 
     try {
       const response = await axios.post("/secure/jewelry", jewelryData);
       setShowSubmitMessage(true);
     } catch (error) {
-      console.error("Add jewelry fail:", error);
+      console.error("Add jewelry failed:", error);
     }
   };
 
@@ -268,6 +278,57 @@ const FormAddJewelry = () => {
                     )}
                   </label>
                   <label
+                    className="relative block p-3 border-2 border-black rounded mb-5"
+                    htmlFor="quantity"
+                  >
+                    <span className="text-md font-semibold text-zinc-900">
+                      Quantity
+                    </span>
+                    <input
+                      className="w-full bg-transparent p-0 text-sm text-gray-500 focus:outline-none"
+                      id="quantity"
+                      type="number"
+                      value={jewelryQuantity}
+                      onChange={(e) => setJewelryQuantity(e.target.value)}
+                      placeholder="Quantity"
+                    />
+                    {errors.jewelryQuantity && (
+                      <span className="text-red-500 text-sm">
+                        {errors.jewelryQuantity}
+                      </span>
+                    )}
+                  </label>
+                  <label
+                    className="relative block p-3 border-2 border-black rounded mb-5"
+                    htmlFor="diamond"
+                  >
+                    <span className="text-md font-semibold text-zinc-900">
+                      Diamond (Optional)
+                    </span>
+                    <select
+                      className="w-full bg-transparent p-0 text-sm text-gray-500 focus:outline-none"
+                      id="diamond"
+                      value={selectedDiamond}
+                      onChange={(e) => setSelectedDiamond(e.target.value)}
+                    >
+                      <option
+                        className="text-md font-semibold text-zinc-900"
+                        value=""
+                      >
+                        Select a diamond (optional)
+                      </option>
+                      {diamonds.map((diamond) => (
+                        <option
+                          className="text-md font-semibold text-zinc-900"
+                          key={diamond.diamondId}
+                          value={diamond.diamondId}
+                        >
+                          {`ID: ${diamond.diamondId}, Shape: ${diamond.shape.shapeDescription}, Color: ${diamond.color.colorDescription}, Cut: ${diamond.cut.cutDescription}, Clarity: ${diamond.clarity.clarityDescription}, Carat: ${diamond.carat.carat}, Price: ${diamond.price}`}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label
                     className="relative block p-3 border-2 mt-5 border-black rounded"
                     htmlFor="price"
                   >
@@ -308,7 +369,6 @@ const FormAddJewelry = () => {
                       </span>
                     )}
                   </label>
-
                   <button className="mt-5 border-2 px-5 py-2 rounded-lg border-black border-b-4 font-black translate-y-2 border-l-4">
                     Submit
                   </button>
