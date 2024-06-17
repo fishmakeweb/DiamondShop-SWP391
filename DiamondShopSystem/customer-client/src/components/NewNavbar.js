@@ -1,12 +1,22 @@
 import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Added useNavigate
 import Cart from "./Cart";
+import AuthService from "./AuthService";
 
 const NewNavbar = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const navigate = useNavigate(); // Define navigate
 
   const toggleCartModal = () => {
     setIsCartOpen(!isCartOpen);
+  };
+
+  const handleLogout = () => {
+    if (window.confirm("Are you sure you want to logout?")) {
+      AuthService.logout();
+      navigate("/");
+      window.location.reload();
+    }
   };
 
   return (
@@ -36,7 +46,7 @@ const NewNavbar = () => {
                 >
                   <path
                     fillRule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 0 010-1.414z"
                     clipRule="evenodd"
                   />
                 </svg>
@@ -204,37 +214,60 @@ const NewNavbar = () => {
                 </button>
               </div>
             </div>
-            <div className="block">
-              <div className="inline relative">
-                <button
-                  type="button"
-                  className="inline-flex items-center relative px-2 border rounded-full hover:shadow-lg"
-                >
-                  <div className="pl-1">
-                    <svg
-                      className="w-6 h-6 text-gray-700"
-                      viewBox="0 0 32 32"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g fill="none">
-                        <path
-                          d="m16 2c3.866 0 7 3.134 7 7v5h1c1.1046 0 2 .89543 2 2v13c0 1.1046-.8954 2-2 2h-16c-1.10457 0-2-.8954-2-2v-13c0-1.10457.89543-2 2-2h1v-5c0-3.866 3.13401-7 7-7zm0 18c-2.2091 0-4 1.7909-4 4h8c0-2.2091-1.7909-4-4-4zm0-13c-2.2091 0-4 1.7909-4 4v5h8v-5c0-2.2091-1.7909-4-4-4z"
-                          fill="currentColor"
-                        />
-                      </g>
-                    </svg>
-                  </div>
-                </button>
+            {AuthService.isAuthenticated() ? (
+              <div className="block">
+                <div className="inline relative">
+                  <button
+                    onClick={handleLogout}
+                    className="inline-flex items-center relative px-2 border rounded-full hover:shadow-lg"
+                  >
+                    <div className="pl-1">
+                      <svg
+                        className="w-6 h-6 text-gray-700"
+                        viewBox="0 0 32 32"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <g fill="none">
+                          <path
+                            d="m16 2c3.866 0 7 3.134 7 7v5h1c1.1046 0 2 .89543 2 2v13c0 1.1046-.8954 2-2 2h-16c-1.10457 0-2-.8954-2-2v-13c0-1.10457.89543-2 2-2h1v-5c0-3.866 3.13401-7 7-7zm0 18c-2.2091 0-4 1.7909-4 4h8c0-2.2091-1.7909-4-4-4zm0-13c-2.2091 0-4 1.7909-4 4v5h8v-5c0-2.2091-1.7909-4-4-4z"
+                            fill="currentColor"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </button>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="block">
+                <div className="inline relative">
+                  <Link
+                    to="/login"
+                    className="inline-flex items-center relative px-2 border rounded-full hover:shadow-lg"
+                  >
+                    <div className="pl-1">
+                      <svg
+                        className="w-6 h-6 text-gray-700"
+                        viewBox="0 0 32 32"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <g fill="none">
+                          <path
+                            d="m16 2c3.866 0 7 3.134 7 7v5h1c1.1046 0 2 .89543 2 2v13c0 1.1046-.8954 2-2 2h-16c-1.10457 0-2-.8954-2-2v-13c0-1.10457.89543-2 2-2h1v-5c0-3.866 3.13401-7 7-7zm0 18c-2.2091 0-4 1.7909-4 4h8c0-2.2091-1.7909-4-4-4zm0-13c-2.2091 0-4 1.7909-4 4v5h8v-5c0-2.2091-1.7909-4-4-4z"
+                            fill="currentColor"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+            )}
           </div>
         </div>
         {/* end login */}
       </nav>
-      <Cart
-        isOpen={isCartOpen}
-        onClose={toggleCartModal}
-      />
+      <Cart isOpen={isCartOpen} onClose={toggleCartModal} />
     </>
   );
 };
