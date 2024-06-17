@@ -1,9 +1,13 @@
 package com.example.DiamondShopSystem.controller;
 
 import com.example.DiamondShopSystem.dto.AddProductRequest;
+import com.example.DiamondShopSystem.model.Jewelry;
 import com.example.DiamondShopSystem.model.OrderDetail;
+import com.example.DiamondShopSystem.model.Product;
 import com.example.DiamondShopSystem.service.OrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,9 +30,9 @@ public class OrderDetailController {
         orderDetailService.deleteOrderDetail(orderDetail);
     }
 
-    @PostMapping("/addProductToOrder")
-    public void addProductToOrder(@RequestBody AddProductRequest request) {
-        orderDetailService.addProductToOrder(request.getProductId(), request.getUserId());
+    @PostMapping("/addToCart")
+    public void addProductToOrder(@RequestHeader("Authorization") String token, @RequestParam Long productId, @RequestParam String productImg, @RequestParam Float productPrice) {
+        orderDetailService.addToCart(token.substring(7), productId, productImg, productPrice);
     }
 
     @GetMapping
@@ -36,8 +40,13 @@ public class OrderDetailController {
         return orderDetailService.getAllOrderDetails();
     }
 
-    @PostMapping("/setQuantity/{quantity}")
-    public void setQuantity(@RequestBody OrderDetail orderDetail, @PathVariable int quantity) {
-        orderDetail.setQuantity(quantity);
+    @PostMapping("/updateQuantity")
+    public ResponseEntity<OrderDetail> updateOrderDetailQuantity(@RequestParam Long orderDetailId, @RequestParam int quantity) {
+        try {
+            OrderDetail updatedOrderDetail = orderDetailService.updateQuantity(orderDetailId, quantity);
+            return ResponseEntity.ok(updatedOrderDetail);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

@@ -48,14 +48,17 @@ public class OrderService {
     @Autowired
     private JWTUtils jwtUtils;
 
-    public List<OrderDetail> getCartByUserId(Long userId) {
-        Order order = orderRepository.findByCustomerUserIdAndOrderStatusStatusId(userId, 1L);
-
-        if (order == null) {
-            throw new RuntimeException("No active cart found for user");
+    public List<OrderDetail> getCart(String token) {
+        String username = jwtUtils.extractUsername(token);
+        Optional<Order> activeOrder = orderRepository.findActiveOrderByUsername(username);
+        if (activeOrder.isPresent()) {
+            return orderDetailRepository.findByOrderId(activeOrder.get().getOrderId());
         }
 
-        return orderDetailRepository.findByOrderOrderId(order.getOrderId());
+        // Return an empty list if there is no active order
+        return List.of();
     }
+
+
 
 }

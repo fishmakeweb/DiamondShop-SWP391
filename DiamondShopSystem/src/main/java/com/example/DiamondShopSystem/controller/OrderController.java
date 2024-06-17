@@ -1,9 +1,11 @@
 package com.example.DiamondShopSystem.controller;
 
+import com.example.DiamondShopSystem.dto.ReqRes;
 import com.example.DiamondShopSystem.model.Order;
 import com.example.DiamondShopSystem.model.OrderDetail;
 import com.example.DiamondShopSystem.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,8 +40,12 @@ public class OrderController {
         orderService.deleteOrder(id);
     }
 
-    @GetMapping("/getCart/{userId}")
-    public List<OrderDetail> getCartByUserId(@PathVariable Long userId) {
-        return orderService.getCartByUserId(userId);
-    }
+//    @GetMapping("/getCart/{userId}")
+//    public List<OrderDetail> getCartByUserId(@PathVariable Long userId) {
+//        return orderService.getCartByUserId(userId);
+//    }
+@GetMapping("/getcart")
+public List<OrderDetail> getCart(@RequestHeader("Authorization") String token) {
+    return orderService.getCart(token.substring(7));
+}
 }

@@ -6,42 +6,40 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "OrderDetail")
-@IdClass(OrderDetail.OrderDetailId.class)
 public class OrderDetail {
 
     @Id
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
+    @Column
+    private Long productId;
+
+    @Column
+    private Long orderId;
 
     @Column(nullable = false)
     private int quantity;
 
     @Column(nullable = false)
-    private float unitPrice;
+    private float totalItemPrice;
+
+    public String img;
 
     // Getters and Setters
 
-    public Product getProduct() {
-        return product;
+
+
+
+    public Long getId() {
+        return id;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Order getOrder() {
-        return order;
-    }
 
-    public void setOrder(Order order) {
-        this.order = order;
-    }
 
     public int getQuantity() {
         return quantity;
@@ -51,54 +49,35 @@ public class OrderDetail {
         this.quantity = quantity;
     }
 
-    public float getUnitPrice() {
-        return unitPrice;
+    public Long getOrderId() {
+        return orderId;
     }
 
-    public void setUnitPrice(float unitPrice) {
-        this.unitPrice = unitPrice;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
-    // Composite key class
-    public static class OrderDetailId implements Serializable {
-        private Long product;
-        private Long order;
+    public Long getProductId() {
+        return productId;
+    }
 
-        public OrderDetailId() {
-        }
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
 
-        public OrderDetailId(Long product, Long order) {
-            this.product = product;
-            this.order = order;
-        }
+    public float getTotalItemPrice() {
+        return totalItemPrice;
+    }
 
-        public Long getProduct() {
-            return product;
-        }
+    public void setTotalItemPrice(float totalItemPrice) {
+        this.totalItemPrice = totalItemPrice;
+    }
 
-        public void setProduct(Long product) {
-            this.product = product;
-        }
+    public String getImg() {
+        return img;
+    }
 
-        public Long getOrder() {
-            return order;
-        }
-
-        public void setOrder(Long order) {
-            this.order = order;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            OrderDetailId that = (OrderDetailId) o;
-            return Objects.equals(product, that.product) && Objects.equals(order, that.order);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(product, order);
-        }
+    public void setImg(String img) {
+        this.img = img;
     }
 }

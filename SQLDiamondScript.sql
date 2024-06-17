@@ -146,23 +146,20 @@ CREATE TABLE IF NOT EXISTS order_status(
 -- ORDER TABLE
 CREATE TABLE IF NOT EXISTS `order`(
     order_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
-    user_id BIGINT,
+	username VARCHAR(50),
     order_date DATE,
     status_id BIGINT,
     total_price FLOAT,
-    FOREIGN KEY (status_id) REFERENCES order_status(status_id),
-    FOREIGN KEY (user_id) REFERENCES customer(user_id)
+    FOREIGN KEY (status_id) REFERENCES order_status(status_id)
     );
--- ORDER DETAIL TABLE
 
 CREATE TABLE IF NOT EXISTS order_detail(
+	id BIGINT PRIMARY KEY AUTO_INCREMENT,
     product_id BIGINT,
     order_id BIGINT,
     quantity BIGINT,
-    unit_price FLOAT,
-    PRIMARY KEY (product_id, order_id),
-    FOREIGN KEY (product_id) REFERENCES product(product_id),
-    FOREIGN KEY (order_id) REFERENCES `order`(order_id)
+    total_item_price FLOAT,
+	img VARCHAR(400)
     );
 
 -- ARTICLE TABLE
@@ -223,7 +220,8 @@ INSERT INTO carat (carat) VALUES
 
 -- Example entries for Jewelry table (ten for each category)
 -- Engagement Rings
-
+-- INSERT INTO jewelry (name,material_id,category_id,size_id,img,price,quantity,`date`) VALUES 
+-- ("Test1",1,1,1,"test.jpg",2.0,5,"2024-01-01");
 
 -- Insert values into Category table
 INSERT INTO category (category_name) VALUES

@@ -66,7 +66,4 @@ public class JWTUtils {
         return extractClaim(token, Claims::getExpiration).before(new Date());
     }
 
-    public Long extractUserId(String token) {
-        return extractClaim(token, claims -> Long.parseLong(claims.get("userId").toString()));
-    }
 }

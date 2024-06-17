@@ -106,23 +106,16 @@ public class AuthService {
             customer.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
             customer.setAddress(registrationRequest.getAddress());
             customer.setRegisteredDate(Date.valueOf(LocalDate.now())); // Set to current date
-
             Customer customerResult = customerRepository.save(customer);
 
             if (customerResult.getUserId() > 0) {
                 // Create an Order for the registered customer, but do not set orderDate yet
                 Order order = new Order();
-                order.setCustomer(customerResult);
-
-                // Set the default order status to 1
                 OrderStatus defaultOrderStatus = new OrderStatus();
-                defaultOrderStatus.setStatusId(1L); // Assuming statusId 1 is the default status
+                order.setUsername(customerResult.getUsername());
+                defaultOrderStatus.setStatusId(1L);
                 order.setOrderStatus(defaultOrderStatus);
-
-                order.setTotalPrice(0); // Set initial total price, if required
-
                 orderRepository.save(order);
-
                 CustomerDTO customerDTO = convertToCustomerDTO(customerResult);
                 resp.setCustomer(customerDTO);
                 resp.setMessage("Customer and Order Saved Successfully");

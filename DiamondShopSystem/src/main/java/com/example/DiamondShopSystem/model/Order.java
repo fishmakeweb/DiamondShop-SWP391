@@ -12,9 +12,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private Customer customer;
+    @Column(nullable = false)
+    private String username;
 
     @Column(nullable = true)
     @Temporal(TemporalType.DATE)
@@ -24,10 +23,9 @@ public class Order {
     @JoinColumn(name = "status_id", nullable = false)
     private OrderStatus orderStatus;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private float totalPrice;
 
-    // Getters and Setters
 
     public Long getOrderId() {
         return orderId;
@@ -37,12 +35,12 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public String getUsername() {
+        return username;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Date getOrderDate() {
@@ -68,5 +66,4 @@ public class Order {
     public void setTotalPrice(float totalPrice) {
         this.totalPrice = totalPrice;
     }
-
 }

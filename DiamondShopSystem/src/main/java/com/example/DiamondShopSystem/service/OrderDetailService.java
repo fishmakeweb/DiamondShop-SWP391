@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderDetailService {
@@ -37,24 +38,45 @@ public class OrderDetailService {
     @Autowired
     OrderRepository orderRepository;
 
-    @Transactional
-    public void addProductToOrder(Long productId, Long userId) {
-        // Fetch the product details
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        // Fetch the order for the user with status id 1
-        Order order = orderRepository.findByCustomerUserIdAndOrderStatusStatusId(userId, 1L);
+@Autowired
+private JWTUtils jwtUtils;
 
+@Transactional
+public void addToCart(String token, Long productId, String productImg, Float productPrice) {
+    String username = jwtUtils.extractUsername(token);
 
-        // Create a new OrderDetail object
-        OrderDetail orderDetail = new OrderDetail();
-        orderDetail.setProduct(product);
-        orderDetail.setOrder(order);
-        orderDetail.setQuantity(1); // Default quantity
-        orderDetail.setUnitPrice(product.getJewelry().getPrice());
+    // Find the active order for the user or create a new one
+    Optional<Order> order = orderRepository.findActiveOrderByUsername(username);
 
-        // Save the OrderDetail object
-        orderDetailRepository.save(orderDetail);
+    // Check if the product already exists in the order details
+    Optional<OrderDetail> existingDetail = orderDetailRepository
+            .findByOrderIdAndProductId(order.get().getOrderId(), productId);
+
+    if (existingDetail.isPresent()) {
+        // Product already in cart, do nothing
+        return;
     }
+
+    // Create new OrderDetail since the product is not in the cart
+    OrderDetail newDetail = new OrderDetail();
+    newDetail.setOrderId(order.get().getOrderId());
+    newDetail.setProductId(productId);
+    newDetail.setQuantity(1);  // Quantity is set to 1
+    newDetail.setTotalItemPrice(productPrice);
+    newDetail.setImg(productImg);
+    // Save the new order detail
+    orderDetailRepository.save(newDetail);
+}
+    @Transactional
+    public OrderDetail updateQuantity(Long orderDetailId, int quantity) {
+        Optional<OrderDetail> optionalOrderDetail = orderDetailRepository.findById(orderDetailId);
+        if (optionalOrderDetail.isPresent()) {
+            OrderDetail orderDetail = optionalOrderDetail.get();
+            orderDetail.setQuantity(quantity);
+            return orderDetailRepository.save(orderDetail);
+        }
+        return null; // or throw an exception as per your error handling strategy
+    }
+
 }
