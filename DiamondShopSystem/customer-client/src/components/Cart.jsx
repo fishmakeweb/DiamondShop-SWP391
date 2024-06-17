@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import AuthService from "./AuthService";
 
 function Cart({ isOpen, onClose }) {
   const [itemDetails, setItemDetails] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isOpen) {
@@ -18,7 +20,7 @@ function Cart({ isOpen, onClose }) {
         params: { orderDetailId, quantity: newQuantity },
         headers: { Authorization: `Bearer ${token}` }
       });
-      fetchCarts(); // Refetch the cart to update the UI with the latest server state
+      fetchCarts();
     } catch (error) {
       console.error('Error updating quantity:', error);
     }
@@ -29,9 +31,7 @@ function Cart({ isOpen, onClose }) {
   };
 
   const decrementQuantity = (orderDetailId, currentQuantity) => {
-  
-      updateQuantity(orderDetailId, currentQuantity - 1);
-    
+    updateQuantity(orderDetailId, currentQuantity - 1);
   };
 
   const removeFromCart = (orderDetailId) => {
@@ -41,7 +41,7 @@ function Cart({ isOpen, onClose }) {
   const fetchCarts = async () => {
     try {
       const token = localStorage.getItem('token');
-      const  data  = await AuthService.getCart(token);
+      const data = await AuthService.getCart(token);
       setItemDetails(data.map(item => ({
         ...item.product.jewelry,
         orderDetailId: item.id,
@@ -59,7 +59,8 @@ function Cart({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   const handleCheckout = () => {
-    console.log("Implementing checkout logic...");
+    const token = localStorage.getItem('token');
+    navigate('/confirmOrder', { state: { itemDetails, totalAmount: getTotalAmount(), token } });
   };
 
   return (
