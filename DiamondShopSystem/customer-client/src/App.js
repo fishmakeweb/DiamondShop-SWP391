@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Homepage from "./pages/Homepage";
 import Jewelry from "./pages/Jewelry";
 import JewelryItem from "./pages/JewelryItem";
 import ScrollToTop from "./components/ScrollToTop";
 import Diamond from "./pages/diamond.js";
-import LoginModal from "./components/LoginModal";
 import UserProfile from "./pages/UserProfile";
 import Staff from "./pages/Staff";
 import AdminPage from "./pages/AdminPage.jsx";
@@ -16,14 +15,9 @@ import LoginPage from "./pages/LoginPage.jsx";
 import SignUp from "./pages/Signup.jsx";
 import ViewAllJewelry from "./components/ViewAllJewelry.jsx";
 function App() {
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-
-  const toggleLoginModal = () => {
-    setIsLoginModalOpen(!isLoginModalOpen);
-  };
   return (
     <Router>
-        {" "}
+        {/* */}
         {/* Wrap Routes with CartProvider */}
         <div>
           <ScrollToTop />
@@ -42,7 +36,6 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/viewalljewelry" element={<ViewAllJewelry />} />
           </Routes>
-          <LoginModal isOpen={isLoginModalOpen} onClose={toggleLoginModal} />
         </div>
     </Router>
   );

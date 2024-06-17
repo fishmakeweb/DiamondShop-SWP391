@@ -91,9 +91,6 @@ function JewelryItem() {
   const [itemDetails, setItemDetails] = useState(null);
   const [buttonText, setButtonText] = useState("ADD TO BAG");
 
-
-
-
   const handleClick = async () => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -111,10 +108,12 @@ function JewelryItem() {
       })
       .then(() => {
         setButtonText("ADDED");
+        setTimeout(() => setButtonText("ADD TO BAG"), 1500);
       })
       .catch(error => {
         console.error("Error adding item to cart:", error);
       });
+
   };
   
 

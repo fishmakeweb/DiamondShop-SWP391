@@ -7,26 +7,21 @@ function Cart({ isOpen, onClose }) {
 
   useEffect(() => {
     if (isOpen) {
-      fetchCarts().then(cartItems => {
-        fetchItemDetails(cartItems);
-      });
+      fetchCarts();
     }
   }, [isOpen]);
 
-  const updateQuantity = (orderDetailId, newQuantity) => {
+  const updateQuantity = async (orderDetailId, newQuantity) => {
     const token = localStorage.getItem('token');
-    axios.post(`http://localhost:8080/api/order_details/updateQuantity`, null, {
-      params: { orderDetailId:orderDetailId, quantity: newQuantity },
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then(response => {
-        // Update local state to reflect the new quantity
-        // const updatedDetails = itemDetails.map(item =>
-        //   item.orderDetailId === orderDetailId ? { ...item, quantity: response.data.quantity } : item
-        // );
-        // setItemDetails(updatedDetails);
-      })
-      .catch(error => console.error('Error updating quantity:', error));
+    try {
+      await axios.post(`http://localhost:8080/api/order_details/updateQuantity`, null, {
+        params: { orderDetailId, quantity: newQuantity },
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      fetchCarts(); // Refetch the cart to update the UI with the latest server state
+    } catch (error) {
+      console.error('Error updating quantity:', error);
+    }
   };
 
   const incrementQuantity = (orderDetailId, currentQuantity) => {
@@ -34,48 +29,31 @@ function Cart({ isOpen, onClose }) {
   };
 
   const decrementQuantity = (orderDetailId, currentQuantity) => {
-    if (currentQuantity > 1) {
+  
       updateQuantity(orderDetailId, currentQuantity - 1);
-    }
+    
   };
 
-  const removeFromCart = (orderDetailId) => updateQuantity(orderDetailId,0);
+  const removeFromCart = (orderDetailId) => {
+    updateQuantity(orderDetailId, 0);
+  };
 
   const fetchCarts = async () => {
     try {
       const token = localStorage.getItem('token');
-      const data = await AuthService.getCart(token);
-      return data.map(item => ({
-        orderDetailId:item.id,
-        productId: item.productId,
-        orderId: item.orderId,
+      const  data  = await AuthService.getCart(token);
+      setItemDetails(data.map(item => ({
+        ...item.product.jewelry,
+        orderDetailId: item.id,
         quantity: item.quantity,
-        unitPrice: item.totalItemPrice
-      }));
+      })));
     } catch (error) {
       console.error("Error fetching users data:", error);
-      return [];
     }
   };
 
-  const fetchItemDetails = async (cartItems) => {
-    try {
-      const detailsPromises = cartItems.map(async (item) => {
-        const response = await axios.get(`http://localhost:8080/api/jewelry/${item.productId}`);
-        return {
-          jewelryId: response.data.jewelryId,
-          name: response.data.name,
-          img: response.data.img,
-          price: item.unitPrice,
-          quantity: item.quantity
-        };
-      });
-
-      const details = await Promise.all(detailsPromises);
-      setItemDetails(details);
-    } catch (error) {
-      console.error("Error fetching product details:", error);
-    }
+  const getTotalAmount = () => {
+    return itemDetails.reduce((acc, item) => acc + (item.price * item.quantity), 0);
   };
 
   if (!isOpen) return null;
@@ -114,20 +92,16 @@ function Cart({ isOpen, onClose }) {
             ) : (
               <ul className="divide-y divide-gray-200 w-full">
                 {itemDetails.map((item) => (
-                  <li key={item.jewelryId} className="py-4 flex items-center">
+                  <li key={item.orderDetailId} className="py-4 flex items-center">
                     <img
                       loading="lazy"
-                      src={`${item.img}`}
+                      src={item.img}
                       alt={item.name}
                       className="w-24 h-24 rounded-md object-cover"
                     />
                     <div className="ml-4 flex-grow">
-                      <p className="text-lg font-medium text-gray-900">
-                        {item.name}
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        Price: ${item.price}
-                      </p>
+                      <p className="text-lg font-medium text-gray-900">{item.name}</p>
+                      <p className="text-sm text-gray-500">Price: ${item.price.toFixed(2)}</p>
                       <div className="flex items-center">
                         <button className="text-sm text-gray-600 px-3 py-1 bg-gray-200 rounded-md"
                           onClick={() => decrementQuantity(item.orderDetailId, item.quantity)}>-</button>
@@ -136,7 +110,7 @@ function Cart({ isOpen, onClose }) {
                           onClick={() => incrementQuantity(item.orderDetailId, item.quantity)}>+</button>
                       </div>
                     </div>
-                    <button className="text-sm text-red-600 ml-3" onClick={() => removeFromCart(item.jewelryId)}>
+                    <button className="text-sm text-red-600 ml-3" onClick={() => removeFromCart(item.orderDetailId)}>
                       Remove
                     </button>
                   </li>
@@ -148,7 +122,7 @@ function Cart({ isOpen, onClose }) {
         {itemDetails.length > 0 && (
           <div className="mt-4">
             <p className="text-lg font-semibold text-center">
-              {/* Total Amount: ${getTotalAmount().toFixed(2)} */}
+              Total Amount: ${getTotalAmount().toFixed(2)}
             </p>
             <div className="flex justify-center mt-4">
               <button

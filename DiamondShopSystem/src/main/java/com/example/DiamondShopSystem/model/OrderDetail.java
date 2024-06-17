@@ -12,24 +12,15 @@ public class OrderDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private Long productId;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 
     @Column
     private Long orderId;
 
     @Column(nullable = false)
     private int quantity;
-
-    @Column(nullable = false)
-    private float totalItemPrice;
-
-    public String img;
-
-    // Getters and Setters
-
-
-
 
     public Long getId() {
         return id;
@@ -38,8 +29,6 @@ public class OrderDetail {
     public void setId(Long id) {
         this.id = id;
     }
-
-
 
     public int getQuantity() {
         return quantity;
@@ -57,27 +46,11 @@ public class OrderDetail {
         this.orderId = orderId;
     }
 
-    public Long getProductId() {
-        return productId;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
-
-    public float getTotalItemPrice() {
-        return totalItemPrice;
-    }
-
-    public void setTotalItemPrice(float totalItemPrice) {
-        this.totalItemPrice = totalItemPrice;
-    }
-
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

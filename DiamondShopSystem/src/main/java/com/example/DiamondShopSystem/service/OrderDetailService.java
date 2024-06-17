@@ -43,7 +43,7 @@ public class OrderDetailService {
 private JWTUtils jwtUtils;
 
 @Transactional
-public void addToCart(String token, Long productId, String productImg, Float productPrice) {
+public void addToCart(String token, Long productId) {
     String username = jwtUtils.extractUsername(token);
 
     // Find the active order for the user or create a new one
@@ -51,7 +51,7 @@ public void addToCart(String token, Long productId, String productImg, Float pro
 
     // Check if the product already exists in the order details
     Optional<OrderDetail> existingDetail = orderDetailRepository
-            .findByOrderIdAndProductId(order.get().getOrderId(), productId);
+            .findByOrderIdAndProductProductId(order.get().getOrderId(), productId);
 
     if (existingDetail.isPresent()) {
         // Product already in cart, do nothing
@@ -60,11 +60,12 @@ public void addToCart(String token, Long productId, String productImg, Float pro
 
     // Create new OrderDetail since the product is not in the cart
     OrderDetail newDetail = new OrderDetail();
+    Product product = productRepository.findById(productId).get();
     newDetail.setOrderId(order.get().getOrderId());
-    newDetail.setProductId(productId);
+
+    newDetail.setProduct(product);
+
     newDetail.setQuantity(1);  // Quantity is set to 1
-    newDetail.setTotalItemPrice(productPrice);
-    newDetail.setImg(productImg);
     // Save the new order detail
     orderDetailRepository.save(newDetail);
 }
@@ -73,8 +74,15 @@ public void addToCart(String token, Long productId, String productImg, Float pro
         Optional<OrderDetail> optionalOrderDetail = orderDetailRepository.findById(orderDetailId);
         if (optionalOrderDetail.isPresent()) {
             OrderDetail orderDetail = optionalOrderDetail.get();
-            orderDetail.setQuantity(quantity);
-            return orderDetailRepository.save(orderDetail);
+            if (quantity == 0) {
+                // If quantity is 0, delete the OrderDetail from the database
+                orderDetailRepository.delete(orderDetail);
+                return null; // Return null or handle as needed after deletion
+            } else {
+                // Update quantity if it is not zero
+                orderDetail.setQuantity(quantity);
+                return orderDetailRepository.save(orderDetail);
+            }
         }
         return null; // or throw an exception as per your error handling strategy
     }

@@ -31,8 +31,8 @@ public class OrderDetailController {
     }
 
     @PostMapping("/addToCart")
-    public void addProductToOrder(@RequestHeader("Authorization") String token, @RequestParam Long productId, @RequestParam String productImg, @RequestParam Float productPrice) {
-        orderDetailService.addToCart(token.substring(7), productId, productImg, productPrice);
+    public void addProductToOrder(@RequestHeader("Authorization") String token, @RequestParam Long productId) {
+        orderDetailService.addToCart(token.substring(7), productId);
     }
 
     @GetMapping
