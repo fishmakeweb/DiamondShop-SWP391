@@ -14,6 +14,8 @@ import AddDiamond from "./components/AddDiamond.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import SignUp from "./pages/Signup.jsx";
 import ViewAllJewelry from "./components/ViewAllJewelry.jsx";
+import ConfirmOrder from "./pages/OrderConfirm.jsx";
+
 function App() {
   return (
     <Router>
@@ -33,8 +35,9 @@ function App() {
             <Route path="/addjewelry" element={<AddJewelry />} />
             <Route path="/adddiamond" element={<AddDiamond />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignUp />} />
+            <Route path="/login/signup" element={<SignUp />} />
             <Route path="/viewalljewelry" element={<ViewAllJewelry />} />
+            <Route path="/confirmOrder" element={<ConfirmOrder />} />
           </Routes>
         </div>
     </Router>
