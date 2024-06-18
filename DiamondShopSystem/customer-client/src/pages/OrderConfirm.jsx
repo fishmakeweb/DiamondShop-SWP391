@@ -28,7 +28,7 @@ function ConfirmOrder() {
     return <div>Loading...</div>;
   }
 
-  const { fullName, email, address, username } = profile.customer;
+  const { fullName, email, address } = profile.customer;
   const { registeredDate } = profile.customer;
 
   return (
