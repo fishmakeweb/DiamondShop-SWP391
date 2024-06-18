@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../axios.js';
 
 function ChangePassword({ onClose, profile }) {
   const [password, setPassword] = useState('');
@@ -27,7 +27,7 @@ function ChangePassword({ onClose, profile }) {
       const userPassword = {
         password
       };
-      const response = await axios.put(`http://localhost:8080/api/secure/customers/password/${profile.customer.userId}`, userPassword);
+      const response = await axios.put(`/secure/customers/password/${profile.customer.userId}`, userPassword);
       console.log('Update successful', response);
       onClose();
     } catch (error) {

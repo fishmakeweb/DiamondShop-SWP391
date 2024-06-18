@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../axios.js';
 
 function UpdateUser({ onClose, profile }) {
   const [fullName, setFullName] = useState('');
@@ -54,7 +54,7 @@ function UpdateUser({ onClose, profile }) {
         email,
         address,
       };
-      const response = await axios.put(`http://localhost:8080/api/secure/customers/${profile.customer.userId}`, userData);
+      const response = await axios.put(`/secure/customers/${profile.customer.userId}`, userData);
       console.log('Update successful', response);
       onClose();
     } catch (error) {

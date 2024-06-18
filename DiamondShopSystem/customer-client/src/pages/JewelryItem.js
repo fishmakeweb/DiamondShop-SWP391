@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import NewNavbar from "../components/NewNavbar.js";
 import Footer from "../components/Footer";
 import RecommendItem from "../components/RecommendItem";
-import axios from "../axios.js";
+import axios from "../axios";
 import AuthService from "../components/AuthService.js";
 const Item = () => {
   let navigate = useNavigate();

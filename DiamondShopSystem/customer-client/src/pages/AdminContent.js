@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../axios.js';
 import AddUser from '../pages/AddUser';
 import UsersTable from '../pages/UserTable';
 
@@ -16,7 +16,7 @@ function Content() {
 
     const fetchUsers = async () => {
         try {
-            const response = await axios.get("http://localhost:8080/api/secure/staffs");
+            const response = await axios.get("/secure/staffs");
             const transformedData = response.data.map(user => ({
                 staffId: user.staffId,
                 fullName: user.fullName,

@@ -1,6 +1,6 @@
 import React, {useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../axios";
 import { Link } from 'react-router-dom';
 import SortBar from "../components/sortbar";
 import Pagination from "../components/Pagination";
@@ -18,7 +18,7 @@ export default function Jewelry() {
   useEffect(() => {
     const pageNumber = parseInt(page_number, 10) || 1;
     axios
-      .get(`http://localhost:8080/api/products/jewelry/${pageNumber}`)
+      .get(`/products/jewelry/${pageNumber}`)
       .then(response => {
         setItems(response.data.content);
         setTotalPages(response.data.totalPages);

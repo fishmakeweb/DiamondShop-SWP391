@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AuthService from "../components/AuthService";
-import axios from "axios";
+import axios from "../axios.js";
 
 function AddUser({ isOpen, onClose, user }) {
     const [fullName, setFullName] = useState('');
@@ -65,7 +65,7 @@ function AddUser({ isOpen, onClose, user }) {
                     email,
                     role: { roleName: role }
                 };
-                response = await axios.put(`http://localhost:8080/api/secure/staffs/${user.staffId}`, updateUser);
+                response = await axios.put(`/secure/staffs/${user.staffId}`, updateUser);
                 console.log('Update successful: ', response);
             } else {
                 response = await AuthService.registerStaff(staffData);

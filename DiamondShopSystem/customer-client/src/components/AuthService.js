@@ -1,11 +1,11 @@
-import axios from "axios";
+import axios from "../axios.js"
 
 class AuthService {
-  static BASE_URL = "http://localhost:8080/api/auth";
+  // static BASE_URL = "http://localhost:8080/api/auth";
   static USER_ID = null;
   static async login(username, password) {
     try {
-      const response = await axios.post(`${this.BASE_URL}/login`, {
+      const response = await axios.post(`/auth/login`, {
         username,
         password,
       });
@@ -35,7 +35,7 @@ class AuthService {
   static async registerCustomer(userData) {
     try {
       const response = await axios.post(
-        `${this.BASE_URL}/register/customer`,
+        `/auth/register/customer`,
         userData
       );
       return response.data;
@@ -47,7 +47,7 @@ class AuthService {
   static async registerStaff(userData) {
     try {
       const response = await axios.post(
-        `${this.BASE_URL}/register/staff`,
+        `/auth/register/staff`,
         userData
       );
       return response.data;
@@ -58,7 +58,7 @@ class AuthService {
 
   static async getProfile(token) {
     try {
-      const response = await axios.get(`http://localhost:8080/api/profile`, {
+      const response = await axios.get(`/profile`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return response.data;
@@ -69,7 +69,7 @@ class AuthService {
 
   static async getCart(token) {
     try {
-      const response = await axios.get(`http://localhost:8080/api/orders/getcart`, {
+      const response = await axios.get(`/orders/getcart`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return response.data;
@@ -83,7 +83,7 @@ class AuthService {
   static async refreshToken() {
     try {
       const refreshToken = localStorage.getItem("refreshToken");
-      const response = await axios.post(`${this.BASE_URL}/refresh`, {
+      const response = await axios.post(`/auth/refresh`, {
         refreshToken,
       });
       localStorage.setItem("token", response.data.token);

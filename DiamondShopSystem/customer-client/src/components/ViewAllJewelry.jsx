@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "../axios";
+import axios from "../axios.js";
 import UpdateJewelry from "./UpdateJewelry";
 
 const ViewAllJewelry = () => {

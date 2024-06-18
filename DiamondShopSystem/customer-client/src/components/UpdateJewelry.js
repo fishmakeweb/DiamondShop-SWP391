@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "../axios";
+import axios from "../axios.js";
 
 const UpdateJewelry = ({ jewelryId, onClose }) => {
   const [jewelry, setJewelry] = useState(null);

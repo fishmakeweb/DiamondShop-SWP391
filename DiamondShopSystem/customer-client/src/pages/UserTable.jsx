@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../axios.js";
 import React, { useState } from "react";
 
 function UsersTable({ usersInfo, onDelete, onUpdate }) {
@@ -20,7 +20,7 @@ function UsersTable({ usersInfo, onDelete, onUpdate }) {
   };
 
   const handleDelUser = (userId) => {
-    axios.delete(`http://localhost:8080/api/secure/staffs/${userId}`)
+    axios.delete(`/secure/staffs/${userId}`)
       .then(response => {
         onDelete(userId);
       })

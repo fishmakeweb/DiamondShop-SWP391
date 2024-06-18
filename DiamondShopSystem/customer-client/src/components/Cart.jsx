@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "../axios";
 import { useNavigate } from "react-router-dom";
 import AuthService from "./AuthService";
 
@@ -16,7 +16,7 @@ function Cart({ isOpen, onClose }) {
   const updateQuantity = async (orderDetailId, newQuantity) => {
     const token = localStorage.getItem('token');
     try {
-      await axios.post(`http://localhost:8080/api/order_details/updateQuantity`, null, {
+      await axios.post(`/order_details/updateQuantity`, null, {
         params: { orderDetailId, quantity: newQuantity },
         headers: { Authorization: `Bearer ${token}` }
       });
