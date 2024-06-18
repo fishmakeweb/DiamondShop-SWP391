@@ -65,7 +65,7 @@ const SideNav = ({ isOpen }) => {
               </li>
               <li className="mb-4">
                 <Link
-                  to="/addjewelry"
+                  to="/viewalljewelry"
                   href=""
                   className="text-gray-400 text-sm flex items-center hover:text-[#f84525]"
                 >

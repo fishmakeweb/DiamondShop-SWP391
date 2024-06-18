@@ -92,16 +92,6 @@ const UpdateJewelry = ({ jewelryId, onClose }) => {
     if (jewelryQuantity && jewelryQuantity <= 0)
       newErrors.jewelryQuantity = "Quantity must be greater than 0.";
 
-    if (jewelryName) {
-      try {
-        const response = await axios.get(`/jewelry/check-name/${jewelryName}`);
-        if (response.data && response.data.jewelryId !== jewelryId) {
-          newErrors.jewelryName = "Jewelry name already exists.";
-        }
-      } catch (error) {
-        console.error("Error checking jewelry name:", error);
-      }
-    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
