@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "../axios";
-
+import { Link } from "react-router-dom";
 const SubmitMessage = ({ onClose }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -373,6 +373,11 @@ const FormAddJewelry = () => {
                     Submit
                   </button>
                 </form>
+                <a href="viewalljewelry">
+                  <button className="mt-5 border-2 px-5 py-2 rounded-lg border-black border-b-4 font-black translate-y-2 border-l-4">
+                    Back to view
+                  </button>
+                </a>
               </div>
             </div>
           </div>
