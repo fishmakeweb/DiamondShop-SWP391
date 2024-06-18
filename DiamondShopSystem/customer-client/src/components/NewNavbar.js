@@ -1,11 +1,20 @@
-import React, { useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Added useNavigate
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Cart from "./Cart";
 import AuthService from "./AuthService";
 
 const NewNavbar = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleSearchSubmit = () => {
+    console.log("Search Term:", searchTerm);
+  };
+
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const navigate = useNavigate(); // Define navigate
+  const navigate = useNavigate();
 
   const toggleCartModal = () => {
     setIsCartOpen(!isCartOpen);
@@ -154,20 +163,24 @@ const NewNavbar = () => {
         {/* login */}
         <div className="flex-initial">
           <div className="flex justify-end items-center relative">
-            <div className="flex mr-4 items-center">
+            <div className="flex items-center">
               <a
                 className="inline-block py-2 px-3 hover:bg-gray-200 rounded-full"
                 href="#"
               >
                 <div className="flex items-center relative cursor-pointer whitespace-nowrap">
-                  <button
-                    className="flex items-center flex-grow-0 flex-shrink pl-2 relative w-60 border rounded-full px-1 py-1"
-                    type="button"
-                  >
-                    <div className="block flex-grow flex-shrink overflow-hidden">
-                      Start your search
-                    </div>
-                    <div className="flex items-center justify-center relative h-8 w-8 rounded-full">
+                  <div className="relative w-60">
+                    <input
+                      type="text"
+                      value={searchTerm}
+                      onChange={handleSearchChange}
+                      placeholder="Start your search"
+                      className="flex-grow w-full pl-3 py-1.5 pr-8 text-sm bg-transparent border border-gray-300 rounded-full focus:outline-none"
+                    />
+                    <div
+                      className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+                      onClick={handleSearchSubmit}
+                    >
                       <svg
                         viewBox="0 0 32 32"
                         xmlns="http://www.w3.org/2000/svg"
@@ -176,12 +189,9 @@ const NewNavbar = () => {
                         focusable="false"
                         style={{
                           display: "block",
-                          fill: "none",
-                          height: 12,
-                          width: 12,
-                          stroke: "currentcolor",
-                          strokeWidth: "5.33333",
-                          overflow: "visible",
+                          height: "100%",
+                          width: "100%",
+                          fill: "currentcolor",
                         }}
                       >
                         <g fill="none">
@@ -189,7 +199,7 @@ const NewNavbar = () => {
                         </g>
                       </svg>
                     </div>
-                  </button>
+                  </div>
                 </div>
               </a>
               <div className="block relative">
@@ -205,58 +215,57 @@ const NewNavbar = () => {
                         viewBox="0 0 24 24"
                       >
                         <path d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42C7.28,15 7.17,14.89 7.17,14.75L7.2,14.65L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.59C21,5.39 21.06,5.2 21.06,5A1,1 0 0,0 20.06,4H5.21L4.27,2H1Z" />
+                        <g fill="none">
+                          <path d="m13 24c6.0751322 0 11-4.9248678 11-11 0-6.07513225-4.9248678-11-11-11-6.07513225 0-11 4.92486775-11 11 0 6.0751322 4.92486775 11 11 11zm8-3 9 9" />
+                        </g>
                       </svg>
-                      {/* {cart.length > 0 && (
-                        <div className="absolute top-0 right-0 w-2 h-2 bg-[#B6A69D] rounded-full"></div>
-                      )} */}
                     </div>
                   </div>
                 </button>
               </div>
             </div>
             {AuthService.isAuthenticated() ? (
-              <div className="block">
+              <div className="flex mr-4 mt-1">
                 <div className="inline relative">
                   <button
                     onClick={handleLogout}
                     className="inline-flex items-center relative px-2 border rounded-full hover:shadow-lg"
                   >
-                    <div className="pl-1">
+                    <div className="block flex-grow-0 flex-shrink-0 h-8 w-6">
                       <svg
-                        className="w-6 h-6 text-gray-700"
                         viewBox="0 0 32 32"
                         xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true"
+                        role="presentation"
+                        focusable="false"
+                        className="h-full w-full fill-current"
                       >
-                        <g fill="none">
-                          <path
-                            d="m16 2c3.866 0 7 3.134 7 7v5h1c1.1046 0 2 .89543 2 2v13c0 1.1046-.8954 2-2 2h-16c-1.10457 0-2-.8954-2-2v-13c0-1.10457.89543-2 2-2h1v-5c0-3.866 3.13401-7 7-7zm0 18c-2.2091 0-4 1.7909-4 4h8c0-2.2091-1.7909-4-4-4zm0-13c-2.2091 0-4 1.7909-4 4v5h8v-5c0-2.2091-1.7909-4-4-4z"
-                            fill="currentColor"
-                          />
-                        </g>
+                        <path d="m16 .7c-8.437 0-15.3 6.863-15.3 15.3s6.863 15.3 15.3 15.3 15.3-6.863 15.3-15.3-6.863-15.3-15.3-15.3zm0 28c-4.021 0-7.605-1.884-9.933-4.81a12.425 12.425 0 0 1 6.451-4.4 6.507 6.507 0 0 1 -3.018-5.49c0-3.584 2.916-6.5 6.5-6.5s6.5 2.916 6.5 6.5a6.513 6.513 0 0 1 -3.019 5.491 12.42 12.42 0 0 1 6.452 4.4c-2.328 2.925-5.912 4.809-9.933 4.809z" />
                       </svg>
                     </div>
                   </button>
                 </div>
               </div>
             ) : (
-              <div className="block">
+              <div className="flex mr-4 mt-1">
                 <div className="inline relative">
                   <Link
                     to="/login"
                     className="inline-flex items-center relative px-2 border rounded-full hover:shadow-lg"
                   >
-                    <div className="pl-1">
+                    <div className="block flex-grow-0 flex-shrink-0 h-8 w-6">
                       <svg
-                        className="w-6 h-6 text-gray-700"
                         viewBox="0 0 32 32"
                         xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true"
+                        role="presentation"
+                        focusable="false"
+                        className="h-full w-full fill-current"
                       >
-                        <g fill="none">
-                          <path
-                            d="m16 2c3.866 0 7 3.134 7 7v5h1c1.1046 0 2 .89543 2 2v13c0 1.1046-.8954 2-2 2h-16c-1.10457 0-2-.8954-2-2v-13c0-1.10457.89543-2 2-2h1v-5c0-3.866 3.13401-7 7-7zm0 18c-2.2091 0-4 1.7909-4 4h8c0-2.2091-1.7909-4-4-4zm0-13c-2.2091 0-4 1.7909-4 4v5h8v-5c0-2.2091-1.7909-4-4-4z"
-                            fill="currentColor"
-                          />
-                        </g>
+                        <path
+                          d="m16 2c3.866 0 7 3.134 7 7v5h1c1.1046 0 2 .89543 2 2v13c0 1.1046-.8954 2-2 2h-16c-1.10457 0-2-.8954-2-2v-13c0-1.10457.89543-2 2-2h1v-5c0-3.866 3.13401-7 7-7zm0 18c-2.2091 0-4 1.7909-4 4h8c0-2.2091-1.7909-4-4-4zm0-13c-2.2091 0-4 1.7909-4 4v5h8v-5c0-2.2091-1.7909-4-4-4z"
+                          fill="currentColor"
+                        />
                       </svg>
                     </div>
                   </Link>
@@ -267,6 +276,18 @@ const NewNavbar = () => {
         </div>
         {/* end login */}
       </nav>
+      <style jsx>{`
+        @media (max-width: 996px) {
+          .custom-hide {
+            display: none;
+          }
+        }
+        .dropdown:focus-within .dropdown-menu {
+          opacity: 1;
+          transform: translate(0) scale(1);
+          visibility: visible;
+        }
+      `}</style>
       <Cart isOpen={isCartOpen} onClose={toggleCartModal} />
     </>
   );

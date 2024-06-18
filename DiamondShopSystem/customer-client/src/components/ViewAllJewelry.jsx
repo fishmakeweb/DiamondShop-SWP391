@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "../axios";
 import UpdateJewelry from "./UpdateJewelry";
 
@@ -144,7 +145,9 @@ const ViewAllJewelry = () => {
                   d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <span>Add vendor</span>
+              <Link to="/addjewelry">
+                <span>Add Jewelry</span>
+              </Link>
             </button>
           </div>
         </div>
@@ -353,7 +356,7 @@ const ViewAllJewelry = () => {
                             {editingJewelryId === item.jewelryId &&
                               showActionOverlay && (
                                 <div
-                                  className="absolute right-0 z-50 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg"
+                                  className="fixed right-0 z-50 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg"
                                   onClick={(e) => e.stopPropagation()}
                                 >
                                   <button
