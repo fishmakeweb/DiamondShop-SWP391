@@ -38,36 +38,33 @@ function ChangePassword({ onClose, profile }) {
   };
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
-      <div className="flex flex-col px-6 py-5 mt-18 w-full bg-white rounded-lg border border-solid border-gray-200 max-w-3xl shadow-lg">
-        <div className="flex justify-between items-center text-lg font-semibold text-gray-800">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
+        <div className="flex justify-between items-center text-lg font-semibold text-gray-800 mb-6">
           <div>Change Password</div>
-          <button onClick={onClose} className="text-gray-500 text-2xl">&times;</button>
         </div>
-        <form onSubmit={handleChangePassword}>
-          <div className="flex flex-col gap-4 mt-4 text-gray-800">
-            <div className="flex flex-col p-3 bg-white rounded-lg border border-solid border-gray-200">
-              <label htmlFor="password" className="font-medium">New Password *</label>
-              <input
-                id="password"
-                type="password"
-                className="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <div className="flex flex-col p-3 bg-white rounded-lg border border-solid border-gray-200">
-              <label htmlFor="confirmPassword" className="font-medium">Confirm New Password *</label>
-              <input
-                id="confirmPassword"
-                type="password"
-                className="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-              {passwordError && <span className="text-red-500 mt-1">{passwordError}</span>}
-            </div>
+        <form onSubmit={handleChangePassword} className="space-y-4">
+          <div>
+            <label htmlFor="password" className="block font-medium">New Password *</label>
+            <input
+              id="password"
+              type="password"
+              className="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
-          <div className="flex justify-end gap-4 mt-6">
+          <div>
+            <label htmlFor="confirmPassword" className="block font-medium">Confirm New Password *</label>
+            <input
+              id="confirmPassword"
+              type="password"
+              className="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+            {passwordError && <span className="text-red-500 mt-1">{passwordError}</span>}
+          </div>
+          <div className="flex justify-end space-x-4 mt-6">
             <button onClick={onClose} className="px-6 py-2 font-semibold text-gray-500 border border-gray-300 rounded-lg hover:bg-gray-100">
               Cancel
             </button>
