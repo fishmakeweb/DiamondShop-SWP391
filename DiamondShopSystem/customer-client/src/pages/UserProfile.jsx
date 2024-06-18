@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import UpdateUser from '../components/UpdateUser.jsx';
 import ChangePassword from './ChangePassword.jsx';
-import Footer from '../components/Footer.js';
 import AuthService from '../components/AuthService.js';
+import NewNavbar from '../components/NewNavbar.js';
+import { Link } from 'react-router-dom';
 
 function UserProfile() {
   const [showUpdateUser, setShowUpdateUser] = useState(false);
-  const [showChangePassword, setShowChangePassword] = useState(false);
   const [profile, setProfile] = useState(null);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false); // State for success message
 
   useEffect(() => {
     fetchProfile();
@@ -28,26 +27,9 @@ function UserProfile() {
     setShowUpdateUser(true);
   };
 
-  const handleChangePasswordClick = () => {
-    setShowChangePassword(true);
-  };
-
   const handleCloseUpdate = () => {
     setShowUpdateUser(false);
     fetchProfile();
-  };
-
-  const handleCloseChangePassword = () => {
-    setShowChangePassword(false);
-    fetchProfile();
-  };
-
-  const handlePasswordChangeSuccess = () => {
-    setShowSuccessMessage(true);
-
-    setTimeout(() => {
-      setShowSuccessMessage(false);
-    }, 1000);
   };
 
   if (!profile) {
@@ -59,7 +41,8 @@ function UserProfile() {
 
   return (
     <section className="w-full overflow-hidden bg-white">
-      <div className="flex flex-col">
+      <NewNavbar />
+      <div className="flex flex-col mt-5">
         <img
           src="https://images.unsplash.com/photo-1607090788189-3f52e15141d2?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt="User Cover"
@@ -112,31 +95,18 @@ function UserProfile() {
             >
               Update Profile
             </button>
-            <button
-              onClick={handleChangePasswordClick}
+            <Link
+              to="/changePassword"
               className="px-6 py-2 font-semibold text-white bg-black rounded-lg hover:bg-gray-800"
             >
               Change Password
-            </button>
+            </Link>
           </div>
         </div>
       </div>
-      <Footer />
 
       {showUpdateUser && (
         <UpdateUser onClose={handleCloseUpdate} profile={profile} />
-      )}
-
-      {showChangePassword && (
-        <ChangePassword onClose={() => { handleCloseChangePassword(); handlePasswordChangeSuccess(); }} profile={profile}/>
-      )}
-
-      {showSuccessMessage && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="bg-white border border-gray-300 p-4 rounded-lg shadow-md">
-            <p className="text-green-500 text-lg font-semibold">Password changed successfully!</p>
-          </div>
-        </div>
       )}
     </section>
   );
