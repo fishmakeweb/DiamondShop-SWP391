@@ -16,6 +16,7 @@ import SignUp from "./pages/Signup.jsx";
 import ViewAllJewelry from "./components/ViewAllJewelry.jsx";
 import ConfirmOrder from "./pages/OrderConfirm.jsx";
 import ChangePassword from "./pages/ChangePassword.jsx";
+import EmailComponent from "./pages/EmailComponent.jsx";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
             <Route path="/viewalljewelry" element={<ViewAllJewelry />} />
             <Route path="/confirmOrder" element={<ConfirmOrder />} />
             <Route path="/changePassword" element={<ChangePassword />} />
+            <Route path="/emailComponent" element={<EmailComponent />} />
           </Routes>
         </div>
     </Router>
