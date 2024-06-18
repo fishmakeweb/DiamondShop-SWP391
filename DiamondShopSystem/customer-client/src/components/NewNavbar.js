@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Cart from "./Cart";
 import AuthService from "./AuthService";
+import UserProfileOverlay from "../pages/UserProfileOverlay";
 
 const NewNavbar = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -14,18 +15,25 @@ const NewNavbar = () => {
   };
 
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const [isUserOverlayOpen, setIsUserOverlayOpen] = useState(false); 
+
   const navigate = useNavigate();
 
   const toggleCartModal = () => {
     setIsCartOpen(!isCartOpen);
+    setIsUserOverlayOpen(false);
+  };
+
+  const toggleUserOverlay = () => {
+    setIsUserOverlayOpen(!isUserOverlayOpen);
+    setIsCartOpen(false);
   };
 
   const handleLogout = () => {
-    if (window.confirm("Are you sure you want to logout?")) {
-      AuthService.logout();
-      navigate("/");
-      window.location.reload();
-    }
+    AuthService.logout();
+    navigate("/");
+    window.location.reload();
   };
 
   return (
@@ -227,8 +235,8 @@ const NewNavbar = () => {
             {AuthService.isAuthenticated() ? (
               <div className="flex mr-4 mt-1">
                 <div className="inline relative">
-                  <button
-                    onClick={handleLogout}
+                  <div
+                    onClick={toggleUserOverlay}
                     className="inline-flex items-center relative px-2 border rounded-full hover:shadow-lg"
                   >
                     <div className="block flex-grow-0 flex-shrink-0 h-8 w-6">
@@ -243,7 +251,7 @@ const NewNavbar = () => {
                         <path d="m16 .7c-8.437 0-15.3 6.863-15.3 15.3s6.863 15.3 15.3 15.3 15.3-6.863 15.3-15.3-6.863-15.3-15.3-15.3zm0 28c-4.021 0-7.605-1.884-9.933-4.81a12.425 12.425 0 0 1 6.451-4.4 6.507 6.507 0 0 1 -3.018-5.49c0-3.584 2.916-6.5 6.5-6.5s6.5 2.916 6.5 6.5a6.513 6.513 0 0 1 -3.019 5.491 12.42 12.42 0 0 1 6.452 4.4c-2.328 2.925-5.912 4.809-9.933 4.809z" />
                       </svg>
                     </div>
-                  </button>
+                  </div>
                 </div>
               </div>
             ) : (
@@ -276,6 +284,13 @@ const NewNavbar = () => {
         </div>
         {/* end login */}
       </nav>
+
+      <UserProfileOverlay
+        isOpen={isUserOverlayOpen}
+        onClose={toggleUserOverlay}
+        doLogout={handleLogout}
+      />
+
       <style jsx>{`
         @media (max-width: 996px) {
           .custom-hide {
@@ -288,6 +303,7 @@ const NewNavbar = () => {
           visibility: visible;
         }
       `}</style>
+
       <Cart isOpen={isCartOpen} onClose={toggleCartModal} />
     </>
   );

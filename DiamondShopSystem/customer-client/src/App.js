@@ -15,6 +15,7 @@ import LoginPage from "./pages/LoginPage.jsx";
 import SignUp from "./pages/Signup.jsx";
 import ViewAllJewelry from "./components/ViewAllJewelry.jsx";
 import ConfirmOrder from "./pages/OrderConfirm.jsx";
+import ChangePassword from "./pages/ChangePassword.jsx";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
             <Route path="/login/signup" element={<SignUp />} />
             <Route path="/viewalljewelry" element={<ViewAllJewelry />} />
             <Route path="/confirmOrder" element={<ConfirmOrder />} />
+            <Route path="/changePassword" element={<ChangePassword />} />
           </Routes>
         </div>
     </Router>
