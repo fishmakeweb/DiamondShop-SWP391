@@ -2,21 +2,27 @@ import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Added useNavigate
 import Cart from "./Cart";
 import AuthService from "./AuthService";
+import UserProfileOverlay from "../pages/UserProfileOverlay";
 
 const NewNavbar = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const navigate = useNavigate(); // Define navigate
+  const [isUserOverlayOpen, setIsUserOverlayOpen] = useState(false); // State for user overlay
+  const navigate = useNavigate();
 
   const toggleCartModal = () => {
     setIsCartOpen(!isCartOpen);
+    setIsUserOverlayOpen(false);
+  };
+
+  const toggleUserOverlay = () => {
+    setIsUserOverlayOpen(!isUserOverlayOpen);
+    setIsCartOpen(false);
   };
 
   const handleLogout = () => {
-    if (window.confirm("Are you sure you want to logout?")) {
-      AuthService.logout();
-      navigate("/");
-      window.location.reload();
-    }
+    AuthService.logout();
+    navigate("/");
+    window.location.reload();
   };
 
   return (
@@ -217,8 +223,8 @@ const NewNavbar = () => {
             {AuthService.isAuthenticated() ? (
               <div className="block">
                 <div className="inline relative">
-                  <button
-                    onClick={handleLogout}
+                  <div
+                    onClick={toggleUserOverlay}
                     className="inline-flex items-center relative px-2 border rounded-full hover:shadow-lg"
                   >
                     <div className="pl-1">
@@ -235,7 +241,7 @@ const NewNavbar = () => {
                         </g>
                       </svg>
                     </div>
-                  </button>
+                  </div>
                 </div>
               </div>
             ) : (
@@ -267,6 +273,11 @@ const NewNavbar = () => {
         </div>
         {/* end login */}
       </nav>
+      <UserProfileOverlay
+        isOpen={isUserOverlayOpen}
+        onClose={toggleUserOverlay}
+        doLogout={handleLogout}
+      />
       <Cart isOpen={isCartOpen} onClose={toggleCartModal} />
     </>
   );
