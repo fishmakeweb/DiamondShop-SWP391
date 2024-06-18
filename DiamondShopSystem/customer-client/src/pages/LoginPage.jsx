@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../components/AuthService";
+import { Link } from "react-router-dom";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -408,9 +409,9 @@ const LoginPage = () => {
             <div className="mt-4 text-sm text-gray-600 text-center">
               <p>
                 Don't have an account?{" "}
-                <a href="#" className="text-black hover:underline">
+                <Link to="signup" className="text-black hover:underline">
                   Signup here
-                </a>
+                </Link>
               </p>
             </div>
           </div>

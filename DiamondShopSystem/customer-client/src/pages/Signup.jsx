@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import AuthService from "../components/AuthService";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
   const [fullName, setFullName] = useState("");
@@ -148,9 +149,9 @@ const SignUp = () => {
           <div className="mt-4 text-sm text-gray-600 text-center">
             <p>
               Already have an account?{" "}
-              <a href="#" className="text-black hover:underline">
+              <Link to="/login" className="text-black hover:underline">
                 Login here
-              </a>
+              </Link>
             </p>
           </div>
         </div>
