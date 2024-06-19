@@ -19,6 +19,11 @@ const UserProfileOverlay = ({ onClose, isOpen, doLogout }) => {
                         </Link>
                     </li>
                     <li>
+                        <Link to={"#"} className="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-black hover:bg-gray-50">
+                            Messages
+                        </Link>
+                    </li>
+                    <li>
                         <Link to="#" className="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-black hover:bg-gray-50">
                             Track order
                         </Link>
