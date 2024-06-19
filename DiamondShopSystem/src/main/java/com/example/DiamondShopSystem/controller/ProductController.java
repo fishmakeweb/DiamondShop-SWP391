@@ -59,5 +59,9 @@ public class ProductController {
         productService.deleteProduct(id);
     }
 
+    @GetMapping("/products/jewelry/page")
+    public Page<JewelryDTO> getJewelryPageSort(@RequestParam int page, @RequestParam int size) {
+        return productService.getAllJewelryDTOsSort(page, size);
+    }
 
 }
