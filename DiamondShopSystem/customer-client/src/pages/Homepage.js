@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Footer from '../components/Footer';
 import NewNavbar from "../components/NewNavbar";
-import Slider from "../components/Slider";
+import Slider from "../components/Slider"
 
 function Homepage() {
   useEffect(() => {

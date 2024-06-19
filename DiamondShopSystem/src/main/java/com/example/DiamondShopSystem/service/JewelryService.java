@@ -8,7 +8,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -82,7 +85,13 @@ public class JewelryService {
     }
 
     public void deleteJewelry(Long id) {
-        jewelryRepository.deleteById(id);
+        Optional<Jewelry> jewelry = jewelryRepository.findById(id);
+        if (jewelry.isPresent()) {
+            productService.deleteProductByJewelryId(id);
+            jewelryRepository.deleteById(id);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Jewelry not found with id " + id);
+        }
     }
     public List<Jewelry> findAllByCategoryId(Long categoryId) {
         return jewelryRepository.findAll().stream()

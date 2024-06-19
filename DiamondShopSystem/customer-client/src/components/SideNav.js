@@ -56,7 +56,7 @@ const SideNav = ({ isOpen }) => {
             >
               <li className="mb-4">
                 <Link
-                  to="/adddiamond"
+                  to="/viewalldiamond"
                   href=""
                   className="text-gray-400 text-sm flex items-center hover:text-[#f84525]"
                 >

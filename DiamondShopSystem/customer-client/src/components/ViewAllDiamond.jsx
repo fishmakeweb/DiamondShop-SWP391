@@ -1,34 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "../axios";
-import UpdateJewelry from "./UpdateJewelry";
+import UpdateDiamond from "./UpdateDiamond";
 
-const ViewAllJewelry = () => {
-  const [jewelry, setJewelry] = useState([]);
+const ViewAllDiamond = () => {
+  const [diamonds, setDiamonds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [editingJewelryId, setEditingJewelryId] = useState(null);
+  const [editingDiamondId, setEditingDiamondId] = useState(null);
   const [showActionOverlay, setShowActionOverlay] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
 
-  const fetchJewelry = async (page = 1) => {
+  const fetchDiamonds = async (page = 1) => {
     setLoading(true);
     try {
-      const response = await axios.get(`/jewelry/page?page=${page}&size=8`);
-      setJewelry(response.data.content);
+      const response = await axios.get(`/diamonds/page?page=${page}&size=8`);
+      setDiamonds(response.data.content);
       setTotalPages(response.data.totalPages);
       setLoading(false);
     } catch (error) {
-      setError("Failed to fetch jewelry data.");
+      setError("Failed to fetch diamond data.");
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchJewelry(currentPage);
+    fetchDiamonds(currentPage);
   }, [currentPage]);
 
   const handlePageChange = (newPage) => {
@@ -37,12 +37,12 @@ const ViewAllJewelry = () => {
     }
   };
 
-  const handleEditClick = (jewelryId) => {
-    if (editingJewelryId === jewelryId && showActionOverlay) {
+  const handleEditClick = (diamondId) => {
+    if (editingDiamondId === diamondId && showActionOverlay) {
       setShowActionOverlay(false);
-      setEditingJewelryId(null);
+      setEditingDiamondId(null);
     } else {
-      setEditingJewelryId(jewelryId);
+      setEditingDiamondId(diamondId);
       setShowActionOverlay(true);
     }
   };
@@ -56,19 +56,19 @@ const ViewAllJewelry = () => {
     }
   };
 
-  const handleDelete = async (jewelryId) => {
+  const handleDelete = async (diamondId) => {
     try {
-      await axios.delete(`/secure/jewelry/${jewelryId}`);
+      await axios.delete(`/secure/diamonds/${diamondId}`);
       setShowDeleteConfirmation(false);
-      fetchJewelry(currentPage);
+      fetchDiamonds(currentPage);
     } catch (error) {
-      console.error("Delete jewelry failed:", error);
+      console.error("Delete diamond failed:", error);
     }
   };
 
   const handleCloseForm = () => {
     setShowUpdateForm(false);
-    setEditingJewelryId(null);
+    setEditingDiamondId(null);
   };
 
   const handleOutsideClick = (event) => {
@@ -79,7 +79,7 @@ const ViewAllJewelry = () => {
 
   const handleOverlayClick = () => {
     setShowActionOverlay(false);
-    setEditingJewelryId(null);
+    setEditingDiamondId(null);
   };
 
   if (loading) {
@@ -97,10 +97,10 @@ const ViewAllJewelry = () => {
           <div>
             <div className="flex items-center gap-x-3">
               <h2 className="text-lg font-medium text-gray-800 dark:text-white">
-                Jewelry
+                Diamonds
               </h2>
               <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">
-                {jewelry.length} products
+                {diamonds.length} products
               </span>
             </div>
           </div>
@@ -145,8 +145,8 @@ const ViewAllJewelry = () => {
                   d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <Link to="/addjewelry">
-                <span>Add Jewelry</span>
+              <Link to="/adddiamond">
+                <span>Add Diamond</span>
               </Link>
             </button>
           </div>
@@ -198,37 +198,37 @@ const ViewAllJewelry = () => {
                         scope="col"
                         className="py-3 px-2 text-sm font-normal text-center text-gray-500 dark:text-gray-400"
                       >
-                        JewelryID
+                        DiamondID
                       </th>
                       <th
                         scope="col"
                         className="py-3 px-2 text-sm font-normal text-center text-gray-500 dark:text-gray-400"
                       >
-                        Jewelry Name
+                        Shape
                       </th>
                       <th
                         scope="col"
                         className="py-3 px-2 text-sm font-normal text-center text-gray-500 dark:text-gray-400"
                       >
-                        Diamond
+                        Color
                       </th>
                       <th
                         scope="col"
                         className="py-3 px-2 text-sm font-normal text-center text-gray-500 dark:text-gray-400"
                       >
-                        Material
+                        Cut
                       </th>
                       <th
                         scope="col"
                         className="py-3 px-2 text-sm font-normal text-center text-gray-500 dark:text-gray-400"
                       >
-                        Category
+                        Clarity
                       </th>
                       <th
                         scope="col"
                         className="py-3 px-2 text-sm font-normal text-center text-gray-500 dark:text-gray-400"
                       >
-                        Size
+                        Carat
                       </th>
                       <th
                         scope="col"
@@ -236,71 +236,51 @@ const ViewAllJewelry = () => {
                       >
                         Price
                       </th>
-                      <th
-                        scope="col"
-                        className="py-3 px-2 text-sm font-normal text-center text-gray-500 dark:text-gray-400"
-                      >
-                        ImageURL
-                      </th>
-                      <th
-                        scope="col"
-                        className="py-3 px-2 text-sm font-normal text-center text-gray-500 dark:text-gray-400"
-                      >
-                        Quantity
-                      </th>
-                      <th
-                        scope="col"
-                        className="py-3 px-2 text-sm font-normal text-center text-gray-500 dark:text-gray-400"
-                      >
-                        Import Date
-                      </th>
                       <th scope="col" className="relative py-3 px-2">
                         <span className="sr-only">Edit</span>
                       </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                    {jewelry.map((item) => (
-                      <tr key={item.jewelryId}>
+                    {diamonds.map((item) => (
+                      <tr key={item.diamondId}>
                         <td className="px-2 py-2 text-sm font-medium text-center whitespace-nowrap">
                           <div>
                             <h2 className="font-medium text-gray-800 dark:text-white ">
-                              {item.jewelryId}
+                              {item.diamondId}
                             </h2>
                           </div>
                         </td>
                         <td className="px-2 py-2 text-sm font-medium text-center whitespace-nowrap">
                           <div>
                             <h2 className="font-medium text-gray-800 dark:text-white ">
-                              {item.name}
+                              {item.shape.shapeDescription}
                             </h2>
                           </div>
                         </td>
                         <td className="px-2 py-2 text-sm font-medium text-center whitespace-nowrap">
                           <div className="inline px-3 py-1 text-sm font-normal text-gray-500 bg-gray-100 rounded-full dark:text-gray-400 gap-x-2 dark:bg-gray-800">
-                            {item.diamond
-                              ? item.diamond.shape.shapeDescription
-                              : "No Diamond"}
+                            {item.color.colorDescription}
                           </div>
                         </td>
                         <td className="px-2 py-2 text-sm text-center whitespace-nowrap">
                           <div>
                             <h4 className="text-gray-700 dark:text-gray-200">
-                              {item.material.materialName}
+                              {item.cut.cutDescription}
                             </h4>
                           </div>
                         </td>
                         <td className="px-2 py-2 text-sm text-center whitespace-nowrap">
                           <div>
                             <h4 className="text-gray-700 dark:text-gray-200">
-                              {item.category.categoryName}
+                              {item.clarity.clarityDescription}
                             </h4>
                           </div>
                         </td>
                         <td className="px-2 py-2 text-sm text-center whitespace-nowrap">
                           <div>
                             <h4 className="text-gray-700 dark:text-gray-200">
-                              {`${item.size.sizeNumber} ${item.size.unit}`}
+                              {item.carat.carat}
                             </h4>
                           </div>
                         </td>
@@ -311,32 +291,11 @@ const ViewAllJewelry = () => {
                             </h4>
                           </div>
                         </td>
-                        <td className="px-2 py-2 text-sm text-center whitespace-nowrap">
-                          <div>
-                            <h4 className="text-gray-700 dark:text-gray-200">
-                              {item.img}
-                            </h4>
-                          </div>
-                        </td>
-                        <td className="px-2 py-2 text-sm text-center whitespace-nowrap">
-                          <div>
-                            <h4 className="text-gray-700 dark:text-gray-200">
-                              {item.quantity}
-                            </h4>
-                          </div>
-                        </td>
-                        <td className="px-2 py-2 text-sm text-center whitespace-nowrap">
-                          <div>
-                            <h4 className="text-gray-700 dark:text-gray-200">
-                              {new Date(item.date).toLocaleDateString()}
-                            </h4>
-                          </div>
-                        </td>
                         <td className="px-2 py-2 text-sm whitespace-nowrap">
                           <div className="relative">
                             <button
                               className="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100"
-                              onClick={() => handleEditClick(item.jewelryId)}
+                              onClick={() => handleEditClick(item.diamondId)}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -353,7 +312,7 @@ const ViewAllJewelry = () => {
                                 />
                               </svg>
                             </button>
-                            {editingJewelryId === item.jewelryId &&
+                            {editingDiamondId === item.diamondId &&
                               showActionOverlay && (
                                 <div
                                   className="fixed right-0 z-50 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg"
@@ -439,8 +398,11 @@ const ViewAllJewelry = () => {
           </div>
         </div>
       </section>
-      {editingJewelryId && showUpdateForm && (
-        <UpdateJewelry jewelryId={editingJewelryId} onClose={handleCloseForm} />
+      {editingDiamondId && showUpdateForm && (
+        <UpdateDiamond
+          diamondId={editingDiamondId}
+          onClose={handleCloseForm}
+        />
       )}
       {showDeleteConfirmation && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -450,7 +412,7 @@ const ViewAllJewelry = () => {
             </h2>
             <button
               className="bg-red-500 text-white px-4 py-2 rounded mr-2"
-              onClick={() => handleDelete(editingJewelryId)}
+              onClick={() => handleDelete(editingDiamondId)}
             >
               Yes
             </button>
@@ -467,4 +429,4 @@ const ViewAllJewelry = () => {
   );
 };
 
-export default ViewAllJewelry;
+export default ViewAllDiamond;

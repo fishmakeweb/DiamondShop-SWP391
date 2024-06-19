@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,6 +32,11 @@ public class ProductService {
         Product product = new Product();
         product.setJewelry(jewelry);
         return productRepository.save(product);
+    }
+
+    public void deleteProductByJewelryId(Long jewelryId) {
+        Optional<Product> product = productRepository.findByJewelryJewelryId(jewelryId);
+        product.ifPresent(productRepository::delete);
     }
 
     public Product createProductForDiamond(Diamond diamond) {
@@ -127,4 +133,25 @@ public class ProductService {
 
         return new PageImpl<>(jewelryDTOS, pageable, products.size());
     }
+
+    public Page<JewelryDTO> getAllJewelryDTOsSort(int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<Product> productsPage = productRepository.findAllByJewelryIsNotNullOrderByJewelryDateDesc(pageable);
+
+        List<JewelryDTO> jewelryDTOS = productsPage.getContent().stream()
+                .map(product -> new JewelryDTO(
+                        product.getProductId(),
+                        product.getJewelry().getJewelryId(),
+                        product.getJewelry().getName(),
+                        product.getJewelry().getPrice(),
+                        product.getJewelry().getImg(),
+                        product.getJewelry().getQuantity()
+                ))
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(jewelryDTOS, pageable, productsPage.getTotalElements());
+    }
+
+
+
 }

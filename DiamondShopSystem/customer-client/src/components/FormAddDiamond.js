@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "../axios";
 
 const SubmitMessage = ({ onClose }) => {
@@ -128,12 +129,34 @@ const FormAddDiamond = () => {
     <>
       <div className="p-6">
         <div className="sm:mx-32 lg:mx-32 xl:mx-72">
-          <div className="flex justify-between container mx-auto">
+          <div className="flex justify-between container-fluid mx-auto">
             <div className="w-full border-2 border-collapse">
               <div className="mt-4 px-4">
                 <h1 className="text-3xl font-semibold py-7 px-5">
                   ADD DIAMOND
                 </h1>
+                <div className="flex items-end justify-end">
+                <button className="flex items-end justify-end w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-5 h-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <Link to="/viewalldiamond">
+                <span>View Diamond</span>
+              </Link>
+            </button>
+                </div>
+                
                 <form onSubmit={handleSubmit} className="mx-5 my-5">
                   <label
                     className="relative block p-3 border-2 border-black rounded mb-5"
