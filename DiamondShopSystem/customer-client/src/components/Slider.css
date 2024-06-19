@@ -62,3 +62,30 @@
 .content a {
   color: white; /* Ensure all text and links are white */
 }
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  .content {
+    padding: 1em;
+  }
+
+  .content p {
+    font-size: 1.5em;
+  }
+
+  .content a {
+    padding: 0.5em 1em;
+    font-size: 0.8em;
+  }
+
+  .sliderAx {
+    height: 50vh;
+    width: 100vh /* Adjust the height for smaller screens */
+  }
+
+  .bg-cover {
+    background-position: center;
+    height: 50vh;
+    width: 100vh /* Adjust the height for smaller screens */
+  }
+}

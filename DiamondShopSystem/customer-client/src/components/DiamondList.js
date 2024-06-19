@@ -10,7 +10,6 @@ function DiamondList({ items }) {
     const endIndex = startIndex + itemsPerPage;
     const itemsToShow = items.slice(startIndex, endIndex);
 
-
     const changePage = (pageNumber) => setCurrentPage(pageNumber);
     const pageNumbers = Array.from({ length: totalPages }, (_, i) => i);
 
@@ -34,18 +33,16 @@ function DiamondList({ items }) {
                     {itemsToShow.map(item => (
                         <tr key={item.diamondId}>
                             <td>{item.shape.shapeDescription}</td>
-                            <td>{item.measurement.length}x{item.measurement.width}x{item.measurement.height}</td>
+                            <td>{item.measurement.length} x {item.measurement.width} x {item.measurement.height}</td>
                             <td>{item.carat.carat}</td>
                             <td>{item.color.colorDescription}</td>
                             <td>{item.clarity.clarityDescription}</td>
                             <td>{item.cut.cutDescription}</td>
                             <td>{item.price}</td>
-                            <td>{item.gia.issueDate}</td>
-                            <td> <button
-                            
-                                className=""
-                                >
-                                Add to Cart
+                            <td>{new Date(item.gia.issueDate).toLocaleDateString()}</td>
+                            <td>
+                                <button className="add-to-cart-button">
+                                    Add to Cart
                                 </button>
                             </td>
                         </tr>
@@ -54,7 +51,11 @@ function DiamondList({ items }) {
             </table>
             <div className="pagination">
                 {pageNumbers.map(number => (
-                    <button key={number} onClick={() => changePage(number)} className={`page-button ${currentPage === number ? "active" : ""}`}>
+                    <button
+                        key={number}
+                        onClick={() => changePage(number)}
+                        className={`page-button ${currentPage === number ? "active" : ""}`}
+                    >
                         {number + 1}
                     </button>
                 ))}
@@ -62,8 +63,5 @@ function DiamondList({ items }) {
         </div>
     );
 }
-
-
-
 
 export default DiamondList;

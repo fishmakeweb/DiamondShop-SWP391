@@ -15,7 +15,6 @@ const NewNavbar = () => {
   };
 
   const [isCartOpen, setIsCartOpen] = useState(false);
-
   const [isUserOverlayOpen, setIsUserOverlayOpen] = useState(false); 
 
   const navigate = useNavigate();
@@ -38,7 +37,7 @@ const NewNavbar = () => {
 
   return (
     <>
-      <nav className="bg-white w-full flex relative justify-between items-center mx-auto px-7 h-20">
+      <nav className="bg-white w-full flex relative justify-between items-center mx-auto px-7 h-20 z-50">
         {/* Dropdown for small screens */}
         <div className="block md:hidden">
           <div className="relative inline-block text-left">
@@ -63,7 +62,7 @@ const NewNavbar = () => {
                 >
                   <path
                     fillRule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
                     clipRule="evenodd"
                   />
                 </svg>
@@ -79,11 +78,17 @@ const NewNavbar = () => {
                 role="menu"
               >
                 <div className="px-4 py-3 font-semibold">
+                  <Link
+                  to="/"
+                  
+                  >
                   <p className="text-sm leading-5">HOME</p>
+                  </Link>
+                  
                 </div>
                 <div className="py-1">
                   <Link
-                    to="/diamonds"
+                    to="/newdiamond"
                     tabIndex={0}
                     className="text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left font-semibold"
                     role="menuitem"
@@ -98,14 +103,14 @@ const NewNavbar = () => {
                   >
                     Jewelry
                   </Link>
-                  <a
-                    href="javascript:void(0)"
+                  <Link
+                    to="/newRelease"
                     tabIndex={2}
                     className="text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left font-semibold"
                     role="menuitem"
                   >
                     New Release
-                  </a>
+                  </Link>
                 </div>
                 <div className="py-1">
                   <a
@@ -127,7 +132,7 @@ const NewNavbar = () => {
           <a className="_o6689fn" href="/">
             <div className="md:flex custom-hide">
               <Link
-                to="/diamonds"
+                to="/newdiamond"
                 className="inline-block py-2 px-3 hover:bg-gray-200 rounded-full font-semibold"
               >
                 <div className="flex items-center relative cursor-pointer whitespace-nowrap">
@@ -142,14 +147,15 @@ const NewNavbar = () => {
                   Jewelry
                 </div>
               </Link>
-              <a
+              <Link
+                to="/newRelease"
                 className="inline-block py-2 px-3 hover:bg-gray-200 rounded-full font-semibold"
-                href="#"
+                
               >
                 <div className="flex items-center relative cursor-pointer whitespace-nowrap">
                   New release
                 </div>
-              </a>
+              </Link>
             </div>
           </a>
         </div>

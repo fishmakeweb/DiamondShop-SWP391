@@ -64,7 +64,7 @@ function Cart({ isOpen, onClose }) {
   };
 
   return (
-    <div className="fixed top-0 left-0 bg-black bg-opacity-80 flex justify-end h-full w-full">
+    <div className="fixed z-50 top-0 left-0 bg-black bg-opacity-80 flex items-end justify-end h-full w-full">
       <div className="bg-white p-5 rounded-lg shadow-lg h-full w-full max-w-md md:max-w-lg lg:max-w-xl overflow-auto mt-0 flex flex-col justify-between">
         <div>
           <div className="flex justify-between items-center border-b border-stone-400 pb-4 mb-4">

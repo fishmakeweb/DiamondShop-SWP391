@@ -41,6 +41,19 @@ const NewRelease = () => {
   return (
     <>
       <NewNavbar />
+      <style>
+        {`
+          @media (max-width: 1100px) and (min-width: 300px) {
+            .custom-grid {
+              display: grid;
+              grid-template-columns: repeat(2, minmax(0, 1fr));
+              gap: 1rem; /* Adjust the gap as needed */
+            }
+          }
+
+          
+        `}
+      </style>
       <div className="bg-white">
         <div className="py-16 sm:py-24 lg:mx-auto lg:max-w-7xl lg:px-8">
           <div className="flex items-center justify-between px-4 sm:px-6 lg:px-0">
@@ -60,20 +73,20 @@ const NewRelease = () => {
             <div className="relative -mb-6 w-full overflow-x-auto pb-6">
               <ul
                 role="list"
-                className="grid grid-cols-2 sm:grid-cols-2 gap-4 mx-4 sm:mx-6 lg:mx-0"
+                className="custom-grid mx-4 sm:mx-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:space-x-0"
               >
                 {products.map((item) => (
                   <li 
                     key={item.productId} 
-                    className="flex flex-col text-center"
+                    className="custom-grid-item flex flex-col text-center"
                     onClick={() => handleItemClick(item.productId)}
                   >
                     <div className="group relative cursor-pointer">
-                      <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200">
+                      <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 custom-image">
                         <img
                           src={item.img}
                           alt={item.name}
-                          className="h-48 w-full object-cover object-center group-hover:opacity-75"
+                          className="h-full w-full object-cover object-center group-hover:opacity-75"
                         />
                       </div>
                       <div className="mt-2">

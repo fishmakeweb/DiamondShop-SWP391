@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 // import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import NewNavbar from "../components/NewNavbar";
-import Slider from "../components/Slider";
 
 function Homepage() {
   useEffect(() => {
@@ -11,7 +10,7 @@ function Homepage() {
   return (
     <div className="flex flex-col bg-white">
             <NewNavbar />
-            <Slider />
+           
       <div className="self-center mt-11 text-4xl text-center text-black max-md:mt-10">
         Shop by category
       </div>
