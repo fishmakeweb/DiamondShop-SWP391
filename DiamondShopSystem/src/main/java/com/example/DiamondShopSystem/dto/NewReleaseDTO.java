@@ -1,17 +1,21 @@
 package com.example.DiamondShopSystem.dto;
 
-public class JewelryDTO {
+import java.util.Date;
+
+public class NewReleaseDTO {
     private Long productId;
     private String name;
     private float price;
     private String img;
+    private Date date;
 
     // Constructor
-    public JewelryDTO(Long productId, String name, float price, String img) {
+    public NewReleaseDTO(Long productId, String name, float price, String img, Date date) {
         this.productId = productId;
         this.name = name;
         this.price = price;
         this.img = img;
+        this.date = date;
     }
 
     // Getters and Setters
@@ -45,5 +49,13 @@ public class JewelryDTO {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

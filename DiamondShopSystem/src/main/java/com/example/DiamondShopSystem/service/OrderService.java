@@ -50,13 +50,10 @@ public class OrderService {
 
     public List<OrderDetail> getCart(String token) {
         String username = jwtUtils.extractUsername(token);
-        Optional<Order> activeOrder = orderRepository.findActiveOrderByUsername(username);
-        if (activeOrder.isPresent()) {
-            return orderDetailRepository.findByOrderId(activeOrder.get().getOrderId());
-        }
-
+        Long activeOrder = orderRepository.findActiveOrderByUsername(username);
+        return orderDetailRepository.findByOrderId(activeOrder);
         // Return an empty list if there is no active order
-        return List.of();
+
     }
 
 

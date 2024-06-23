@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState} from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import NewNavbar from "../components/NewNavbar.js";
 import Footer from "../components/Footer";
 import RecommendItem from "../components/RecommendItem";
 import axios from "../axios";
-import AuthService from "../components/AuthService.js";
 const Item = () => {
   let navigate = useNavigate();
   return (
@@ -86,6 +85,7 @@ function JewelryItemData({ data }) {
 }
 
 function JewelryItem() {
+  let navigate = useNavigate();
   const { productId } = useParams();
 
   const [itemDetails, setItemDetails] = useState(null);
@@ -94,21 +94,20 @@ function JewelryItem() {
   const handleClick = async () => {
     const token = localStorage.getItem('token');
     if (!token) {
-      console.log("No token found, user might not be logged in.");
+      alert('Please log in to add items to your cart.');
+      navigate('/login');
       return;
     }
   
     axios.post('/order_details/addToCart', null, {
         params: {
-          productId: productId, // Assuming productId is directly on itemDetails
-          productImg: itemDetails.img,
-          productPrice: itemDetails.price,
+          productId: productId // Assuming productId is directly on itemDetails
         },
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {
         setButtonText("ADDED");
-        setTimeout(() => setButtonText("ADD TO BAG"), 1500);
+        setTimeout(() => setButtonText("ADD TO BAG"), 700);
       })
       .catch(error => {
         console.error("Error adding item to cart:", error);

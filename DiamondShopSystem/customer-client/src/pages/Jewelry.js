@@ -1,37 +1,37 @@
 import React, {useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "../axios";
 import { Link } from 'react-router-dom';
 import SortBar from "../components/sortbar";
-import Pagination from "../components/Pagination";
+// import Pagination from "../components/Pagination";
 import NewNavbar from "../components/NewNavbar";
 
 
 
 export default function Jewelry() {
   const { page_number } = useParams(); // Get page_number from URL
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [items, setItems] = useState([]);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalElements, setTotalElements] = useState();
+  // const [totalPages, setTotalPages] = useState(1);
+  // const [totalElements, setTotalElements] = useState();
 
   useEffect(() => {
-    const pageNumber = parseInt(page_number, 10) || 1;
+    // const pageNumber = parseInt(page_number, 10) || 1;
     axios
-      .get(`/products/jewelry/${pageNumber}`)
+      .get(`/products/jewelry/${page_number}`)
       .then(response => {
-        setItems(response.data.content);
-        setTotalPages(response.data.totalPages);
-        setTotalElements(response.data.totalElements);
+        setItems(response.data);
+        // setTotalPages(response.data.totalPages);
+        // setTotalElements(response.data.totalElements);
         console.log(response);
       })
 
       .catch(error => console.error("Error fetching jewelry data:", error));
   }, [page_number]);
 
-  const handlePageChange = (newPage) => {
-    navigate(`/jewelry/page/${newPage}`); // Update URL when page changes
-  };
+  // const handlePageChange = (newPage) => {
+  //   navigate(`/jewelry/page/${newPage}`); // Update URL when page changes
+  // };
 
   return (
     <div className="bg-white">
@@ -57,7 +57,7 @@ export default function Jewelry() {
           </div>
         ))}
       </section>
-      <Pagination totalPages={totalPages} currentPage={parseInt(page_number, 10) || 1} onPageChange={handlePageChange} />
+      {/* <Pagination totalPages={totalPages} currentPage={page_number} onPageChange={handlePageChange} /> */}
     </div>
   );
 }

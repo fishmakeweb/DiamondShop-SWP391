@@ -9,7 +9,6 @@ import java.util.Optional;
 public interface OrderRepository extends JpaRepository<Order, Long> {
 //    Order findByCustomerUserIdAndOrderStatusStatusId(Long userId, Long statusId);
 
-    @Query("SELECT o FROM Order o WHERE o.username = ?1 AND o.orderStatus.statusId = 1")
-    Optional<Order> findActiveOrderByUsername(String username);
-
+    @Query("SELECT o.orderId FROM Order o WHERE o.username = ?1 AND o.orderStatus.statusId = 1")
+    Long findActiveOrderByUsername(String username);
 }

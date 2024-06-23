@@ -28,7 +28,7 @@ function App() {
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<Homepage />} />
-            <Route path="/jewelry/page/:productId" element={<Jewelry />} />
+            <Route path="/jewelry/page/:page_number" element={<Jewelry />} />
             <Route path="/jewelry/:productId" element={<JewelryItem />} />
             <Route path="/profile" element={<UserProfile />} />{" "}
             <Route path="/staff" element={<Staff />} />
@@ -44,7 +44,7 @@ function App() {
             <Route path="/confirmOrder" element={<ConfirmOrder />} />
             <Route path="/changePassword" element={<ChangePassword />} />
             <Route path="/emailComponent" element={<EmailComponent />} />
-            <Route path="/newRelease" element={<NewRelease />} />
+            <Route path="/newrelease/page/:page_number" element={<NewRelease />} />
           </Routes>
         </div>
     </Router>
