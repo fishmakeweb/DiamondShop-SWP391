@@ -104,7 +104,7 @@ const NewNavbar = () => {
                     Jewelry
                   </Link>
                   <Link
-                    to="/newRelease"
+                    to="/newrelease/page/1"
                     tabIndex={2}
                     className="text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left font-semibold"
                     role="menuitem"
@@ -148,7 +148,7 @@ const NewNavbar = () => {
                 </div>
               </Link>
               <Link
-                to="/newRelease"
+                to="/newrelease/page/1"
                 className="inline-block py-2 px-3 hover:bg-gray-200 rounded-full font-semibold"
                 
               >
@@ -168,7 +168,7 @@ const NewNavbar = () => {
                 to="/"
                 className="flex items-center pb-4 border-b border-b-gray-400 md:block custom-hide"
               >
-                <h2 className="font-bold text-2xl">H E P H A E S T U S</h2>
+                <h2 className="font-bold text-2xl">N H A T A N</h2>
               </Link>
             </div>
           </div>

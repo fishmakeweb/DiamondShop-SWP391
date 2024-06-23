@@ -1,6 +1,7 @@
 package com.example.DiamondShopSystem.controller;
 
 import com.example.DiamondShopSystem.dto.JewelryDTO;
+import com.example.DiamondShopSystem.dto.NewReleaseDTO;
 import com.example.DiamondShopSystem.model.Product;
 import com.example.DiamondShopSystem.model.ProductDetails;
 import com.example.DiamondShopSystem.service.ProductService;
@@ -30,9 +31,15 @@ public class ProductController {
 //        return productService.getAllJewelryDTOs();
 //    }
     @GetMapping("/products/jewelry/{page}")
-    public Page<JewelryDTO> getJewelryPage(@PathVariable int page) {
-    return productService.getAllJewelryDTOs(page);
+    public List<JewelryDTO> getJewelryDTOs(@PathVariable int page) {
+        return productService.getJewelryDTOs(page);
     }
+
+    @GetMapping("/products/newrelease/{page}")
+    public List<NewReleaseDTO> getNewReleaseDTOs(@PathVariable int page) {
+        return productService.getNewReleaseDTOs(page);
+    }
+
     @GetMapping("/products/{id}")
     public Product getProductById(@PathVariable Long id) {
         return productService.findProductById(id);
@@ -59,9 +66,6 @@ public class ProductController {
         productService.deleteProduct(id);
     }
 
-    @GetMapping("/products/jewelry/page")
-    public Page<JewelryDTO> getJewelryPageSort(@RequestParam int page, @RequestParam int size) {
-        return productService.getAllJewelryDTOsSort(page, size);
-    }
+
 
 }

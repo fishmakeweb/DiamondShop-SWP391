@@ -1,6 +1,7 @@
 package com.example.DiamondShopSystem.service;
 
 import com.example.DiamondShopSystem.dto.JewelryDTO;
+import com.example.DiamondShopSystem.dto.NewReleaseDTO;
 import com.example.DiamondShopSystem.model.Diamond;
 import com.example.DiamondShopSystem.model.Jewelry;
 import com.example.DiamondShopSystem.model.Product;
@@ -113,43 +114,14 @@ public class ProductService {
 //        return productRepository.findAllJewelryDTOs();
 //    }
 
-    public Page<JewelryDTO> getAllJewelryDTOs(int page) {
-        Pageable pageable = PageRequest.of(page - 1, size);
-        List<Product> products = productRepository.findAllByOrderByProductIdAsc();
-
-        List<JewelryDTO> jewelryDTOS = products.stream()
-                .filter(product -> product.getJewelry() != null)
-                .skip((long) (page - 1) * size)
-                .limit(size)
-                .map(product -> new JewelryDTO(
-                        product.getProductId(),
-                        product.getJewelry().getJewelryId(),
-                        product.getJewelry().getName(),
-                        product.getJewelry().getPrice(),
-                        product.getJewelry().getImg(),
-                        product.getJewelry().getQuantity()
-                ))
-                .collect(Collectors.toList());
-
-        return new PageImpl<>(jewelryDTOS, pageable, products.size());
+    public List<JewelryDTO> getJewelryDTOs(int page) {
+        List<JewelryDTO> jewelryDTOs = productRepository.findJewelryDTOs();
+        return jewelryDTOs.subList((page - 1) * size, jewelryDTOs.size()>page*8? page*8 : jewelryDTOs.size());
     }
 
-    public Page<JewelryDTO> getAllJewelryDTOsSort(int page, int size) {
-        Pageable pageable = PageRequest.of(page - 1, size);
-        Page<Product> productsPage = productRepository.findAllByJewelryIsNotNullOrderByJewelryDateDesc(pageable);
-
-        List<JewelryDTO> jewelryDTOS = productsPage.getContent().stream()
-                .map(product -> new JewelryDTO(
-                        product.getProductId(),
-                        product.getJewelry().getJewelryId(),
-                        product.getJewelry().getName(),
-                        product.getJewelry().getPrice(),
-                        product.getJewelry().getImg(),
-                        product.getJewelry().getQuantity()
-                ))
-                .collect(Collectors.toList());
-
-        return new PageImpl<>(jewelryDTOS, pageable, productsPage.getTotalElements());
+    public List<NewReleaseDTO> getNewReleaseDTOs(int page) {
+        List<NewReleaseDTO> newReleaseDTOs = productRepository.findNewReleaseDTOs();
+        return newReleaseDTOs.subList((page - 1) * size, newReleaseDTOs.size()>page*8? page*8 : newReleaseDTOs.size());
     }
 
 
