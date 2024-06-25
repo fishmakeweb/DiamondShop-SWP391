@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from "react";
+
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "../axios";
 import { useNavigate } from "react-router-dom";
 import AuthService from "./AuthService";
+import { debounce } from "lodash";
 
 function Cart({ isOpen, onClose }) {
   const [itemDetails, setItemDetails] = useState([]);
+  const [errorMessages, setErrorMessages] = useState({});
+  const [orderId, setOrderId] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,54 +17,96 @@ function Cart({ isOpen, onClose }) {
     }
   }, [isOpen]);
 
+  const updateQuantityInState = (orderDetailId, newQuantity) => {
+    setItemDetails((currentItems) =>
+      currentItems.map((item) => {
+        if (item.orderDetailId === orderDetailId) {
+          return { ...item, quantity: newQuantity };
+        }
+        return item;
+      }).filter(item => item.quantity > 0) // Continue filtering out zero quantities
+    );
+  };
+
   const updateQuantity = async (orderDetailId, newQuantity) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     try {
       await axios.post(`/order_details/updateQuantity`, null, {
         params: { orderDetailId, quantity: newQuantity },
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
-      fetchCarts();
     } catch (error) {
-      console.error('Error updating quantity:', error);
+      console.error("Error updating quantity:", error);
+    }
+  };
+
+  const debouncedUpdateTotal = useCallback(debounce((orderDetailId, newQuantity) => {
+    updateQuantity(orderDetailId, newQuantity);
+  }, 800), []); // Debounce updates to prevent excessive API calls
+
+  const handleQuantityChange = (orderDetailId, newQuantity) => {
+    const numericQuantity = parseInt(newQuantity, 10);
+    if (!isNaN(numericQuantity)) {
+      if (numericQuantity > 1000) {
+        // Set error message for this item
+        setErrorMessages(prev => ({ ...prev, [orderDetailId]: "Quantity cannot exceed 1000" }));
+      } else {
+        // Clear any existing error message and update quantity
+        setErrorMessages(prev => ({ ...prev, [orderDetailId]: "" }));
+        updateQuantityInState(orderDetailId, numericQuantity);
+        debouncedUpdateTotal(orderDetailId, numericQuantity);
+      }
     }
   };
 
   const incrementQuantity = (orderDetailId, currentQuantity) => {
-    updateQuantity(orderDetailId, currentQuantity + 1);
+    handleQuantityChange(orderDetailId, currentQuantity + 1);
   };
 
   const decrementQuantity = (orderDetailId, currentQuantity) => {
-    updateQuantity(orderDetailId, currentQuantity - 1);
+    handleQuantityChange(orderDetailId, Math.max(currentQuantity - 1, 0)); // Prevent negative quantities
   };
 
   const removeFromCart = (orderDetailId) => {
-    updateQuantity(orderDetailId, 0);
+    handleQuantityChange(orderDetailId, 0);
   };
 
   const fetchCarts = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       const data = await AuthService.getCart(token);
-      setItemDetails(data.map(item => ({
-        ...item.product.jewelry,
-        orderDetailId: item.id,
-        quantity: item.quantity,
-      })));
+      if (data.listOrderDetail.length !== 0) setOrderId(data.listOrderDetail[0].orderId);
+      setItemDetails(
+        data.listOrderDetail.map((item) => ({
+          ...item.product.jewelry,
+          orderDetailId: item.id,
+          quantity: item.quantity,
+        })).filter(item => item.quantity > 0)
+      );
     } catch (error) {
       console.error("Error fetching users data:", error);
     }
   };
 
   const getTotalAmount = () => {
-    return itemDetails.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+    return itemDetails.reduce(
+      (acc, item) => acc + item.price * item.quantity,
+      0
+    );
   };
 
   if (!isOpen) return null;
 
   const handleCheckout = () => {
-    const token = localStorage.getItem('token');
-    navigate('/confirmOrder', { state: { itemDetails, totalAmount: getTotalAmount(), token } });
+    const token = localStorage.getItem("token");
+    navigate("/confirmOrder", {
+      state: {
+        orderId,
+        itemDetails,
+        totalAmount: getTotalAmount(),
+        token,
+      },
+    });
   };
 
   return (
@@ -106,10 +152,19 @@ function Cart({ isOpen, onClose }) {
                       <div className="flex items-center">
                         <button className="text-sm text-gray-600 px-3 py-1 bg-gray-200 rounded-md"
                           onClick={() => decrementQuantity(item.orderDetailId, item.quantity)}>-</button>
-                        <p className="text-sm text-gray-500 mx-2">{item.quantity}</p>
+                        <input
+                          type="number"
+                          max="1000"
+                          className="w-12 text-center border border-gray-300 rounded-md mx-2"
+                          value={item.quantity}
+                          onChange={(e) => handleQuantityChange(item.orderDetailId, e.target.value)}
+                        />
                         <button className="text-sm text-gray-600 px-3 py-1 bg-gray-200 rounded-md"
                           onClick={() => incrementQuantity(item.orderDetailId, item.quantity)}>+</button>
                       </div>
+                      {errorMessages[item.orderDetailId] && (
+                        <p className="text-red-500 text-sm mt-2">{errorMessages[item.orderDetailId]}</p>
+                      )}
                     </div>
                     <button className="text-sm text-red-600 ml-3" onClick={() => removeFromCart(item.orderDetailId)}>
                       Remove
@@ -141,3 +196,72 @@ function Cart({ isOpen, onClose }) {
 }
 
 export default Cart;
+// import React, { useEffect } from "react";
+// import { useNavigate } from "react-router-dom";
+// import { useCart } from "./CartContext"; // Import useCart
+
+// function Cart({ isOpen, onClose }) {
+//   const navigate = useNavigate();
+//   const { cart, isLoading, removeFromCart, incrementQuantity, decrementQuantity } = useCart();
+
+//   const handleCheckout = () => {
+//     const token = localStorage.getItem("token");
+//     navigate("/confirmOrder", {
+//       state: {
+//         cart,
+//         token,
+//       },
+//     });
+//   };
+
+//   if (!isOpen || isLoading) return null;
+
+//   return (
+//     <div className="fixed z-50 top-0 left-0 bg-black bg-opacity-80 flex items-end justify-end h-full w-full">
+//       <div className="bg-white p-5 rounded-lg shadow-lg h-full w-full max-w-md md:max-w-lg lg:max-w-xl overflow-auto mt-0 flex flex-col justify-between">
+//         <div>
+//           <div className="flex justify-between items-center border-b border-stone-400 pb-4 mb-4">
+//             <h2 className="text-2xl font-semibold">In My Bag</h2>
+//             <button onClick={onClose} className="text-red-500">Close</button>
+//           </div>
+//           <div className="flex flex-col justify-center items-center h-full">
+//             {cart.length === 0 ? (
+//               <p className="text-xl text-center font-medium text-neutral-600">
+//                 Your cart is currently empty.
+//               </p>
+//             ) : (
+//               <ul className="divide-y divide-gray-200 w-full">
+//                 {cart.map((item) => (
+//                   <li key={item.orderDetailId} className="py-4 flex items-center justify-between">
+//                     <div>
+//                       <h3>{item.productName}</h3>
+//                       <p>Price: ${item.price}</p>
+//                     </div>
+//                     <div>
+//                       <button onClick={() => decrementQuantity(item.orderDetailId)}>-</button>
+//                       <span>{item.quantity}</span>
+//                       <button onClick={() => incrementQuantity(item.orderDetailId)}>+</button>
+//                     </div>
+//                     <button onClick={() => removeFromCart(item.orderDetailId)}>
+//                       Remove
+//                     </button>
+//                   </li>
+//                 ))}
+//               </ul>
+//             )}
+//           </div>
+//           <div className="mt-4">
+//             <p className="text-lg font-semibold text-center">
+//               Total: ${cart.reduce((acc, item) => acc + item.quantity * item.price, 0)}
+//             </p>
+//             <button onClick={handleCheckout} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+//               Check Out
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default Cart;

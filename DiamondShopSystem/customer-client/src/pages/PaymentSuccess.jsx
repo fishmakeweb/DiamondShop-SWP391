@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../style/PaymentSuccess.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import axios from "../axios";
 
 function PaymentSuccess() {
+  const {orderId} = useParams();
+  useEffect(() => {
+    axios.post(`/confirmOrder?orderId=${orderId}`);
+  }, [orderId]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">

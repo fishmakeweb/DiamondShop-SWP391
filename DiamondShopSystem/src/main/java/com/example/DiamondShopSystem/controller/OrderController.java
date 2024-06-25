@@ -1,5 +1,6 @@
 package com.example.DiamondShopSystem.controller;
 
+import com.example.DiamondShopSystem.dto.OrderDTO;
 import com.example.DiamondShopSystem.dto.ReqRes;
 import com.example.DiamondShopSystem.model.Order;
 import com.example.DiamondShopSystem.model.OrderDetail;
@@ -32,20 +33,18 @@ public class OrderController {
         return orderService.createOrder(order);
     }
 
-    @PostMapping ("/checkOut/{id}")
-    public Order saveOrder(@RequestBody Order order) { return  orderService.saveOrderOnCheckOut(order); }
+    @PostMapping("/checkOut/{id}")
+    public Order saveOrder(@RequestBody Order order) {
+        return orderService.saveOrderOnCheckOut(order);
+    }
 
     @DeleteMapping("/{id}")
     public void deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
     }
 
-//    @GetMapping("/getCart/{userId}")
-//    public List<OrderDetail> getCartByUserId(@PathVariable Long userId) {
-//        return orderService.getCartByUserId(userId);
-//    }
-@GetMapping("/getcart")
-public List<OrderDetail> getCart(@RequestHeader("Authorization") String token) {
-    return orderService.getCart(token.substring(7));
-}
+    @GetMapping("/getcart")
+    public OrderDTO getCart(@RequestHeader("Authorization") String token) {
+        return orderService.getCart(token.substring(7));
+    }
 }

@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../components/AuthService";
 import { Link } from "react-router-dom";
+import { useCart } from "../CartContext";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const {fetchCart} = useCart(); 
+
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -15,7 +18,10 @@ const LoginPage = () => {
       const response = await AuthService.login(username, password);
       console.log(response);
       if (AuthService.isAuthenticated()) {
-        if (AuthService.isCustomer()) navigate("/");
+        if (AuthService.isCustomer()) {
+          navigate("/");
+          fetchCart();
+        }
         if (AuthService.isStaff()) navigate("/salestaff");
       } else {
         setError("Login failed. Please check your credentials.");

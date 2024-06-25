@@ -1,5 +1,6 @@
 package com.example.DiamondShopSystem.service;
 
+import com.example.DiamondShopSystem.dto.OrderDTO;
 import com.example.DiamondShopSystem.model.Customer;
 import com.example.DiamondShopSystem.model.Order;
 import com.example.DiamondShopSystem.model.OrderDetail;
@@ -48,14 +49,20 @@ public class OrderService {
     @Autowired
     private JWTUtils jwtUtils;
 
-    public List<OrderDetail> getCart(String token) {
+//    public List<OrderDetail> getCart(String token) {
+//        String username = jwtUtils.extractUsername(token);
+//        Long activeOrder = orderRepository.findActiveOrderByUsername(username);
+//        return orderDetailRepository.findByOrderId(activeOrder);
+//        // Return an empty list if there is no active order
+//    }
+
+    public OrderDTO getCart(String token) {
+//        OrderDTO dto = new OrderDTO();
         String username = jwtUtils.extractUsername(token);
         Long activeOrder = orderRepository.findActiveOrderByUsername(username);
-        return orderDetailRepository.findByOrderId(activeOrder);
+        return new OrderDTO(orderDetailRepository.findByOrderId(activeOrder),orderRepository.findById(activeOrder).get().getTotalPrice());
         // Return an empty list if there is no active order
-
     }
-
 
 
 }

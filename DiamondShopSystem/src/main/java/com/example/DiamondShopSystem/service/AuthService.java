@@ -6,10 +6,7 @@ import com.example.DiamondShopSystem.dto.ReqRes;
 import com.example.DiamondShopSystem.dto.RoleDTO;
 import com.example.DiamondShopSystem.dto.StaffDTO;
 import com.example.DiamondShopSystem.model.*;
-import com.example.DiamondShopSystem.repository.CustomerRepository;
-import com.example.DiamondShopSystem.repository.OrderRepository;
-import com.example.DiamondShopSystem.repository.RoleRepository;
-import com.example.DiamondShopSystem.repository.StaffRepository;
+import com.example.DiamondShopSystem.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,6 +31,9 @@ public class AuthService {
     @Autowired
     private CustomerRepository customerRepository;
 
+//    @Autowired
+//    private OrderRepository orderRepository;
+
     @Autowired
     private RoleRepository roleRepository;
 
@@ -48,6 +48,7 @@ public class AuthService {
 
     @Autowired
     private OrderRepository orderRepository;
+    private OrderStatusRepository orderStatusRepository;
 
     public ReqRes registerStaff(ReqRes registrationRequest) {
         ReqRes resp = new ReqRes();
@@ -111,10 +112,10 @@ public class AuthService {
             if (customerResult.getUserId() > 0) {
                 // Create an Order for the registered customer, but do not set orderDate yet
                 Order order = new Order();
-                OrderStatus defaultOrderStatus = new OrderStatus();
+//                OrderStatus defaultOrderStatus = new OrderStatus();
                 order.setUsername(customerResult.getUsername());
-                defaultOrderStatus.setStatusId(1L);
-                order.setOrderStatus(defaultOrderStatus);
+//                defaultOrderStatus.setStatusId(1L);
+                order.setOrderStatus(orderStatusRepository.findById(1L).get());
                 orderRepository.save(order);
                 CustomerDTO customerDTO = convertToCustomerDTO(customerResult);
                 resp.setCustomer(customerDTO);

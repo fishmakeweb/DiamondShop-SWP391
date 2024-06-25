@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation,Link } from "react-router-dom";
 import NewNavbar from "../components/NewNavbar";
 import AuthService from "../components/AuthService";
 import Footer from "../components/Footer";
+import axios from "axios";
 
 function ConfirmOrder() {
   const location = useLocation();
-  const { itemDetails, totalAmount, token } = location.state || { itemDetails: [], totalAmount: 0, token: null };
+  const {orderId, itemDetails, totalAmount, token } = location.state || {orderId:0, itemDetails: [], totalAmount: 0, token: null };
   const [profile, setProfile] = useState(null);
 
   useEffect(() => {
@@ -23,6 +24,36 @@ function ConfirmOrder() {
       console.error('Failed to fetch profile:', error);
     }
   };
+
+  const handleSubmit = async () => {
+    const amount = totalAmount;
+    // const orderId = orderId;
+    const expiredAt = Math.floor((Date.now() + 5 * 60 * 1000) / 1000);
+    const description = `Hepheathus Store Order ${orderId}`;
+    const body = {
+      orderCode: Number(String(Date.now()).slice(-6)),
+      amount,
+      description,
+      expiredAt,
+      returnUrl: `http://localhost:3000/success/${orderId}`,
+      cancelUrl: `http://localhost:3000/cancel/${orderId}`
+    };
+    console.log(amount); // Logging the amount for debugging
+    try {
+      const response = await axios.post(
+        "https://payment.hepheathus.store/create-payment-link",
+        body
+      );
+      if (response.data && response.data.checkoutUrl) {
+        window.location.href = response.data.checkoutUrl;
+      } else {
+        alert("Failed to create payment link");
+      }
+    } catch (error) {
+      console.error("Error creating payment link:", error);
+      alert("Error processing your request");
+    }
+  }
 
   if (!profile) {
     return <div>Loading...</div>;
@@ -96,9 +127,11 @@ function ConfirmOrder() {
               <p className="text-lg font-semibold">${totalAmount.toFixed(2)}</p>
             </div>
           </div>
-          <button className="w-full bg-black mb-5 text-white py-4 rounded-lg text-lg font-semibold hover:bg-gray-900 transition duration-300 ease-in-out">
+          <Link to="/emailComponent">
+          <button className="w-full bg-black mb-5 text-white py-4 rounded-lg text-lg font-semibold hover:bg-gray-900 transition duration-300 ease-in-out"  onClick={handleSubmit}>
             Confirm Order
           </button>
+          </Link>
         </section>
       </div>
       <Footer />

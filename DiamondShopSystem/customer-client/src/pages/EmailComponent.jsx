@@ -12,7 +12,7 @@ function EmailComponent() {
         try {
             const token = localStorage.getItem('token');
             const data = await AuthService.getCart(token);
-            setItemDetails(data.map(item => ({
+            setItemDetails(data.listOrderDetail.map(item => ({
                 ...item.product.jewelry,
                 orderDetailId: item.id,
                 quantity: item.quantity,

@@ -48,6 +48,7 @@ public void addToCart(String token, Long productId) {
 
     // Find the active order for the user or create a new one
     Long order = orderRepository.findActiveOrderByUsername(username);
+    Optional<Order> orderObj = orderRepository.findById(order);
 
     // Check if the product already exists in the order details
     Optional<OrderDetail> existingDetail = orderDetailRepository
@@ -66,6 +67,7 @@ public void addToCart(String token, Long productId) {
     newDetail.setProduct(product);
 
     newDetail.setQuantity(1);  // Quantity is set to 1
+    orderObj.get().setTotalPrice(orderObj.get().getTotalPrice()+product.getJewelry().getPrice());
     // Save the new order detail
     orderDetailRepository.save(newDetail);
 }
@@ -80,6 +82,8 @@ public void addToCart(String token, Long productId) {
                 return null; // Return null or handle as needed after doeletin
             } else {
                 // Update quantity if it is not zero
+                Order orderObj = orderRepository.findById(optionalOrderDetail.get().getOrderId()).get();
+                orderObj.setTotalPrice(orderObj.getTotalPrice()+(quantity-orderDetail.getQuantity())*orderDetail.getProduct().getJewelry().getPrice());
                 orderDetail.setQuantity(quantity);
                 return orderDetailRepository.save(orderDetail);
             }

@@ -19,12 +19,17 @@ import EmailComponent from "./pages/EmailComponent.jsx";
 import ViewJewelry from "./components/ViewJewelry.jsx";
 import NewDiamond from "./components/NewDiamond.jsx";
 import NewRelease from "./components/NewRelease.jsx";
+import { CartProvider } from "./CartContext.js";
+import PaymentSuccess from "./pages/PaymentSuccess.jsx";
+
+
 function App() {
   return (
     <Router>
         {/* */}
         {/* Wrap Routes with CartProvider */}
-        <div>
+        
+          <CartProvider>
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<Homepage />} />
@@ -45,8 +50,9 @@ function App() {
             <Route path="/changePassword" element={<ChangePassword />} />
             <Route path="/emailComponent" element={<EmailComponent />} />
             <Route path="/newrelease/page/:page_number" element={<NewRelease />} />
+            <Route path="/success/:orderId" element={<PaymentSuccess/>} />
           </Routes>
-        </div>
+          </CartProvider>
     </Router>
   );
 }
