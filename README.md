@@ -1,1 +1,1 @@
-# Hepheathus.store - A diamondshop with Springboot and React
+# Hephaestus.store - A diamondshop with Springboot and React
