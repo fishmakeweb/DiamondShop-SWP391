@@ -84,6 +84,7 @@ public void addToCart(String token, Long productId) {
                 // Update quantity if it is not zero
                 Order orderObj = orderRepository.findById(optionalOrderDetail.get().getOrderId()).get();
                 orderObj.setTotalPrice(orderObj.getTotalPrice()+(quantity-orderDetail.getQuantity())*orderDetail.getProduct().getJewelry().getPrice());
+                orderRepository.save(orderObj);
                 orderDetail.setQuantity(quantity);
                 return orderDetailRepository.save(orderDetail);
             }
