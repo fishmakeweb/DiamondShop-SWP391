@@ -87,6 +87,7 @@ CREATE TABLE IF NOT EXISTS diamond(
     gia_id BIGINT UNIQUE,
     price FLOAT,
     img VARCHAR(1000),
+    is_sold boolean,
     FOREIGN KEY (shape_id) REFERENCES shape(shape_id),
     FOREIGN KEY (measurement_id) REFERENCES measurement(measurement_id),
     FOREIGN KEY (carat_id) REFERENCES carat(carat_id),
