@@ -93,6 +93,13 @@ public class DiamondService {
         diamondRepository.deleteById(id);
     }
 
+    public void setSoldDiamond(Long id) {
+        diamondRepository.findById(id)
+                .ifPresent(diamond -> {
+                    diamond.setSold(true);
+                    diamondRepository.save(diamond);
+                });
+    }
 
     public DiamondAttributeDTO getAllDiamondAttributes() {
         DiamondAttributeDTO dto = new DiamondAttributeDTO();
