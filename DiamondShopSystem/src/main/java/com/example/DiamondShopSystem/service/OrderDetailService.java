@@ -47,12 +47,11 @@ public void addToCart(String token, Long productId) {
     String username = jwtUtils.extractUsername(token);
 
     // Find the active order for the user or create a new one
-    Long order = orderRepository.findActiveOrderByUsername(username);
-    Optional<Order> orderObj = orderRepository.findById(order);
+    Optional<Order> orderObj = orderRepository.findActiveOrderByUsername(username);
 
     // Check if the product already exists in the order details
     Optional<OrderDetail> existingDetail = orderDetailRepository
-            .findByOrderIdAndProductProductId(order, productId);
+            .findByOrderIdAndProductProductId(orderObj.get().getOrderId(), productId);
 
     if (existingDetail.isPresent()) {
         // Product already in cart, do nothing
@@ -62,7 +61,7 @@ public void addToCart(String token, Long productId) {
     // Create new OrderDetail since the product is not in the cart
     OrderDetail newDetail = new OrderDetail();
     Product product = productRepository.findById(productId).get();
-    newDetail.setOrderId(order);
+    newDetail.setOrderId(orderObj.get().getOrderId());
 
     newDetail.setProduct(product);
 

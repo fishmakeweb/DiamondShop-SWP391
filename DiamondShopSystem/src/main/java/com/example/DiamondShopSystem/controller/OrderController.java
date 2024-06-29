@@ -47,4 +47,10 @@ public class OrderController {
     public OrderDTO getCart(@RequestHeader("Authorization") String token) {
         return orderService.getCart(token.substring(7));
     }
+
+    @GetMapping("/getorder")
+    public List<OrderDTO> getOrders(@RequestHeader("Authorization") String token) {
+        return orderService.getOrders(token.substring(7));
+    }
+
 }

@@ -10,8 +10,11 @@ import com.example.DiamondShopSystem.repository.OrderRepository;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -59,10 +62,34 @@ public class OrderService {
     public OrderDTO getCart(String token) {
 //        OrderDTO dto = new OrderDTO();
         String username = jwtUtils.extractUsername(token);
-        Long activeOrder = orderRepository.findActiveOrderByUsername(username);
-        return new OrderDTO(orderDetailRepository.findByOrderId(activeOrder),orderRepository.findById(activeOrder).get().getTotalPrice());
+        Optional<Order> activeOrder = orderRepository.findActiveOrderByUsername(username);
+        return new OrderDTO(orderDetailRepository.findByOrderId(activeOrder.get().getOrderId()),activeOrder.get().getTotalPrice());
         // Return an empty list if there is no active order
     }
 
+    public List<OrderDTO> getOrders(String token) {
+        // Extract username from the token
+        String username = jwtUtils.extractUsername(token);
+
+        // Retrieve all finished orders for the username
+        List<Order> orders = orderRepository.findFinshiedOrderByUsername(username);
+
+        // Use Java streams and map to convert orders to OrderDTOs
+        List<OrderDTO> orderDTOs = orders.stream()
+                .map(order -> {
+                    // Find all order details for the current order
+                    List<OrderDetail> orderDetails = orderDetailRepository.findByOrderId(order.getOrderId());
+
+                    // Retrieve the total price of the current order
+                    float totalPrice = order.getTotalPrice();
+
+                    // Return an OrderDTO object for the current order
+                    return new OrderDTO(orderDetails, totalPrice);
+                })
+                .collect(Collectors.toList());
+
+        // Return the list of OrderDTO objects
+        return orderDTOs;
+    }
 
 }
