@@ -40,6 +40,11 @@ public class DiamondController {
         return diamondService.updateDiamond(id, diamond);
     }
 
+    @PutMapping("/secure/set/diamonds/{id}")
+    public void setSoldDiamond(@PathVariable Long id) {
+        diamondService.setSoldDiamond(id);
+    }
+
     @DeleteMapping("/secure/diamonds/{id}")
     public void deleteDiamond(@PathVariable Long id) {
         diamondService.deleteDiamond(id);

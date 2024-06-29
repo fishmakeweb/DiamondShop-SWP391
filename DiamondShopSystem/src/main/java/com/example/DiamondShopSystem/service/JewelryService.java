@@ -78,10 +78,7 @@ public class JewelryService {
                     existingJewelry.setCategory(newJewelry.getCategory());
                     existingJewelry.setSize(newJewelry.getSize());
                     return jewelryRepository.save(existingJewelry);
-                }).orElseGet(() -> {
-                    newJewelry.setJewelryId(id);
-                    return jewelryRepository.save(newJewelry);
-                });
+                }).orElseThrow(() -> new RuntimeException("Jewelry not found"));
     }
 
     public void deleteJewelry(Long id) {

@@ -30,10 +30,7 @@ public class RoleService {
                 .map(existingRole -> {
                     existingRole.setRoleName(newRole.getRoleName());
                     return roleRepository.save(existingRole);
-                }).orElseGet(() -> {
-                    newRole.setRoleId(id);
-                    return roleRepository.save(newRole);
-                });
+                }).orElseThrow(() -> new RuntimeException("Role not found"));
     }
 
     public void deleteRole(Long id) {
