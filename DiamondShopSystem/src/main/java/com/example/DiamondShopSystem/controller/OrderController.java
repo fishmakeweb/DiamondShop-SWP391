@@ -1,6 +1,7 @@
 package com.example.DiamondShopSystem.controller;
 
 import com.example.DiamondShopSystem.dto.OrderDTO;
+import com.example.DiamondShopSystem.dto.OrderTrackingDTO;
 import com.example.DiamondShopSystem.dto.ReqRes;
 import com.example.DiamondShopSystem.model.Order;
 import com.example.DiamondShopSystem.model.OrderDetail;
@@ -49,7 +50,7 @@ public class OrderController {
     }
 
     @GetMapping("/getorder")
-    public List<OrderDTO> getOrders(@RequestHeader("Authorization") String token) {
+    public List<Order> getOrders(@RequestHeader("Authorization") String token) {
         return orderService.getOrders(token.substring(7));
     }
 

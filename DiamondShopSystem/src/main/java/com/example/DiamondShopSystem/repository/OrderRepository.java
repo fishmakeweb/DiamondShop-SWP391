@@ -1,5 +1,6 @@
 package com.example.DiamondShopSystem.repository;
 
+import com.example.DiamondShopSystem.dto.OrderTrackingDTO;
 import com.example.DiamondShopSystem.model.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,6 +13,9 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Query("SELECT o FROM Order o WHERE o.username = ?1 AND o.orderStatus.statusId = 1")
     Optional<Order> findActiveOrderByUsername(String username);
+
+//    @Query("SELECT o FROM Order o WHERE o.username = ?1 AND o.orderStatus.statusId = 4")
+//    List<Order> findFinshiedOrderByUsername(String username);
 
     @Query("SELECT o FROM Order o WHERE o.username = ?1 AND o.orderStatus.statusId = 4")
     List<Order> findFinshiedOrderByUsername(String username);
