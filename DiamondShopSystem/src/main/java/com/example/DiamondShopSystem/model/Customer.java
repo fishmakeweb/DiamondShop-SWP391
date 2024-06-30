@@ -29,6 +29,8 @@ public class Customer implements UserDetails {
 
     private String password;
 
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
     // Implementing methods from UserDetails interface
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -111,5 +113,13 @@ public class Customer implements UserDetails {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getResetPasswordToken() {
+        return resetPasswordToken;
+    }
+
+    public void setResetPasswordToken(String resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
     }
 }
