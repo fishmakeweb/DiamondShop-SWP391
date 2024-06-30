@@ -7,5 +7,6 @@ import java.util.Optional;
 
 public interface StaffRepository extends JpaRepository<Staff, Long> {
     Optional<Staff> findByUsername(String username);
-    void deleteByUsername(String username);
+    Optional<Staff> findByEmail(String email);
+
 }

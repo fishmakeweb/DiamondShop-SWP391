@@ -58,6 +58,11 @@ public class AuthService {
             resp.setError("Username already exists");
             return resp;
         }
+        if(isEmailExists(registrationRequest.getEmail())) {
+            resp.setStatusCode(400);
+            resp.setError("Email already exists");
+            return resp;
+        }
         try {
             Role role = roleRepository.findByRoleName(registrationRequest.getRole().getRoleName());
             if (role == null) {
@@ -98,7 +103,11 @@ public class AuthService {
             resp.setError("Username already exists");
             return resp;
         }
-
+        if(isEmailExists(registrationRequest.getEmail())) {
+            resp.setStatusCode(400);
+            resp.setError("Email already exists");
+            return resp;
+        }
         try {
             Customer customer = new Customer();
             customer.setEmail(registrationRequest.getEmail());
@@ -131,7 +140,9 @@ public class AuthService {
         return resp;
     }
 
-
+    public boolean isEmailExists(String email) {
+        return staffRepository.findByEmail(email).isPresent() || customerRepository.findByEmail(email).isPresent();
+    }
 
     private boolean isUsernameExists(String username) {
         return staffRepository.findByUsername(username).isPresent() || customerRepository.findByUsername(username).isPresent();

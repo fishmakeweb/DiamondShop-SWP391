@@ -3,6 +3,8 @@ package com.example.DiamondShopSystem.service;
 import com.example.DiamondShopSystem.repository.CustomerRepository;
 import com.example.DiamondShopSystem.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -50,5 +52,29 @@ public class CustomerService {
 
     public void deleteUser(Long id) {
         customerRepository.deleteById(id);
+    }
+
+    //FOR GOT PASSWORD
+    public void updateResetPasswordToken(String token, String email) throws UsernameNotFoundException {
+        Customer customer = customerRepository.findByAssignEmail(email);
+        if (customer != null) {
+            customer.setResetPasswordToken(token);
+            customerRepository.save(customer);
+        } else {
+            throw new UsernameNotFoundException("Could not find any customer with the email " + email);
+        }
+    }
+
+    public Customer getByResetPasswordToken(String token) {
+        return customerRepository.findByResetPasswordToken(token);
+    }
+
+    public void updatePassword(Customer customer, String newPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        customer.setPassword(encodedPassword);
+
+        customer.setResetPasswordToken(null);
+        customerRepository.save(customer);
     }
 }
