@@ -35,6 +35,11 @@ public class OrderDetailController {
         orderDetailService.addToCart(token.substring(7), productId);
     }
 
+    @GetMapping("/{id}")
+    public List<OrderDetail> getAllOrderDetailsByOrderId(@PathVariable Long id) {
+        return orderDetailService.getOrderDetailsByOrderId(id);
+    }
+
     @GetMapping
     public List<OrderDetail> getAllOrderDetails() {
         return orderDetailService.getAllOrderDetails();
