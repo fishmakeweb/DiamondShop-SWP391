@@ -30,7 +30,9 @@ public class OrderDetailService {
         orderDetailRepository.delete(orderDetail);
     }
 
-
+    public List<OrderDetail> getOrderDetailsByOrderId(Long orderId) {
+        return orderDetailRepository.findByOrderId(orderId);
+    }
 
     @Autowired
     ProductRepository productRepository;
@@ -39,37 +41,37 @@ public class OrderDetailService {
     OrderRepository orderRepository;
 
 
-@Autowired
-private JWTUtils jwtUtils;
+    @Autowired
+    private JWTUtils jwtUtils;
 
-@Transactional
-public void addToCart(String token, Long productId) {
-    String username = jwtUtils.extractUsername(token);
+    @Transactional
+    public void addToCart(String token, Long productId) {
+        String username = jwtUtils.extractUsername(token);
 
-    // Find the active order for the user or create a new one
-    Optional<Order> orderObj = orderRepository.findActiveOrderByUsername(username);
+        // Find the active order for the user or create a new one
+        Optional<Order> orderObj = orderRepository.findActiveOrderByUsername(username);
 
-    // Check if the product already exists in the order details
-    Optional<OrderDetail> existingDetail = orderDetailRepository
-            .findByOrderIdAndProductProductId(orderObj.get().getOrderId(), productId);
+        // Check if the product already exists in the order details
+        Optional<OrderDetail> existingDetail = orderDetailRepository
+                .findByOrderIdAndProductProductId(orderObj.get().getOrderId(), productId);
 
-    if (existingDetail.isPresent()) {
-        // Product already in cart, do nothing
-        return;
+        if (existingDetail.isPresent()) {
+            // Product already in cart, do nothing
+            return;
+        }
+
+        // Create new OrderDetail since the product is not in the cart
+        OrderDetail newDetail = new OrderDetail();
+        Product product = productRepository.findById(productId).get();
+        newDetail.setOrderId(orderObj.get().getOrderId());
+
+        newDetail.setProduct(product);
+
+        newDetail.setQuantity(1);  // Quantity is set to 1
+        orderObj.get().setTotalPrice(orderObj.get().getTotalPrice()+product.getJewelry().getPrice());
+        // Save the new order detail
+        orderDetailRepository.save(newDetail);
     }
-
-    // Create new OrderDetail since the product is not in the cart
-    OrderDetail newDetail = new OrderDetail();
-    Product product = productRepository.findById(productId).get();
-    newDetail.setOrderId(orderObj.get().getOrderId());
-
-    newDetail.setProduct(product);
-
-    newDetail.setQuantity(1);  // Quantity is set to 1
-    orderObj.get().setTotalPrice(orderObj.get().getTotalPrice()+product.getJewelry().getPrice());
-    // Save the new order detail
-    orderDetailRepository.save(newDetail);
-}
     @Transactional
     public OrderDetail updateQuantity(Long orderDetailId, int quantity) {
         Optional<OrderDetail> optionalOrderDetail = orderDetailRepository.findById(orderDetailId);
