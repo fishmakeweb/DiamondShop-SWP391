@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 
 import java.sql.Date;
 import java.util.Collection;
@@ -36,6 +37,7 @@ public class Customer implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
     }
+
 
     @Override
     public String getUsername() {
@@ -121,5 +123,16 @@ public class Customer implements UserDetails {
 
     public void setResetPasswordToken(String resetPasswordToken) {
         this.resetPasswordToken = resetPasswordToken;
+    }
+
+    @Enumerated(EnumType.STRING)
+    private Provider provider;
+
+    public Provider getProvider() {
+        return provider;
+    }
+
+    public void setProvider(Provider provider) {
+        this.provider = provider;
     }
 }
