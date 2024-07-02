@@ -1,5 +1,6 @@
 package com.example.DiamondShopSystem.service;
 
+import com.example.DiamondShopSystem.model.Provider;
 import com.example.DiamondShopSystem.repository.CustomerRepository;
 import com.example.DiamondShopSystem.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,5 +80,20 @@ public class CustomerService {
 
         customer.setResetPasswordToken(null);
         customerRepository.save(customer);
+    }
+
+    public Customer processOAuthPostLogin(String email, String fullName) {
+        Optional<Customer> existingCustomer = customerRepository.findByEmail(email);
+
+        if (existingCustomer.isPresent()) {
+            return existingCustomer.get();
+        } else {
+            Customer newCustomer = new Customer();
+            newCustomer.setEmail(email);
+            newCustomer.setFullName(fullName);
+            newCustomer.setUsername(email);
+            newCustomer.setRegisteredDate(Date.valueOf(LocalDate.now()));
+            return customerRepository.save(newCustomer);
+        }
     }
 }
