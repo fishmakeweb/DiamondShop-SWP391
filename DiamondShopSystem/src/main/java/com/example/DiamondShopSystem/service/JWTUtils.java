@@ -34,6 +34,14 @@ public class JWTUtils {
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
+    public String generateToken(String username) {
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .compact();
+    }
 
     public String generateRefreshToken(UserDetails userDetails) {
         return Jwts.builder()
