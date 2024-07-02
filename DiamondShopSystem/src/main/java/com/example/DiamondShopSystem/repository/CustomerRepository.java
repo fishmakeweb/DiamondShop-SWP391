@@ -3,6 +3,7 @@ package com.example.DiamondShopSystem.repository;
 import com.example.DiamondShopSystem.model.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
@@ -15,4 +16,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     public Customer findByAssignEmail(String email);
 
     public Customer findByResetPasswordToken(String token);
+
+    @Query("SELECT u FROM Customer u WHERE u.username = :username")
+    public Customer getUserByUsername(@Param("username") String username);
 }
