@@ -3,6 +3,7 @@ package com.example.DiamondShopSystem.model;
 import jakarta.persistence.*;
 
 @Entity
+//@Table(name = "order_status")
 public class OrderStatus {
 
     @Id
