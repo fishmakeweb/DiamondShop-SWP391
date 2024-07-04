@@ -25,9 +25,6 @@ public class DiamondService {
     private ProductService productService;
 
     @Autowired
-    private ShapeRepository shapeRepository;
-
-    @Autowired
     private MeasurementRepository measurementRepository;
 
     @Autowired
@@ -74,7 +71,6 @@ public class DiamondService {
     public Diamond updateDiamond(Long id, Diamond newDiamond) {
         return diamondRepository.findById(id)
                 .map(existingDiamond -> {
-                    existingDiamond.setShape(newDiamond.getShape());
                     existingDiamond.setMeasurement(newDiamond.getMeasurement());
                     existingDiamond.setCarat(newDiamond.getCarat());
                     existingDiamond.setColor(newDiamond.getColor());
@@ -103,7 +99,6 @@ public class DiamondService {
 
     public DiamondAttributeDTO getAllDiamondAttributes() {
         DiamondAttributeDTO dto = new DiamondAttributeDTO();
-        dto.setShapes(shapeRepository.findAll());
         dto.setMeasurements(measurementRepository.findAll());
         dto.setColors(colorRepository.findAll());
         dto.setCuts(cutRepository.findAll());
