@@ -87,7 +87,7 @@ public class ProductService {
 
         if (product.getDiamond() != null) {
             details.setDiamondId(product.getDiamond().getDiamondId());
-            details.setDiamondShape(product.getDiamond().getShape().getShapeDescription());
+
             details.setDiamondMeasurement(product.getDiamond().getMeasurement().toString());
             details.setDiamondCarat(product.getDiamond().getCarat().toString());
             details.setDiamondColor(product.getDiamond().getColor().getColorDescription());
