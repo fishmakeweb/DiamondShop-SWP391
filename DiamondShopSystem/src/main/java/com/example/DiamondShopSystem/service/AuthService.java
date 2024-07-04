@@ -14,8 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,8 +30,6 @@ public class AuthService {
     @Autowired
     private CustomerRepository customerRepository;
 
-//    @Autowired
-//    private OrderRepository orderRepository;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -48,6 +45,8 @@ public class AuthService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
     private OrderStatusRepository orderStatusRepository;
 
     public ReqRes registerStaff(ReqRes registrationRequest) {
@@ -115,7 +114,7 @@ public class AuthService {
             customer.setFullName(registrationRequest.getFullName());
             customer.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
             customer.setAddress(registrationRequest.getAddress());
-            customer.setRegisteredDate(Date.valueOf(LocalDate.now())); // Set to current date
+            customer.setRegisteredDate(new Date()); // Set to current date
             Customer customerResult = customerRepository.save(customer);
 
             if (customerResult.getUserId() > 0) {
@@ -126,6 +125,8 @@ public class AuthService {
 //                defaultOrderStatus.setStatusId(1L);
                 order.setOrderStatus(orderStatusRepository.findById(1L).get());
                 orderRepository.save(order);
+
+
                 CustomerDTO customerDTO = convertToCustomerDTO(customerResult);
                 resp.setCustomer(customerDTO);
                 resp.setMessage("Customer and Order Saved Successfully");
