@@ -9,9 +9,6 @@ public class Diamond {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long diamondId;
 
-    @ManyToOne
-    @JoinColumn(name = "shape_id")
-    private Shape shape;
 
     @ManyToOne
     @JoinColumn(name = "measurement_id")
@@ -97,13 +94,7 @@ public class Diamond {
         isSold = sold;
     }
 
-    public Shape getShape() {
-        return shape;
-    }
 
-    public void setShape(Shape shape) {
-        this.shape = shape;
-    }
 
     public Measurement getMeasurement() {
         return measurement;
@@ -114,6 +105,13 @@ public class Diamond {
     }
 
     public Carat getCarat() {
+
+
+
+
+
+
+
         return carat;
     }
 
