@@ -5,20 +5,13 @@ import com.example.DiamondShopSystem.model.*;
 import java.util.List;
 
 public class DiamondAttributeDTO {
-    private List<Shape> shapes;
     private List<Measurement> measurements;
     private List<Color> colors;
     private List<Cut> cuts;
     private List<Carat> carats;
     private List<Clarity> clarities;
 
-    public List<Shape> getShapes() {
-        return shapes;
-    }
 
-    public void setShapes(List<Shape> shapes) {
-        this.shapes = shapes;
-    }
 
     public List<Measurement> getMeasurements() {
         return measurements;
