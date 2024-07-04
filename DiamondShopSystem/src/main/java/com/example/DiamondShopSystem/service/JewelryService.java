@@ -36,12 +36,15 @@ public class JewelryService {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private ShapeRepository shapeRepository;
+
     public AllDataDTO getAllData() {
         List<Category> categories = categoryRepository.findAll();
         List<Material> materials = materialRepository.findAll();
         List<Size> sizes = sizeRepository.findAll();
-
-        return new AllDataDTO(categories, materials, sizes);
+        List<Shape> shapes = shapeRepository.findAll();
+        return new AllDataDTO(categories, materials, sizes, shapes);
     }
 
     public List<Jewelry> findAllJewelry() {
@@ -75,6 +78,7 @@ public class JewelryService {
                     existingJewelry.setPrice(newJewelry.getPrice());
                     existingJewelry.setDiamond(newJewelry.getDiamond());
                     existingJewelry.setMaterial(newJewelry.getMaterial());
+                    existingJewelry.setShape(newJewelry.getShape());
                     existingJewelry.setCategory(newJewelry.getCategory());
                     existingJewelry.setSize(newJewelry.getSize());
                     return jewelryRepository.save(existingJewelry);

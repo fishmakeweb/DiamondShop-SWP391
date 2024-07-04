@@ -19,6 +19,9 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private JWTUtils jwtUtils;
+
     public List<Customer> findAllCustomers() {
         return customerRepository.findAll();
     }

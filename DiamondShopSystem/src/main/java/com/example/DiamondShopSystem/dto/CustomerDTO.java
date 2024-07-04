@@ -1,6 +1,6 @@
 package com.example.DiamondShopSystem.dto;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class CustomerDTO {
     private Long userId;

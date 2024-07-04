@@ -2,6 +2,7 @@ package com.example.DiamondShopSystem.controller;
 
 import com.example.DiamondShopSystem.model.Customer;
 import com.example.DiamondShopSystem.service.CustomerService;
+import com.example.DiamondShopSystem.service.JWTUtils;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import net.bytebuddy.utility.RandomString;
@@ -25,6 +26,9 @@ public class ForgotPasswordController {
     @Autowired
     private CustomerService customerService;
 
+    @Autowired
+    private JWTUtils jwtUtils;
+
     static class EmailDTO {
         public String email;
     }
@@ -38,7 +42,7 @@ public class ForgotPasswordController {
     @PostMapping("/forgot_password")
     public ResponseEntity<?> processForgotPassword(@RequestBody EmailDTO emailDTO) {
         String email = emailDTO.email;
-        String token = RandomString.make(30);
+        String token = jwtUtils.generateToken(email);
 
         try {
             customerService.updateResetPasswordToken(token, email);
@@ -82,8 +86,13 @@ public class ForgotPasswordController {
         if (customer == null) {
             return ResponseEntity.badRequest().body("Invalid Token");
         } else {
-            customerService.updatePassword(customer, password);
-            return ResponseEntity.ok("You have successfully changed your password.");
+            if (jwtUtils.isTokenExpired(token)) {
+                return ResponseEntity.badRequest().body("Token expired");
+            } else {
+                customerService.updatePassword(customer, password);
+                return ResponseEntity.ok("You have successfully changed your password.");
+            }
+
         }
     }
 }

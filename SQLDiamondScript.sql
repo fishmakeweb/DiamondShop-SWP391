@@ -54,10 +54,6 @@ CREATE TABLE IF NOT EXISTS measurement(
     width DECIMAL(5,2),
     height DECIMAL(5,2)
     );
-CREATE TABLE IF NOT EXISTS shape(
-    shape_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
-    shape_description VARCHAR(50)
-    );
 CREATE TABLE IF NOT EXISTS color(
     color_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
     color_description CHAR(1)
@@ -66,9 +62,6 @@ CREATE TABLE IF NOT EXISTS carat(
     carat_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
     carat DECIMAL(3,2)
     );
-    
-
-
 CREATE TABLE IF NOT EXISTS gia(
     gia_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
     issue_date DATE,
@@ -78,7 +71,6 @@ CREATE TABLE IF NOT EXISTS gia(
 -- DIAMOND TABLE
 CREATE TABLE IF NOT EXISTS diamond(
     diamond_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
-    shape_id BIGINT,
     measurement_id BIGINT,
     carat_id BIGINT,
     color_id BIGINT,
@@ -88,7 +80,6 @@ CREATE TABLE IF NOT EXISTS diamond(
     price FLOAT,
     img VARCHAR(1000),
     is_sold boolean,
-    FOREIGN KEY (shape_id) REFERENCES shape(shape_id),
     FOREIGN KEY (measurement_id) REFERENCES measurement(measurement_id),
     FOREIGN KEY (carat_id) REFERENCES carat(carat_id),
     FOREIGN KEY (color_id) REFERENCES color(color_id),
@@ -113,7 +104,10 @@ CREATE TABLE IF NOT EXISTS size(
     size_number FLOAT,
     unit VARCHAR(10)
     );
-
+CREATE TABLE IF NOT EXISTS shape(
+    shape_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    shape_description VARCHAR(50)
+    );
 -- JEWELRY TABLE
 CREATE TABLE IF NOT EXISTS jewelry(
     jewelry_id  BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -123,14 +117,31 @@ CREATE TABLE IF NOT EXISTS jewelry(
     category_id BIGINT,
     size_id BIGINT,
     img VARCHAR(400),
+    shape_id BIGINT,
     price FLOAT,
     quantity INT,
     `date` Date,
     FOREIGN KEY (diamond_id) REFERENCES diamond(diamond_id),
+    FOREIGN KEY (shape_id) REFERENCES shape(shape_id),
     FOREIGN KEY (material_id) REFERENCES material(material_id),
     FOREIGN KEY (category_id) REFERENCES category(category_id),
     FOREIGN KEY (size_id) REFERENCES size(size_id)
     );
+    CREATE TABLE IF NOT EXISTS custom_jewelry(
+	custom_jewelry_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    category_id BIGINT,
+    material_id BIGINT,
+    size_id BIGINT,
+    diamond_id BIGINT,
+    shape_id BIGINT,
+    price float,
+    note varchar(500),
+	FOREIGN KEY (diamond_id) REFERENCES diamond(diamond_id),
+	FOREIGN KEY (shape_id) REFERENCES shape(shape_id),
+    FOREIGN KEY (material_id) REFERENCES material(material_id),
+    FOREIGN KEY (category_id) REFERENCES category(category_id),
+    FOREIGN KEY (size_id) REFERENCES size(size_id)
+);
 
 -- PRODUCT TABLE
 CREATE TABLE IF NOT EXISTS product(
@@ -172,6 +183,20 @@ CREATE TABLE IF NOT EXISTS article(
     content VARCHAR(1000)
     );
 
+
+CREATE TABLE IF NOT EXISTS custom_order(
+	custom_order_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50),
+    prepaid FLOAT,
+    fullpaid FLOAT,
+	status_id BIGINT,
+	`description` VARCHAR(50),
+	start_date DATE,
+    finish_date DATE,
+    custom_jewelry_id BIGINT,
+    FOREIGN KEY (custom_jewelry_id) REFERENCES custom_jewelry(custom_jewelry_id),
+	FOREIGN KEY (status_id) REFERENCES order_status(status_id)
+);
 INSERT INTO role (role_name) VALUES ('ROLE_SALESTAFF'),('ROLE_DELIVERYSTAFF'),('ROLE_MANAGER'),('ROLE_ADMIN');
 
 INSERT INTO cut (cut_description) VALUES
@@ -196,12 +221,11 @@ INSERT INTO measurement (length, width, height) VALUES
 (8.00, 5.50, 4.50);
 
 INSERT INTO shape (shape_description) VALUES
-('Round'),
-('Princess'),
+('Circle'),
 ('Oval'),
-('Marquise'),
-('Pear');
-
+('Square'),
+('Rectangle')
+;
 
 
 INSERT INTO color (color_description) VALUES
@@ -225,11 +249,10 @@ INSERT INTO carat (carat) VALUES
 
 -- Insert values into Category table
 INSERT INTO category (category_name) VALUES
-('Engagement Rings'),
-('Fashion Rings'),
-('Stud Earrings'),
-('Pendants'),
-('Diamond Chains');
+('Engagement Ring'),
+('Necklace'),
+('Fashion Ring')
+;
 
 -- Insert values into Material table
 INSERT INTO material (material_name) VALUES
@@ -244,13 +267,10 @@ INSERT INTO size (type, size_number, unit) VALUES
 ('Ring', 6, 'US'),
 ('Ring', 7, 'US'),
 ('Ring', 8, 'US'),
-('Chain Length', 18, 'inches'),
-('Chain Length', 20, 'inches'),
-('Earring Diameter', 0.5, 'inches'),
-('Earring Diameter', 0.75, 'inches'),
-('Pendant Height', 1, 'inches'),
-('Pendant Height', 1.5, 'inches'),
-('Pendant Height', 2, 'inches');
+('Necklace', 16, 'inches'),
+('Necklace', 18, 'inches'),
+('Necklace', 20, 'inches'),
+('Necklace', 22, 'inches');
 
 INSERT INTO order_status (status_description) VALUES
 ('In Cart'),
@@ -262,4 +282,4 @@ INSERT INTO order_status (status_description) VALUES
 INSERT INTO article (title, content) VALUES
 ('The Future of Jewelry', 'Exploring the trends and innovations shaping the future of the jewelry industry.'),
 ('Guide to Diamond Care', 'Learn how to maintain the brilliance of your diamonds with these simple care tips.'),
-('The History of Gemstones', 'A fascinating look back at the rich history and cultural significance of gemstones worldwide.');
+('The History of Gemstones', 'A fascinating look back at the rich history and cultural significance of gemstones')
