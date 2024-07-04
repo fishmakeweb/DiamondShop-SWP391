@@ -26,6 +26,11 @@ public class Jewelry {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
+
+    @ManyToOne
+    @JoinColumn(name = "shape_id")
+    private Shape shape;
+
     @ManyToOne
     @JoinColumn(name = "size_id", nullable = false)
     private Size size;
@@ -127,5 +132,13 @@ public class Jewelry {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Shape getShape() {
+        return shape;
+    }
+
+    public void setShape(Shape shape) {
+        this.shape = shape;
     }
 }
