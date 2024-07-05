@@ -2,7 +2,9 @@ package com.example.DiamondShopSystem.service;
 
 import com.example.DiamondShopSystem.dto.OrderDTO;
 import com.example.DiamondShopSystem.model.Order;
+import com.example.DiamondShopSystem.model.OrderChatMessage;
 import com.example.DiamondShopSystem.repository.CustomerRepository;
+import com.example.DiamondShopSystem.repository.OrderChatMessageRepository;
 import com.example.DiamondShopSystem.repository.OrderDetailRepository;
 import com.example.DiamondShopSystem.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,16 @@ public class OrderService {
 
     @Autowired
     private OrderDetailRepository orderDetailRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private JWTUtils jwtUtils;
+
+    @Autowired
+    private OrderChatMessageRepository orderChatMessageRepository;
+
     public List<Order> findAllOrders() {
         return orderRepository.findAll();
     }
@@ -34,11 +46,8 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
-    @Autowired
-    CustomerRepository customerRepository;
 
-    @Autowired
-    private JWTUtils jwtUtils;
+
 
     public Order saveOrderOnCheckOut(Order order){
         //Not completed
@@ -58,4 +67,10 @@ public class OrderService {
         return orderRepository.findFinshiedOrderByUsername(username);
     }
 
+
+
+    public void saveChatMessage(OrderChatMessage message) {
+        // Here, you might add any business logic before saving the message
+        orderChatMessageRepository.save(message);
+    }
 }
