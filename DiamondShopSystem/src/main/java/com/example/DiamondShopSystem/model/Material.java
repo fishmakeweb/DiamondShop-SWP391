@@ -9,7 +9,7 @@ public class Material {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long materialId;
     private String materialName;
-
+    private String materialImg;
     // Getters and Setters
     public Long getMaterialId() {
         return materialId;
@@ -25,5 +25,13 @@ public class Material {
 
     public void setMaterialName(String materialName) {
         this.materialName = materialName;
+    }
+
+    public String getMaterialImg() {
+        return materialImg;
+    }
+
+    public void setMaterialImg(String materialImg) {
+        this.materialImg = materialImg;
     }
 }
