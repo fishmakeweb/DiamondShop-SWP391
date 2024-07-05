@@ -1,8 +1,10 @@
 package com.example.DiamondShopSystem.controller;
 
+import com.example.DiamondShopSystem.dto.CustomOrderUpdateDTO;
 import com.example.DiamondShopSystem.model.CustomJewelry;
 import com.example.DiamondShopSystem.model.CustomOrder;
 import com.example.DiamondShopSystem.model.Customer;
+import com.example.DiamondShopSystem.model.OrderStatus;
 import com.example.DiamondShopSystem.repository.CustomerRepository;
 import com.example.DiamondShopSystem.service.CustomOrderService;
 import com.example.DiamondShopSystem.service.JWTUtils;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +27,7 @@ public class CustomOrderController {
     public List<CustomOrder> getAllOrders() {
         return customOrderService.getAllOrders();
     }
+
     @Autowired
     private JWTUtils jwtUtils;
     @Autowired
@@ -41,10 +45,6 @@ public class CustomOrderController {
         return customOrderService.createOrder(customOrder);
     }
 
-    @PutMapping("/{id}")
-    public CustomOrder updateOrder(@PathVariable Long id, @RequestBody CustomOrder customOrderDetails) {
-        return customOrderService.updateOrder(id, customOrderDetails);
-    }
 
 
     @GetMapping("/getcustomorder")
@@ -56,6 +56,18 @@ public class CustomOrderController {
     public ResponseEntity<?> createCustomOrder(@RequestBody CustomJewelry customJewelry, @RequestHeader("Authorization") String token) {
         customOrderService.createCustomOrder(customJewelry, token.substring(7));
         return ResponseEntity.ok().build(); // Adjust response based on your needs
+    }
+
+    @PutMapping("/updateAtr/{id}")
+    public ResponseEntity<CustomOrder> updateCustomOrderFullPaid(@PathVariable Long id, @RequestBody CustomOrderUpdateDTO updateDTO) {
+        CustomOrder updatedOrder = customOrderService.updateCustomOrderAtr(id, updateDTO);
+        return ResponseEntity.ok(updatedOrder);
+    }
+
+    @PutMapping("/verifyOrders/{id}")
+    public ResponseEntity<CustomOrder> verifyOrders(@PathVariable Long id) {
+        CustomOrder updatedOrder = customOrderService.verifyOrders(id);
+        return ResponseEntity.ok(updatedOrder);
     }
 
     @DeleteMapping("/{id}")
