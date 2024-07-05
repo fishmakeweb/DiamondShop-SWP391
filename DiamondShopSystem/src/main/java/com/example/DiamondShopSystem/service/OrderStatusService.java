@@ -32,10 +32,7 @@ public class OrderStatusService {
                 .map(existingOrderStatus -> {
                     existingOrderStatus.setStatusDescription(newOrderStatus.getStatusDescription());
                     return orderStatusRepository.save(existingOrderStatus);
-                }).orElseGet(() -> {
-                    newOrderStatus.setStatusId(id);  // Ensure to set the correct ID
-                    return orderStatusRepository.save(newOrderStatus);
-                });
+                }).orElseThrow(() -> new RuntimeException("Status not found"));
     }
 
     public void deleteOrderStatus(Long id) {

@@ -1,5 +1,6 @@
 package com.example.DiamondShopSystem.service;
 
+import com.example.DiamondShopSystem.dto.CustomOrderUpdateDTO;
 import com.example.DiamondShopSystem.model.CustomJewelry;
 import com.example.DiamondShopSystem.model.CustomOrder;
 import com.example.DiamondShopSystem.model.OrderStatus;
@@ -8,8 +9,6 @@ import com.example.DiamondShopSystem.repository.CustomOrderRepository;
 import com.example.DiamondShopSystem.repository.OrderStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -56,6 +55,26 @@ public class CustomOrderService {
         } else {
             throw new RuntimeException("Order not found with id " + id);
         }
+    }
+
+    public CustomOrder updateCustomOrderAtr(Long id, CustomOrderUpdateDTO updateDTO){
+        return customOrderRepository.findById(id)
+                .map(customOrder -> {
+                    customOrder.setFullpaid(updateDTO.getFullPaid());
+                    customOrder.setDescription(updateDTO.getDescription());
+                    customOrder.setFinishDate(updateDTO.getFinishDate());
+                    return customOrderRepository.save(customOrder);
+                })
+                .orElseThrow(() -> new RuntimeException("Order not found with id " + id));
+    }
+
+    public CustomOrder verifyOrders(Long id){
+        return customOrderRepository.findById(id)
+                .map(customOrder -> {
+                    customOrder.setOrderStatus(orderStatusRepository.findById(3L).get());
+                    return customOrderRepository.save(customOrder);
+                })
+                .orElseThrow(() -> new RuntimeException("Order not found with id " + id));
     }
 
     public void deleteCustomOrder(Long id) {

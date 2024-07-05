@@ -30,12 +30,6 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    //Place holder
-    public Order saveOrderOnCheckOut(Order order){
-        //Not completed
-        return new Order();
-    }
-
     public void deleteOrder(Long id) {
         orderRepository.deleteById(id);
     }
@@ -46,12 +40,10 @@ public class OrderService {
     @Autowired
     private JWTUtils jwtUtils;
 
-//    public List<OrderDetail> getCart(String token) {
-//        String username = jwtUtils.extractUsername(token);
-//        Long activeOrder = orderRepository.findActiveOrderByUsername(username);
-//        return orderDetailRepository.findByOrderId(activeOrder);
-//        // Return an empty list if there is no active order
-//    }
+    public Order saveOrderOnCheckOut(Order order){
+        //Not completed
+        return new Order();
+    }
 
     public OrderDTO getCart(String token) {
 //        OrderDTO dto = new OrderDTO();
