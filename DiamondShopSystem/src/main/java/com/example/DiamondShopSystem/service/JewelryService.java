@@ -1,6 +1,7 @@
 package com.example.DiamondShopSystem.service;
 
 import com.example.DiamondShopSystem.dto.AllDataDTO;
+import com.example.DiamondShopSystem.dto.JewelryDTO;
 import com.example.DiamondShopSystem.model.*;
 import com.example.DiamondShopSystem.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,9 @@ public class JewelryService {
 
     @Autowired
     private ShapeRepository shapeRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     public AllDataDTO getAllData() {
         List<Category> categories = categoryRepository.findAll();
@@ -110,6 +114,11 @@ public class JewelryService {
 //        return jewelryRepository.findAll(pageable);
 //    }
 
+
+    public Page<JewelryDTO> getJewelryPage(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepository.findJewelryByPage(pageable);
+    }
 }
 
 
