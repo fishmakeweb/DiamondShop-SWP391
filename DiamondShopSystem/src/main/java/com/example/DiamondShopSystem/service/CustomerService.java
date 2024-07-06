@@ -12,8 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.time.LocalDate;
+import java.util.Date;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -104,7 +104,7 @@ public class CustomerService {
             newCustomer.setEmail(username);
             newCustomer.setUsername(username);
             newCustomer.setFullName(fullName);
-            newCustomer.setRegisteredDate(Date.valueOf(LocalDate.now()));
+            newCustomer.setRegisteredDate(new Date());
             newCustomer.setProvider(Provider.GOOGLE);
             Order order = new Order();
 //                OrderStatus defaultOrderStatus = new OrderStatus();
