@@ -1,6 +1,7 @@
 package com.example.DiamondShopSystem.service;
 
 import com.example.DiamondShopSystem.model.Customer;
+import com.example.DiamondShopSystem.model.Order;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -19,6 +20,9 @@ public class JWTUtils {
     private final SecretKey secretKey;
 
     private static final Long EXPIRATION_TIME = 86400000L; // 24 hours
+
+    private static final Long CHECKOUT_EXPIRATION_TIME = 300000L; // 5 minutes
+
 
     public JWTUtils(){
         String secreteString = "843567893696976453275974432697R634976R738467TR678T34865R6834R8763T478378637664538745673865783678548735687R3";
@@ -39,6 +43,15 @@ public class JWTUtils {
                 .setSubject(email)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 60000L))
+                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public String generateOrderToken(Order order) {
+        return Jwts.builder()
+                .setSubject(order.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + CHECKOUT_EXPIRATION_TIME))
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }

@@ -103,7 +103,7 @@ public class OrderService {
         paymentRequest.setAmount(totalPrice);
         paymentRequest.setDescription("Hephaestus Order " + order.getOrderId());
         paymentRequest.setExpiredAt(Instant.now().plusSeconds(300).getEpochSecond());
-        paymentRequest.setReturnUrl("https://hephaestus.store/Success?payToken="+jwtUtils.generateToken(order));
+        paymentRequest.setReturnUrl("https://hephaestus.store/Success?payToken="+jwtUtils.generateOrderToken(order));
         paymentRequest.setCancelUrl("https://hephaestus.store/Cancelled");
         paymentRequest = paymentRequestRepository.save(paymentRequest);
         System.out.println(paymentRequest.toString());
