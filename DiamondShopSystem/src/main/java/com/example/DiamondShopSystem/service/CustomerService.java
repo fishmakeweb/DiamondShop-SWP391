@@ -1,12 +1,19 @@
 package com.example.DiamondShopSystem.service;
 
+import com.example.DiamondShopSystem.model.Order;
+import com.example.DiamondShopSystem.model.Provider;
 import com.example.DiamondShopSystem.repository.CustomerRepository;
 import com.example.DiamondShopSystem.model.Customer;
+import com.example.DiamondShopSystem.repository.OrderRepository;
+import com.example.DiamondShopSystem.repository.OrderStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +22,12 @@ public class CustomerService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    OrderStatusRepository orderStatusRepository;
+
+    @Autowired
+    OrderRepository orderRepository;
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -79,5 +92,28 @@ public class CustomerService {
 
         customer.setResetPasswordToken(null);
         customerRepository.save(customer);
+    }
+
+    public Customer processOAuthPostLogin(String username, String fullName) {
+        Customer existingCustomer = customerRepository.getUserByUsername(username);
+
+        if (existingCustomer!=null) {
+            return existingCustomer;
+        } else {
+            Customer newCustomer = new Customer();
+            newCustomer.setEmail(username);
+            newCustomer.setUsername(username);
+            newCustomer.setFullName(fullName);
+            newCustomer.setRegisteredDate(new Date());
+            newCustomer.setProvider(Provider.GOOGLE);
+            Order order = new Order();
+//                OrderStatus defaultOrderStatus = new OrderStatus();
+            order.setUsername(newCustomer.getEmail());
+//                defaultOrderStatus.setStatusId(1L);
+            order.setOrderStatus(orderStatusRepository.findById(1L).get());
+            orderRepository.save(order);
+            customerRepository.save(newCustomer);
+            return newCustomer;
+        }
     }
 }
