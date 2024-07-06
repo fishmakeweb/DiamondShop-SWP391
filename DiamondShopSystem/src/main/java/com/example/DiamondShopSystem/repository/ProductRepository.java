@@ -2,6 +2,7 @@ package com.example.DiamondShopSystem.repository;
 
 import com.example.DiamondShopSystem.dto.JewelryDTO;
 import com.example.DiamondShopSystem.dto.NewReleaseDTO;
+import com.example.DiamondShopSystem.model.Jewelry;
 import com.example.DiamondShopSystem.model.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,4 +27,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "WHERE p.jewelry.jewelryId = j.jewelryId " +
             "ORDER BY j.date DESC")
     List<NewReleaseDTO> findNewReleaseDTOs();
+
+    @Query("SELECT new com.example.DiamondShopSystem.dto.JewelryDTO(p.productId, j.name, j.price, j.img) " +
+            "FROM Product p JOIN p.jewelry j " +
+            "ORDER BY j.jewelryId")
+    Page<JewelryDTO> findJewelryByPage(Pageable pageable);
 }

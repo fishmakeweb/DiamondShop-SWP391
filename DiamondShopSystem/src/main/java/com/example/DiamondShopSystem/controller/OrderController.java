@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -34,9 +35,15 @@ public class OrderController {
         return orderService.createOrder(order);
     }
 
-    @PostMapping("/checkOut/{id}")
-    public Order saveOrder(@RequestBody Order order) {
-        return orderService.saveOrderOnCheckOut(order);
+    @GetMapping("/checkOut")
+    public String saveOrder(@RequestHeader("Authorization") String token) {
+        return orderService.checkOut(token.substring(7));
+    }
+
+    @PostMapping("/successCheckOut")
+    public String successCheckOut(@RequestBody Map<String, Object> payload) {
+        String payToken = (String) payload.get("payToken");
+        return orderService.successCheckOut(payToken);
     }
 
     @DeleteMapping("/{id}")
