@@ -1,11 +1,20 @@
-package com.example.DiamondShopSystem.model;
+package com.example.DiamondShopSystem.dto;
 
 public class ChatMessage {
+    private Long id;
     private String username;
     private String message;
 
     // Getters and Setters
 
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;

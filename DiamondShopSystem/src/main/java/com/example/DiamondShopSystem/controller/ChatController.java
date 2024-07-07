@@ -1,7 +1,7 @@
 package com.example.DiamondShopSystem.controller;
 
 import com.example.DiamondShopSystem.dto.ChatMessageRequest;
-import com.example.DiamondShopSystem.model.ChatMessage;
+import com.example.DiamondShopSystem.dto.ChatMessage;
 import com.example.DiamondShopSystem.model.OrderChatMessage;
 import com.example.DiamondShopSystem.repository.OrderChatMessageRepository;
 import com.example.DiamondShopSystem.repository.OrderRepository;
@@ -74,6 +74,7 @@ public class ChatController {
         message.setMessage(chatMessage.getMessage()); // Consistent use of getContent
         message.setTimestamp(new Date());
         orderChatMessageRepository.save(message);
+        chatMessage.setId(message.getId());
         simpMessagingTemplate.convertAndSend("/topic/orders/" + orderId, chatMessage);
     }
 
