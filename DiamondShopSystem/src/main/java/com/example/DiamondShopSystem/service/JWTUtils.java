@@ -1,5 +1,6 @@
 package com.example.DiamondShopSystem.service;
 
+import com.example.DiamondShopSystem.model.CustomOrder;
 import com.example.DiamondShopSystem.model.Customer;
 import com.example.DiamondShopSystem.model.Order;
 import io.jsonwebtoken.Claims;
@@ -68,6 +69,21 @@ public class JWTUtils {
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
+
+    public String generateCustomOrderToken(CustomOrder customOrder) {
+        return Jwts.builder()
+                .setSubject(customOrder.getCustomOrderId().toString())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + CHECKOUT_EXPIRATION_TIME))
+                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public String extractCustomOrderId(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
+
+
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);

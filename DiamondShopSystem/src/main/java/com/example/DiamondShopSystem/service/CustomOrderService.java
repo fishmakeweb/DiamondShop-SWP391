@@ -4,11 +4,16 @@ import com.example.DiamondShopSystem.dto.CustomOrderUpdateDTO;
 import com.example.DiamondShopSystem.model.CustomJewelry;
 import com.example.DiamondShopSystem.model.CustomOrder;
 import com.example.DiamondShopSystem.model.OrderStatus;
+import com.example.DiamondShopSystem.model.PaymentRequest;
 import com.example.DiamondShopSystem.repository.CustomJewelryRepository;
 import com.example.DiamondShopSystem.repository.CustomOrderRepository;
 import com.example.DiamondShopSystem.repository.OrderStatusRepository;
+import com.example.DiamondShopSystem.repository.PaymentRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +31,8 @@ public class CustomOrderService {
     private JWTUtils jwtUtils;
     @Autowired
     private CustomJewelryRepository customJewelryRepository;
-
+    @Autowired
+    private PaymentRequestRepository paymentRequestRepository;
     public List<CustomOrder> getAllOrders() {
         return customOrderRepository.findAll();
     }
@@ -107,5 +113,52 @@ public class CustomOrderService {
     public List<CustomOrder> getCustomOrders(String token) {
         String username = jwtUtils.extractUsername(token);
         return customOrderRepository.findByUsername(username);
+    }
+
+    public String checkOutCustomOrder(String token,Long customOrderId) {
+        String username = jwtUtils.extractUsername(token);
+        CustomOrder customOrder = customOrderRepository.findByUserNameAndCustomOrderId(username, customOrderId);
+        double totalPrice = customOrder.getPrepaid();
+        PaymentRequest paymentRequest = new PaymentRequest();
+        paymentRequest.setAmount(Math.ceil(totalPrice*50f));
+        paymentRequest.setDescription("Custom Order " + customOrder.getCustomOrderId());
+        paymentRequest.setExpiredAt(Instant.now().plusSeconds(300).getEpochSecond());
+
+//        https://hephaestus.store/Success?payToken=
+        paymentRequest.setReturnUrl("https://hephaestus.store/Success?payToken="+jwtUtils.generateCustomOrderToken(customOrder));
+
+//        https://hephaestus.store/Cancelled
+        paymentRequest.setCancelUrl("https://hephaestus.store/Cancelled");
+        paymentRequest = paymentRequestRepository.save(paymentRequest);
+        System.out.println(paymentRequest.toString());
+
+//        https://payment.hephaestus.store/create-payment-link
+        String createPaymentUrl = "https://payment.hephaestus.store/create-payment-link";
+        RestTemplate restTemplate = new RestTemplate();
+        String paymentUrl = restTemplate.postForObject(createPaymentUrl,paymentRequest,String.class);
+//        System.out.println(paymentUrl);
+        return paymentUrl;
+    }
+
+    public String successCheckOutForCustomOrder(String token) {
+        Long customOrderId = Long.valueOf(jwtUtils.extractCustomOrderId(token));
+        CustomOrder customOrder = customOrderRepository.findById(customOrderId).get();
+        if (customOrder != null) {
+            if (!jwtUtils.isTokenExpired(token)) {
+                setSuccessStatusForCustomOrder(customOrder);
+                return "Check Out successfully";
+            } else {
+                return "This token is expired";
+            }
+        } else {
+            return "This order is not exists!!";
+        }
+    }
+
+    public void setSuccessStatusForCustomOrder(CustomOrder customOrder) {
+        OrderStatus successStatus = orderStatusRepository.findById(3L).get();
+        customOrder.setOrderStatus(successStatus);
+        customOrder.setDescription("PRE-PAID SUCCESSFULLY");
+        customOrderRepository.save(customOrder);
     }
 }
