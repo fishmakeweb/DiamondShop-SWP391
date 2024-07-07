@@ -41,6 +41,20 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/products/new-release")
+    public ResponseEntity<Page<NewReleaseDTO>> getNewReleaseByPage(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "8") int size) {
+        Page<NewReleaseDTO> newReleasePage = jewelryService.getNewReleasePage(page, size);
+        if (newReleasePage.hasContent()) {
+            return ResponseEntity.ok(newReleasePage);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
+    }
+
+
+
     @GetMapping("/products/newrelease/{page}")
     public List<NewReleaseDTO> getNewReleaseDTOs(@PathVariable int page) {
         return productService.getNewReleaseDTOs(page);
