@@ -2,6 +2,7 @@ package com.example.DiamondShopSystem.service;
 
 import com.example.DiamondShopSystem.dto.AllDataDTO;
 import com.example.DiamondShopSystem.dto.JewelryDTO;
+import com.example.DiamondShopSystem.dto.NewReleaseDTO;
 import com.example.DiamondShopSystem.model.*;
 import com.example.DiamondShopSystem.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,6 +114,11 @@ public class JewelryService {
 //        Pageable pageable = PageRequest.of(page, size);
 //        return jewelryRepository.findAll(pageable);
 //    }
+
+    public Page<NewReleaseDTO> getNewReleasePage(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepository.findNewReleaseByPage(pageable);
+    }
 
 
     public Page<JewelryDTO> getJewelryPage(int page, int size) {
