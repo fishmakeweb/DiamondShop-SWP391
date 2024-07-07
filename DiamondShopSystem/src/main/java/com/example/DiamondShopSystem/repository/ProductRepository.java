@@ -32,4 +32,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "FROM Product p JOIN p.jewelry j " +
             "ORDER BY j.jewelryId")
     Page<JewelryDTO> findJewelryByPage(Pageable pageable);
+
+    @Query("SELECT new com.example.DiamondShopSystem.dto.NewReleaseDTO(p.productId, j.name, j.price, j.img, j.date) " +
+            "FROM Product p JOIN p.jewelry j " +
+            "ORDER BY j.date DESC")
+    Page<NewReleaseDTO> findNewReleaseByPage(Pageable pageable);
+
+
+
 }
