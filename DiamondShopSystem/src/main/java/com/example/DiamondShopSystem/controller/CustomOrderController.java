@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -78,4 +79,19 @@ public class CustomOrderController {
             customOrderService.deleteCustomOrder(id);
         }
     }
+
+    @GetMapping("/checkOutCustomOrder/{customOrderId}")
+    public String saveOrder(@RequestHeader("Authorization") String token,@PathVariable Long customOrderId ) {
+        return customOrderService.checkOutCustomOrder(token.substring(7),customOrderId);
+    }
+
+    @PostMapping("/successCheckOutForCustomOrder")
+    public String successCheckOut(@RequestBody Map<String, Object> payload) {
+        String payToken = (String) payload.get("payToken");
+        return customOrderService.successCheckOutForCustomOrder(payToken);
+    }
+
+
+
+
 }
