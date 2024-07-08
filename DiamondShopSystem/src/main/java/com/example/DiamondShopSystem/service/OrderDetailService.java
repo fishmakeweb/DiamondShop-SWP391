@@ -77,13 +77,15 @@ public class OrderDetailService {
         Optional<OrderDetail> optionalOrderDetail = orderDetailRepository.findById(orderDetailId);
         if (optionalOrderDetail.isPresent()) {
             OrderDetail orderDetail = optionalOrderDetail.get();
+            Order orderObj = orderRepository.findById(optionalOrderDetail.get().getOrderId()).get();
             if (quantity == 0) {
                 // If quantity is 0, delete the OrderDetail from the database
+                orderObj.setTotalPrice(orderObj.getTotalPrice()-orderDetail.getQuantity()*orderDetail.getProduct().getJewelry().getPrice());
+                orderRepository.save(orderObj);
                 orderDetailRepository.delete(orderDetail);
                 return null; // Return null or handle as needed after doeletin
             } else {
                 // Update quantity if it is not zero
-                Order orderObj = orderRepository.findById(optionalOrderDetail.get().getOrderId()).get();
                 orderObj.setTotalPrice(orderObj.getTotalPrice()+(quantity-orderDetail.getQuantity())*orderDetail.getProduct().getJewelry().getPrice());
                 orderRepository.save(orderObj);
                 orderDetail.setQuantity(quantity);
