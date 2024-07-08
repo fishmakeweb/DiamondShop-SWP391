@@ -14,7 +14,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         // Make sure to allow CORS here, adjust origins as needed
         registry.addEndpoint("/chat")
-                .setAllowedOrigins("https://hephaestus.store")
+                .setAllowedOrigins("https://www.hephaestus.store")
                 .withSockJS();
     }
 
