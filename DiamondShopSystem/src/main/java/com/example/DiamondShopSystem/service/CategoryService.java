@@ -1,5 +1,6 @@
 package com.example.DiamondShopSystem.service;
 
+import com.example.DiamondShopSystem.dto.CategoryCountDTO;
 import com.example.DiamondShopSystem.model.Category;
 import com.example.DiamondShopSystem.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +39,13 @@ public class CategoryService {
 
     public void deleteCategory(Long id) {
         categoryRepository.deleteById(id);
+    }
+
+    public List<CategoryCountDTO> getCategoriesByOrderCount() {
+        return categoryRepository.countCategoriesByOrderCount();
+    }
+
+    public CategoryCountDTO getTopCategoryByOrderCount() {
+        return categoryRepository.findCategoryWithMaxOrderCount();
     }
 }

@@ -17,6 +17,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomOrderService {
@@ -69,15 +70,6 @@ public class CustomOrderService {
                     customOrder.setFullpaid(updateDTO.getFullPaid());
                     customOrder.setDescription(updateDTO.getDescription());
                     customOrder.setFinishDate(updateDTO.getFinishDate());
-                    return customOrderRepository.save(customOrder);
-                })
-                .orElseThrow(() -> new RuntimeException("Order not found with id " + id));
-    }
-
-    public CustomOrder verifyOrders(Long id){
-        return customOrderRepository.findById(id)
-                .map(customOrder -> {
-                    customOrder.setOrderStatus(orderStatusRepository.findById(3L).get());
                     return customOrderRepository.save(customOrder);
                 })
                 .orElseThrow(() -> new RuntimeException("Order not found with id " + id));
@@ -158,7 +150,25 @@ public class CustomOrderService {
     public void setSuccessStatusForCustomOrder(CustomOrder customOrder) {
         OrderStatus successStatus = orderStatusRepository.findById(3L).get();
         customOrder.setOrderStatus(successStatus);
-        customOrder.setDescription("PRE-PAID SUCCESSFULLY");
+        customOrder.setDescription("PREPAID SUCCESSFULLY");
         customOrderRepository.save(customOrder);
     }
+
+    public List<CustomOrder> findAllByOrderStatusId(Long orderStatusId) {
+        return customOrderRepository.findCustomOrderByStatus(orderStatusId);
+    }
+
+    public CustomOrder handleCancelCustomOrder(Long id) {
+        Optional<CustomOrder> customOrderOptional = getOrderById(id);
+
+        if (customOrderOptional.isPresent()) {
+            CustomOrder customOrder = customOrderOptional.get();
+            customOrder.setDescription("REQUEST CANCEL");
+            customOrderRepository.save(customOrder);
+            return customOrder;
+        } else {
+            throw new RuntimeException("Order not found with id " + id);
+        }
+    }
+
 }
