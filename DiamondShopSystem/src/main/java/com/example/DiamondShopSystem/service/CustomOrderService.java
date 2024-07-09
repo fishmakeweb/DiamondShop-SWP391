@@ -150,7 +150,7 @@ public class CustomOrderService {
     public void setSuccessStatusForCustomOrder(CustomOrder customOrder) {
         OrderStatus successStatus = orderStatusRepository.findById(3L).get();
         customOrder.setOrderStatus(successStatus);
-        customOrder.setDescription("PRE-PAID SUCCESSFULLY");
+        customOrder.setDescription("PREPAID SUCCESSFULLY");
         customOrderRepository.save(customOrder);
     }
 

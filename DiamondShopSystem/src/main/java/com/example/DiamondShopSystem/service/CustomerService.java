@@ -58,29 +58,20 @@ public class CustomerService {
                 }).orElseThrow(() -> new RuntimeException("Customer not found"));
     }
 
-    public boolean checkPassword(String token, String password){
+    public Customer checkAndChangePassword(String token, String oldPassword, String newPassword) {
         String username = jwtUtils.extractUsername(token);
         Optional<Customer> customerOptional = customerRepository.findByUsername(username);
+
         if (customerOptional.isPresent()) {
             Customer customer = customerOptional.get();
-            if (passwordEncoder.matches(password, customer.getPassword())) {
-                return true;
+
+            if (passwordEncoder.matches(oldPassword, customer.getPassword())) {
+                customer.setPassword(passwordEncoder.encode(newPassword));
+                customerRepository.save(customer);
+                return customer;
+            } else {
+                throw new IllegalArgumentException("Old password does not match.");
             }
-            return false;
-        } else {
-            throw new UsernameNotFoundException("User not found with username: " + username);
-        }
-    }
-
-
-    public Customer changeUserPassword(String token, String password) {
-        String username = jwtUtils.extractUsername(token);
-        Optional<Customer> customerOptional = customerRepository.findByUsername(username);
-        if (customerOptional.isPresent()) {
-            Customer customer = customerOptional.get();
-            customer.setPassword(passwordEncoder.encode(password));
-            customerRepository.save(customer);
-            return customer;
         } else {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }

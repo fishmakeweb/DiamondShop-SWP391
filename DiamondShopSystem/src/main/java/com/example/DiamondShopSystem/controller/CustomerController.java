@@ -1,6 +1,7 @@
 package com.example.DiamondShopSystem.controller;
 
 
+import com.example.DiamondShopSystem.dto.PasswordChangeRequest;
 import com.example.DiamondShopSystem.model.Customer;
 import com.example.DiamondShopSystem.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,13 +38,8 @@ public class CustomerController {
     }
 
     @PutMapping("/password")
-    public Customer changePassword(@RequestHeader("Authorization") String token, @RequestBody String password){
-        return customerService.changeUserPassword(token.substring(7), password);
-    }
-
-    @PutMapping("/password-validation")
-    public boolean passwordValidate(@RequestHeader("Authorization") String token, @RequestBody String password){
-        return customerService.checkPassword(token.substring(7), password);
+    public Customer changePassword(@RequestHeader("Authorization") String token, @RequestBody PasswordChangeRequest passwordChangeRequest) {
+        return customerService.checkAndChangePassword(token.substring(7), passwordChangeRequest.getOldPassword(), passwordChangeRequest.getNewPassword());
     }
 
     @DeleteMapping("/{id}")

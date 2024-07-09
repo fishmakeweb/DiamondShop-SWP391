@@ -41,6 +41,8 @@ public class StaffService {
                 }).orElseThrow(() -> new RuntimeException("Staff not found"));
     }
 
+
+
     public void deleteStaff(Long id) {
         staffRepository.deleteById(id);
     }
