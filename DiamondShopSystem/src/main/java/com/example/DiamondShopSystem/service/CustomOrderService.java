@@ -150,14 +150,12 @@ public class CustomOrderService {
     public void setSuccessStatusForCustomOrder(CustomOrder customOrder) {
         OrderStatus successStatus = orderStatusRepository.findById(3L).get();
         customOrder.setOrderStatus(successStatus);
-        customOrder.setDescription("PRE-PAID SUCCESSFULLY");
+        customOrder.setDescription("PREPAID SUCCESSFULLY");
         customOrderRepository.save(customOrder);
     }
 
     public List<CustomOrder> findAllByOrderStatusId(Long orderStatusId) {
-        return customOrderRepository.findAll().stream()
-                .filter(customOrder -> customOrder.getOrderStatus().getStatusId().equals(orderStatusId))
-                .collect(Collectors.toList());
+        return customOrderRepository.findCustomOrderByStatus(orderStatusId);
     }
 
     public CustomOrder handleCancelCustomOrder(Long id) {
