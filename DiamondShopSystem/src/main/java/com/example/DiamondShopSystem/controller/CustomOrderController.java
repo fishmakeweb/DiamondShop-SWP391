@@ -65,12 +65,6 @@ public class CustomOrderController {
         return ResponseEntity.ok(updatedOrder);
     }
 
-    @PutMapping("/verifyOrders/{id}")
-    public ResponseEntity<CustomOrder> verifyOrders(@PathVariable Long id) {
-        CustomOrder updatedOrder = customOrderService.verifyOrders(id);
-        return ResponseEntity.ok(updatedOrder);
-    }
-
     @DeleteMapping("/{id}")
     public void deleteCustomJewelry(@PathVariable Long id, @RequestHeader("Authorization") String token) {
         String username = jwtUtils.extractUsername(token.substring(7));
@@ -91,7 +85,8 @@ public class CustomOrderController {
         return customOrderService.successCheckOutForCustomOrder(payToken);
     }
 
-
-
-
+    @GetMapping("/filter-custom-orderstatus/{orderStatusId}")
+    public List<CustomOrder> getOrderStatusByOrderStatusId(@PathVariable Long orderStatusId) {
+        return customOrderService.findAllByOrderStatusId(orderStatusId);
+    }
 }
