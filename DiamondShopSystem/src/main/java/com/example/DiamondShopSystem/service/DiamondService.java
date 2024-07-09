@@ -4,8 +4,10 @@ import com.example.DiamondShopSystem.dto.DiamondAttributeDTO;
 import com.example.DiamondShopSystem.model.Diamond;
 import com.example.DiamondShopSystem.model.Gia;
 import com.example.DiamondShopSystem.model.Jewelry;
+import com.example.DiamondShopSystem.model.Staff;
 import com.example.DiamondShopSystem.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +39,12 @@ public class DiamondService {
     private CaratRepository caratRepository;
 
     @Autowired
+    private StaffRepository staffRepository;
+
+    @Autowired
+    private JWTUtils jwtUtils;
+
+    @Autowired
     private ClarityRepository clarityRepository;
     public List<Diamond> findAllDiamonds() {
         return diamondRepository.findAll();
@@ -49,15 +57,21 @@ public class DiamondService {
 
 
     @Transactional
-    public Diamond saveDiamond(Diamond diamond) {
-        if (diamond.getGia() != null) {
-            Gia gia = diamond.getGia();
-            gia.setGiaNumber(generateUniqueGiaNumber());
-            giaRepository.save(gia);
+    public Diamond saveDiamond(Diamond diamond,String token) {
+        String adminUsername = jwtUtils.extractUsername(token);
+        Staff temp = staffRepository.findByUsernameAndRoleRoleId(adminUsername,4L);
+        if (temp == null) {
+            throw new RuntimeException("this token is invalid");
+        } else {
+            if (diamond.getGia() != null) {
+                Gia gia = diamond.getGia();
+                gia.setGiaNumber(generateUniqueGiaNumber());
+                giaRepository.save(gia);
+            }
+            Diamond savedDiamond = diamondRepository.save(diamond);
+            productService.createProductForDiamond(savedDiamond);
+            return savedDiamond;
         }
-        Diamond savedDiamond = diamondRepository.save(diamond);
-        productService.createProductForDiamond(savedDiamond);
-        return savedDiamond;
     }
 
     private String generateUniqueGiaNumber() {

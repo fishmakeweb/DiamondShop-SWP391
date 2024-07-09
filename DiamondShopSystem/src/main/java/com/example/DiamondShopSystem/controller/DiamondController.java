@@ -31,8 +31,8 @@ public class DiamondController {
     }
 
     @PostMapping("/secure/diamonds")
-    public Diamond createDiamond(@RequestBody Diamond diamond) {
-        return diamondService.saveDiamond(diamond);
+    public Diamond createDiamond(@RequestBody Diamond diamond,@RequestHeader ("Authorization") String token) {
+        return diamondService.saveDiamond(diamond,token.substring(7));
     }
 
     @PutMapping("/secure/diamonds/{id}")
