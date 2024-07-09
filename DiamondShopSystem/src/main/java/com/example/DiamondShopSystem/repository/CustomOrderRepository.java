@@ -14,4 +14,6 @@ public interface CustomOrderRepository extends JpaRepository<CustomOrder, Long> 
 
     @Query("SELECT c FROM CustomOrder c WHERE c.username = ?1 AND c.customOrderId = ?2")
     CustomOrder findByUserNameAndCustomOrderId(String username, Long customOrderId);
+
+    CustomOrder findByCustomOrderId(Long customOrderId);
 }
