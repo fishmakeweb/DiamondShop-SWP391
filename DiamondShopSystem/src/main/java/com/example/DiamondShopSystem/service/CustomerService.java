@@ -108,23 +108,26 @@ public class CustomerService {
     public Customer processOAuthPostLogin(String username, String fullName) {
         Customer existingCustomer = customerRepository.getUserByUsername(username);
 
-        if (existingCustomer!=null) {
+        if (existingCustomer != null) {
             return existingCustomer;
-        } else {
-            Customer newCustomer = new Customer();
-            newCustomer.setEmail(username);
-            newCustomer.setUsername(username);
-            newCustomer.setFullName(fullName);
-            newCustomer.setRegisteredDate(new Date());
-            newCustomer.setProvider(Provider.GOOGLE);
-            Order order = new Order();
-//                OrderStatus defaultOrderStatus = new OrderStatus();
-            order.setUsername(newCustomer.getEmail());
-//                defaultOrderStatus.setStatusId(1L);
-            order.setOrderStatus(orderStatusRepository.findById(1L).get());
-            orderRepository.save(order);
-            customerRepository.save(newCustomer);
-            return newCustomer;
         }
+        existingCustomer = customerRepository.findByAssignEmail(username);
+        if (existingCustomer != null) {
+            return existingCustomer;
+        }
+        Customer newCustomer = new Customer();
+        newCustomer.setEmail(username);
+        newCustomer.setUsername(username);
+        newCustomer.setFullName(fullName);
+        newCustomer.setRegisteredDate(new Date());
+        newCustomer.setProvider(Provider.GOOGLE);
+        Order order = new Order();
+//                OrderStatus defaultOrderStatus = new OrderStatus();
+        order.setUsername(newCustomer.getEmail());
+//                defaultOrderStatus.setStatusId(1L);
+        order.setOrderStatus(orderStatusRepository.findById(1L).get());
+        orderRepository.save(order);
+        customerRepository.save(newCustomer);
+        return newCustomer;
     }
 }

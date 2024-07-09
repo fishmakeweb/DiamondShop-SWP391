@@ -155,9 +155,7 @@ public class CustomOrderService {
     }
 
     public List<CustomOrder> findAllByOrderStatusId(Long orderStatusId) {
-        return customOrderRepository.findAll().stream()
-                .filter(customOrder -> customOrder.getOrderStatus().getStatusId().equals(orderStatusId))
-                .collect(Collectors.toList());
+        return customOrderRepository.findCustomOrderByStatus(orderStatusId);
     }
 
     public CustomOrder handleCancelCustomOrder(Long id) {
