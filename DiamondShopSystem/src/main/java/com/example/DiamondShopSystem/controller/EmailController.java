@@ -51,4 +51,9 @@ public class EmailController {
     public void confirmCustomOrder(
             @PathVariable Long customOrderId
     ) {emailService.confirmCustomOrder(customOrderId);}
+
+    @PostMapping("/confirmCancelCustomOrder/{customOrderId}")
+    public void confirmCancelCustomOrder(
+            @PathVariable Long customOrderId
+    ) {emailService.confirmRequestCancelled(customOrderId);}
 }
