@@ -160,4 +160,17 @@ public class CustomOrderService {
                 .collect(Collectors.toList());
     }
 
+    public CustomOrder handleCancelCustomOrder(Long id) {
+        Optional<CustomOrder> customOrderOptional = getOrderById(id);
+
+        if (customOrderOptional.isPresent()) {
+            CustomOrder customOrder = customOrderOptional.get();
+            customOrder.setDescription("REQUEST CANCEL");
+            customOrderRepository.save(customOrder);
+            return customOrder;
+        } else {
+            throw new RuntimeException("Order not found with id " + id);
+        }
+    }
+
 }
