@@ -132,8 +132,6 @@ public class OrderService {
     }
 
     public List<Order> findAllByOrderStatusId(Long orderStatusId) {
-        return orderRepository.findAll().stream()
-                .filter(order -> order.getOrderStatus().getStatusId().equals(orderStatusId))
-                .collect(Collectors.toList());
+        return orderRepository.findOrderByStatus(orderStatusId);
     }
 }
