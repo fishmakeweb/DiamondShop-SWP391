@@ -1,14 +1,8 @@
 package com.example.DiamondShopSystem.service;
 
 import com.example.DiamondShopSystem.dto.CustomOrderUpdateDTO;
-import com.example.DiamondShopSystem.model.CustomJewelry;
-import com.example.DiamondShopSystem.model.CustomOrder;
-import com.example.DiamondShopSystem.model.OrderStatus;
-import com.example.DiamondShopSystem.model.PaymentRequest;
-import com.example.DiamondShopSystem.repository.CustomJewelryRepository;
-import com.example.DiamondShopSystem.repository.CustomOrderRepository;
-import com.example.DiamondShopSystem.repository.OrderStatusRepository;
-import com.example.DiamondShopSystem.repository.PaymentRequestRepository;
+import com.example.DiamondShopSystem.model.*;
+import com.example.DiamondShopSystem.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -33,8 +27,17 @@ public class CustomOrderService {
     private CustomJewelryRepository customJewelryRepository;
     @Autowired
     private PaymentRequestRepository paymentRequestRepository;
-    public List<CustomOrder> getAllOrders() {
-        return customOrderRepository.findAll();
+    @Autowired
+    private StaffRepository staffRepository;
+
+    public List<CustomOrder> getAllOrders(String token) {
+        String username = jwtUtils.extractUsername(token);
+        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username, 1L);
+        if (staff == null) {
+            throw new RuntimeException("This token is invalid");
+        } else {
+            return customOrderRepository.findAll();
+        }
     }
 
     public Optional<CustomOrder> getOrderById(Long id) {
@@ -63,18 +66,25 @@ public class CustomOrderService {
         }
     }
 
-    public CustomOrder updateCustomOrderAtr(Long id, CustomOrderUpdateDTO updateDTO){
-        return customOrderRepository.findById(id)
-                .map(customOrder -> {
-                    customOrder.setFullpaid(updateDTO.getFullPaid());
-                    customOrder.setDescription(updateDTO.getDescription());
-                    customOrder.setFinishDate(updateDTO.getFinishDate());
-                    return customOrderRepository.save(customOrder);
-                })
-                .orElseThrow(() -> new RuntimeException("Order not found with id " + id));
+    public CustomOrder updateCustomOrderAtr(Long id, CustomOrderUpdateDTO updateDTO, String token) {
+        String username = jwtUtils.extractUsername(token);
+        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username, 1L);
+        if (staff == null) {
+            throw new RuntimeException("This token is invalid");
+        } else {
+            return customOrderRepository.findById(id)
+                    .map(customOrder -> {
+                        customOrder.setFullpaid(updateDTO.getFullPaid());
+                        customOrder.setDescription(updateDTO.getDescription());
+                        customOrder.setFinishDate(updateDTO.getFinishDate());
+                        return customOrderRepository.save(customOrder);
+                    })
+                    .orElseThrow(() -> new RuntimeException("Order not found with id " + id));
+        }
+
     }
 
-    public CustomOrder verifyOrders(Long id){
+    public CustomOrder verifyOrders(Long id) {
         return customOrderRepository.findById(id)
                 .map(customOrder -> {
                     customOrder.setOrderStatus(orderStatusRepository.findById(3L).get());
@@ -90,6 +100,7 @@ public class CustomOrderService {
         customOrderRepository.deleteById(id);
         customJewelryRepository.deleteById(customJewelryId);
     }
+
     public void createCustomOrder(CustomJewelry customJewelry, String token) {
         // Save the CustomJewelry entity first
         CustomJewelry savedJewelry = customJewelryRepository.save(customJewelry);
@@ -110,22 +121,23 @@ public class CustomOrderService {
 
         customOrderRepository.save(customOrder);
     }
+
     public List<CustomOrder> getCustomOrders(String token) {
         String username = jwtUtils.extractUsername(token);
         return customOrderRepository.findByUsername(username);
     }
 
-    public String checkOutCustomOrder(String token,Long customOrderId) {
+    public String checkOutCustomOrder(String token, Long customOrderId) {
         String username = jwtUtils.extractUsername(token);
         CustomOrder customOrder = customOrderRepository.findByUserNameAndCustomOrderId(username, customOrderId);
         double totalPrice = customOrder.getPrepaid();
         PaymentRequest paymentRequest = new PaymentRequest();
-        paymentRequest.setAmount(Math.ceil(totalPrice*50f));
+        paymentRequest.setAmount(Math.ceil(totalPrice * 50f));
         paymentRequest.setDescription("Custom Order " + customOrder.getCustomOrderId());
         paymentRequest.setExpiredAt(Instant.now().plusSeconds(300).getEpochSecond());
 
 //        https://hephaestus.store/Success?payToken=
-        paymentRequest.setReturnUrl("https://hephaestus.store/Success?payToken="+jwtUtils.generateCustomOrderToken(customOrder));
+        paymentRequest.setReturnUrl("https://hephaestus.store/Success?payToken=" + jwtUtils.generateCustomOrderToken(customOrder));
 
 //        https://hephaestus.store/Cancelled
         paymentRequest.setCancelUrl("https://hephaestus.store/Cancelled");
@@ -135,7 +147,7 @@ public class CustomOrderService {
 //        https://payment.hephaestus.store/create-payment-link
         String createPaymentUrl = "https://payment.hephaestus.store/create-payment-link";
         RestTemplate restTemplate = new RestTemplate();
-        String paymentUrl = restTemplate.postForObject(createPaymentUrl,paymentRequest,String.class);
+        String paymentUrl = restTemplate.postForObject(createPaymentUrl, paymentRequest, String.class);
 //        System.out.println(paymentUrl);
         return paymentUrl;
     }
