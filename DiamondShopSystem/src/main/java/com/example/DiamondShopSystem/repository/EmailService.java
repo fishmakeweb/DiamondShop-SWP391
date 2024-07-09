@@ -1,5 +1,6 @@
 package com.example.DiamondShopSystem.repository;
 
+import com.example.DiamondShopSystem.model.CustomOrder;
 import com.example.DiamondShopSystem.model.EmailDetails;
 
 public interface EmailService {
@@ -15,4 +16,9 @@ public interface EmailService {
     String sendHtmlEmail(EmailDetails details);
 
     void confirmOrder(Long orderId);
+
+    void confirmCustomOrder(Long orderId);
+
+    void confirmRequestCancelled(Long orderId);
 }
+

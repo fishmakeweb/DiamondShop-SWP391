@@ -73,12 +73,23 @@ public class CustomerService {
                 }).orElseThrow(() -> new RuntimeException("Customer not found"));
     }
 
-    public Customer changeUserPassword(Long id, Customer newCustomer){
-        return customerRepository.findById(id)
-                .map(customer -> {
-                    customer.setPassword(passwordEncoder.encode(newCustomer.getPassword()));
-                    return customerRepository.save(customer);
-                }).orElseThrow(() -> new RuntimeException("Customer not found"));
+    public Customer checkAndChangePassword(String token, String oldPassword, String newPassword) {
+        String username = jwtUtils.extractUsername(token);
+        Optional<Customer> customerOptional = customerRepository.findByUsername(username);
+
+        if (customerOptional.isPresent()) {
+            Customer customer = customerOptional.get();
+
+            if (passwordEncoder.matches(oldPassword, customer.getPassword())) {
+                customer.setPassword(passwordEncoder.encode(newPassword));
+                customerRepository.save(customer);
+                return customer;
+            } else {
+                throw new IllegalArgumentException("Old password does not match.");
+            }
+        } else {
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
     }
 
     public void deleteUser(Long id) {
@@ -112,23 +123,26 @@ public class CustomerService {
     public Customer processOAuthPostLogin(String username, String fullName) {
         Customer existingCustomer = customerRepository.getUserByUsername(username);
 
-        if (existingCustomer!=null) {
+        if (existingCustomer != null) {
             return existingCustomer;
-        } else {
-            Customer newCustomer = new Customer();
-            newCustomer.setEmail(username);
-            newCustomer.setUsername(username);
-            newCustomer.setFullName(fullName);
-            newCustomer.setRegisteredDate(new Date());
-            newCustomer.setProvider(Provider.GOOGLE);
-            Order order = new Order();
-//                OrderStatus defaultOrderStatus = new OrderStatus();
-            order.setUsername(newCustomer.getEmail());
-//                defaultOrderStatus.setStatusId(1L);
-            order.setOrderStatus(orderStatusRepository.findById(1L).get());
-            orderRepository.save(order);
-            customerRepository.save(newCustomer);
-            return newCustomer;
         }
+        existingCustomer = customerRepository.findByAssignEmail(username);
+        if (existingCustomer != null) {
+            return existingCustomer;
+        }
+        Customer newCustomer = new Customer();
+        newCustomer.setEmail(username);
+        newCustomer.setUsername(username);
+        newCustomer.setFullName(fullName);
+        newCustomer.setRegisteredDate(new Date());
+        newCustomer.setProvider(Provider.GOOGLE);
+        Order order = new Order();
+//                OrderStatus defaultOrderStatus = new OrderStatus();
+        order.setUsername(newCustomer.getEmail());
+//                defaultOrderStatus.setStatusId(1L);
+        order.setOrderStatus(orderStatusRepository.findById(1L).get());
+        orderRepository.save(order);
+        customerRepository.save(newCustomer);
+        return newCustomer;
     }
 }
