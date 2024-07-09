@@ -49,7 +49,12 @@ public class AuthService {
     @Autowired
     private OrderStatusRepository orderStatusRepository;
 
-    public ReqRes registerStaff(ReqRes registrationRequest) {
+    public ReqRes registerStaff(ReqRes registrationRequest, String token) {
+        String username = jwtUtils.extractUsername(token);
+        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username, 4L);
+        if(staff == null){
+            throw new RuntimeException("this token is invalid");
+        }
         ReqRes resp = new ReqRes();
 
         if (isUsernameExists(registrationRequest.getUsername())) {
@@ -71,7 +76,7 @@ public class AuthService {
             }
 
 
-            Staff staff = new Staff();
+            staff = new Staff();
             staff.setEmail(registrationRequest.getEmail());
             staff.setUsername(registrationRequest.getUsername());
             staff.setRole(role);

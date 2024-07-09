@@ -46,6 +46,7 @@ public class DiamondService {
 
     @Autowired
     private ClarityRepository clarityRepository;
+
     public List<Diamond> findAllDiamonds() {
         return diamondRepository.findAll();
     }
@@ -57,9 +58,9 @@ public class DiamondService {
 
 
     @Transactional
-    public Diamond saveDiamond(Diamond diamond,String token) {
+    public Diamond saveDiamond(Diamond diamond, String token) {
         String adminUsername = jwtUtils.extractUsername(token);
-        Staff temp = staffRepository.findByUsernameAndRoleRoleId(adminUsername,4L);
+        Staff temp = staffRepository.findByUsernameAndRoleRoleId(adminUsername, 4L);
         if (temp == null) {
             throw new RuntimeException("this token is invalid");
         } else {
@@ -82,42 +83,58 @@ public class DiamondService {
         return giaNumber;
     }
 
-    public Diamond updateDiamond(Long id, Diamond newDiamond) {
-        return diamondRepository.findById(id)
-                .map(existingDiamond -> {
-                    existingDiamond.setMeasurement(newDiamond.getMeasurement());
-                    existingDiamond.setCarat(newDiamond.getCarat());
-                    existingDiamond.setColor(newDiamond.getColor());
-                    existingDiamond.setCut(newDiamond.getCut());
-                    existingDiamond.setClarity(newDiamond.getClarity());
-                    existingDiamond.setPrice(newDiamond.getPrice());
-                    existingDiamond.setImg(newDiamond.getImg());
-                    return diamondRepository.save(existingDiamond);
-                }).orElseGet(() -> {
-                    newDiamond.setDiamondId(id);
-                    return diamondRepository.save(newDiamond);
-                });
+    public Diamond updateDiamond(Long id, Diamond newDiamond, String token) {
+        String username = jwtUtils.extractUsername(token);
+        Staff temp = staffRepository.findByUsernameAndRoleRoleId(username, 4L);
+        if (temp == null) {
+            throw new RuntimeException("this token is invalid");
+        }
+        return diamondRepository.findById(id).map(existingDiamond -> {
+            existingDiamond.setMeasurement(newDiamond.getMeasurement());
+            existingDiamond.setCarat(newDiamond.getCarat());
+            existingDiamond.setColor(newDiamond.getColor());
+            existingDiamond.setCut(newDiamond.getCut());
+            existingDiamond.setClarity(newDiamond.getClarity());
+            existingDiamond.setPrice(newDiamond.getPrice());
+            existingDiamond.setImg(newDiamond.getImg());
+            return diamondRepository.save(existingDiamond);
+        }).orElseGet(() -> {
+            newDiamond.setDiamondId(id);
+            return diamondRepository.save(newDiamond);
+        });
     }
 
     public void deleteDiamond(Long id) {
         diamondRepository.deleteById(id);
     }
 
-    public void setSoldDiamond(Long id) {
-        diamondRepository.findById(id)
-                .ifPresent(diamond -> {
-                    diamond.setSold(true);
-                    diamondRepository.save(diamond);
-                });
+    public void setSoldDiamond(Long id, String token) {
+        String username = jwtUtils.extractUsername(token);
+        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username, 4L);
+        if (staff == null) {
+            throw new RuntimeException("this token is invalid");
+        } else {
+            diamondRepository.findById(id).ifPresent(diamond -> {
+                diamond.setSold(true);
+                diamondRepository.save(diamond);
+            });
+        }
+
     }
 
-    public DiamondAttributeDTO getAllDiamondAttributes() {
-        DiamondAttributeDTO dto = new DiamondAttributeDTO();
-        dto.setMeasurements(measurementRepository.findAll());
-        dto.setColors(colorRepository.findAll());
-        dto.setCuts(cutRepository.findAll());
-        dto.setCarats(caratRepository.findAll());
-        dto.setClarities(clarityRepository.findAll());
-        return dto;
+    public DiamondAttributeDTO getAllDiamondAttributes(String token) {
+        String username = jwtUtils.extractUsername(token);
+        Optional<Staff> temp = staffRepository.findByUsername(username);
+        if (temp == null) {
+            throw new RuntimeException("this token is invalid");
+        } else {
+            DiamondAttributeDTO dto = new DiamondAttributeDTO();
+            dto.setMeasurements(measurementRepository.findAll());
+            dto.setColors(colorRepository.findAll());
+            dto.setCuts(cutRepository.findAll());
+            dto.setCarats(caratRepository.findAll());
+            dto.setClarities(clarityRepository.findAll());
+            return dto;
+        }
     }
 }

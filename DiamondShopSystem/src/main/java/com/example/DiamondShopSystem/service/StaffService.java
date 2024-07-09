@@ -17,8 +17,17 @@ public class StaffService {
     @Autowired
     private StaffRepository staffRepository;
 
-    public List<Staff> findAllStaffs() {
-        return staffRepository.findAll();
+    @Autowired
+    private JWTUtils jwtUtils;
+
+    public List<Staff> findAllStaffs(String token) {
+        String username = jwtUtils.extractUsername(token);
+        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username,4L);
+        if (staff == null) {
+            throw new RuntimeException("This token is invalid");
+        } else {
+            return staffRepository.findAll();
+        }
     }
 
     public Staff findStaffById(Long id) {

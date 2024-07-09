@@ -17,8 +17,8 @@ public class CustomerController {
     private CustomerService customerService;
 
     @GetMapping
-    public List<Customer> getAllCustomers() {
-        return customerService.findAllCustomers();
+    public List<Customer> getAllCustomers(@RequestHeader ("Authorization") String token) {
+        return customerService.findAllCustomers(token.substring(7));
     }
 
     @GetMapping("/{id}")
@@ -32,8 +32,8 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    public Customer updateUser(@PathVariable Long id, @RequestBody Customer customer) {
-        return customerService.updateUser(id, customer);
+    public Customer updateUser(@PathVariable Long id, @RequestBody Customer customer, @RequestHeader ("Authorization") String token) {
+        return customerService.updateUser(id, customer, token.substring(7));
     }
 
     @PutMapping("/password/{id}")
