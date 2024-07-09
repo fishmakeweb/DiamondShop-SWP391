@@ -1,10 +1,7 @@
 package com.example.DiamondShopSystem.service;
 
 import com.example.DiamondShopSystem.dto.OrderDTO;
-import com.example.DiamondShopSystem.model.Order;
-import com.example.DiamondShopSystem.model.OrderChatMessage;
-import com.example.DiamondShopSystem.model.OrderStatus;
-import com.example.DiamondShopSystem.model.PaymentRequest;
+import com.example.DiamondShopSystem.model.*;
 import com.example.DiamondShopSystem.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,9 +35,17 @@ public class OrderService {
 
     @Autowired
     private PaymentRequestRepository paymentRequestRepository;
+    @Autowired
+    private StaffRepository staffRepository;
 
-    public List<Order> findAllOrders() {
-        return orderRepository.findAll();
+    public List<Order> findAllOrders(String token) {
+        String username = jwtUtils.extractUsername(token);
+        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username,1L);
+        if( staff == null ){
+            throw new RuntimeException("Token is invalid");
+        }else{
+            return orderRepository.findAll();
+        }
     }
 
     public Order findOrderById(Long id) {

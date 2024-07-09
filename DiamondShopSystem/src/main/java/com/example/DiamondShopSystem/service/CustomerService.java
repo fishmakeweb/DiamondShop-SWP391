@@ -2,10 +2,12 @@ package com.example.DiamondShopSystem.service;
 
 import com.example.DiamondShopSystem.model.Order;
 import com.example.DiamondShopSystem.model.Provider;
+import com.example.DiamondShopSystem.model.Staff;
 import com.example.DiamondShopSystem.repository.CustomerRepository;
 import com.example.DiamondShopSystem.model.Customer;
 import com.example.DiamondShopSystem.repository.OrderRepository;
 import com.example.DiamondShopSystem.repository.OrderStatusRepository;
+import com.example.DiamondShopSystem.repository.StaffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,9 +36,17 @@ public class CustomerService {
 
     @Autowired
     private JWTUtils jwtUtils;
+    @Autowired
+    private StaffRepository staffRepository;
 
-    public List<Customer> findAllCustomers() {
-        return customerRepository.findAll();
+    public List<Customer> findAllCustomers(String token) {
+        String username = jwtUtils.extractUsername(token);
+        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username,4L);
+        if(staff == null) {
+            throw new RuntimeException("This token is invalid");
+        }else{
+            return customerRepository.findAll();
+        }
     }
 
     public Customer findUserById(Long id) {
@@ -48,7 +58,12 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
-    public Customer updateUser(Long id, Customer newCustomer) {
+    public Customer updateUser(Long id, Customer newCustomer, String token) {
+        String username = jwtUtils.extractUsername(token);
+        Optional<Customer> customerr = customerRepository.findByUsername(username);
+        if(customerr == null) {
+            throw new RuntimeException("This token is invalid");
+        }
         return customerRepository.findById(id)
                 .map(customer -> {
                     customer.setFullName(newCustomer.getFullName());

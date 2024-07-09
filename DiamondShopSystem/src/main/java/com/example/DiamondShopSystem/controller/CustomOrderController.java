@@ -25,8 +25,8 @@ public class CustomOrderController {
     private CustomOrderService customOrderService;
 
     @GetMapping
-    public List<CustomOrder> getAllOrders() {
-        return customOrderService.getAllOrders();
+    public List<CustomOrder> getAllOrders(@RequestHeader ("Authorization") String token) {
+        return customOrderService.getAllOrders(token.substring(7));
     }
 
     @Autowired
@@ -60,8 +60,8 @@ public class CustomOrderController {
     }
 
     @PutMapping("/updateAtr/{id}")
-    public ResponseEntity<CustomOrder> updateCustomOrderFullPaid(@PathVariable Long id, @RequestBody CustomOrderUpdateDTO updateDTO) {
-        CustomOrder updatedOrder = customOrderService.updateCustomOrderAtr(id, updateDTO);
+    public ResponseEntity<CustomOrder> updateCustomOrderFullPaid(@PathVariable Long id, @RequestBody CustomOrderUpdateDTO updateDTO, @RequestHeader("Authorization") String token) {
+        CustomOrder updatedOrder = customOrderService.updateCustomOrderAtr(id, updateDTO, token.substring(7));
         return ResponseEntity.ok(updatedOrder);
     }
 

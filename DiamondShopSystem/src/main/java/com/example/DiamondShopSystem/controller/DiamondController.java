@@ -31,18 +31,18 @@ public class DiamondController {
     }
 
     @PostMapping("/secure/diamonds")
-    public Diamond createDiamond(@RequestBody Diamond diamond) {
-        return diamondService.saveDiamond(diamond);
+    public Diamond createDiamond(@RequestBody Diamond diamond,@RequestHeader ("Authorization") String token) {
+        return diamondService.saveDiamond(diamond,token.substring(7));
     }
 
     @PutMapping("/secure/diamonds/{id}")
-    public Diamond updateDiamond(@PathVariable Long id, @RequestBody Diamond diamond) {
-        return diamondService.updateDiamond(id, diamond);
+    public Diamond updateDiamond(@PathVariable Long id, @RequestBody Diamond diamond, @RequestHeader ("Authorization") String token) {
+        return diamondService.updateDiamond(id, diamond, token.substring(7));
     }
 
     @PutMapping("/secure/set/diamonds/{id}")
-    public void setSoldDiamond(@PathVariable Long id) {
-        diamondService.setSoldDiamond(id);
+    public void setSoldDiamond(@PathVariable Long id, @RequestHeader ("Authorization") String token) {
+        diamondService.setSoldDiamond(id, token.substring(7));
     }
 
     @DeleteMapping("/secure/diamonds/{id}")
@@ -51,8 +51,8 @@ public class DiamondController {
     }
 
     @GetMapping("/diamonds/all")
-    public DiamondAttributeDTO getAllDiamondAttributes() {
-        return diamondService.getAllDiamondAttributes();
+    public DiamondAttributeDTO getAllDiamondAttributes(@RequestHeader ("Authorization") String token) {
+        return diamondService.getAllDiamondAttributes(token.substring(7));
     }
 
     @Autowired

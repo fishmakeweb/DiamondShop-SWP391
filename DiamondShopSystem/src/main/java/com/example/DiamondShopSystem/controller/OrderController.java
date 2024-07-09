@@ -21,8 +21,8 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping
-    public List<Order> getAllOrders() {
-        return orderService.findAllOrders();
+    public List<Order> getAllOrders(@RequestHeader ("Authorization") String token) {
+        return orderService.findAllOrders(token.substring(7));
     }
 
     @GetMapping("/{id}")

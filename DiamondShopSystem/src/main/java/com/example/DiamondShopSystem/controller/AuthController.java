@@ -15,8 +15,8 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/register/staff")
-    public ResponseEntity<ReqRes> registerStaff(@RequestBody ReqRes req) {
-        return ResponseEntity.ok(authService.registerStaff(req));
+    public ResponseEntity<ReqRes> registerStaff(@RequestBody ReqRes req, @RequestHeader ("Authorization") String token) {
+        return ResponseEntity.ok(authService.registerStaff(req, token.substring(7)));
     }
 
     @PostMapping("/register/customer")

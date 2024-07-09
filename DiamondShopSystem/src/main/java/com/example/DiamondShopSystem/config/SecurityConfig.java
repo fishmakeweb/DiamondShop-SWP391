@@ -48,10 +48,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/api/auth/**","/chat/**").permitAll()
                         .requestMatchers("/api/**").permitAll()
-                        .requestMatchers("/api/secure/**").hasAnyAuthority("ADMIN", "MANAGER", "SALESTAFF", "DELIVERYSTAFF")
+                        .requestMatchers("/api/secure/**").hasAnyAuthority("ADMIN", "SALESTAFF")
                         .anyRequest().authenticated())
                 .oauth2Login(oauth2 -> oauth2
-                        .loginPage("http://localhost:3000/login")
+                        .loginPage("https://hephaestus.store/login")
                         .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
                         .successHandler(oAuth2LoginSuccessHandler)
                 )
