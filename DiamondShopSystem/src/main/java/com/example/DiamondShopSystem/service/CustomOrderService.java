@@ -33,7 +33,7 @@ public class CustomOrderService {
 
     public List<CustomOrder> getAllOrders(String token) {
         String username = jwtUtils.extractUsername(token);
-        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username, 1L);
+        List<Staff> staff = staffRepository.findAllByUsernameAndRoleRoleIdOrRoleRoleId(username, 1L,4L);
         if (staff == null) {
             throw new RuntimeException("This token is invalid");
         } else {
