@@ -3,7 +3,10 @@ package com.example.DiamondShopSystem.controller;
 import com.example.DiamondShopSystem.dto.AllDataDTO;
 import com.example.DiamondShopSystem.dto.JewelryDTO;
 import com.example.DiamondShopSystem.model.Jewelry;
+import com.example.DiamondShopSystem.model.Staff;
 import com.example.DiamondShopSystem.repository.JewelryRepository;
+import com.example.DiamondShopSystem.repository.StaffRepository;
+import com.example.DiamondShopSystem.service.JWTUtils;
 import com.example.DiamondShopSystem.service.JewelryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -24,6 +28,12 @@ public class JewelryController {
 
     @Autowired
     private JewelryRepository jewelryRepository;
+
+    @Autowired
+    private JWTUtils jwtUtils;
+    @Autowired
+    private StaffRepository staffRepository;
+
     @GetMapping("/jewelry")
     public List<Jewelry> getAllJewelry() {
         return jewelryService.findAllJewelry();
@@ -35,18 +45,18 @@ public class JewelryController {
     }
 
     @PostMapping("/secure/jewelry")
-    public Jewelry createJewelry(@RequestBody Jewelry jewelry) {
-        return jewelryService.saveJewelry(jewelry);
+    public Jewelry createJewelry(@RequestBody Jewelry jewelry, @RequestHeader ("Authorization") String token) {
+        return jewelryService.saveJewelry(jewelry, token.substring(7));
     }
 
     @PutMapping("/secure/jewelry/{id}")
-    public Jewelry updateJewelry(@PathVariable Long id, @RequestBody Jewelry jewelry) {
-        return jewelryService.updateJewelry(id, jewelry);
+    public Jewelry updateJewelry(@PathVariable Long id, @RequestBody Jewelry jewelry, @RequestHeader ("Authorization") String token) {
+        return jewelryService.updateJewelry(id, jewelry, token.substring(7));
     }
 
     @DeleteMapping("/secure/jewelry/{id}")
-    public void deleteJewelry(@PathVariable Long id) {
-        jewelryService.deleteJewelry(id);
+    public void deleteJewelry(@PathVariable Long id, @RequestHeader ("Authorization") String token) {
+        jewelryService.deleteJewelry(id, token.substring(7));
     }
 
     @GetMapping("/jewelry/categories/{categoryId}")
@@ -60,8 +70,8 @@ public class JewelryController {
     }
 
     @GetMapping("/jewelry/all")
-    public AllDataDTO getAllData() {
-        return jewelryService.getAllData();
+    public AllDataDTO getAllData(@RequestHeader ("Authorization") String token) {
+        return jewelryService.getAllData(token.substring(7));
     }
 
     @GetMapping("/jewelry/check-name/{name}")
@@ -72,6 +82,7 @@ public class JewelryController {
     @GetMapping("/jewelry/page")
     public Page<Jewelry> getAllJewelryPage(@RequestParam(defaultValue = "1") int page,
       @RequestParam(defaultValue = "8") int size) {
+
         Pageable pageable = PageRequest.of(page - 1, size); // page - 1 because page index starts from 0
         return jewelryRepository.findAll(pageable);
     }
