@@ -14,6 +14,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -128,5 +129,11 @@ public class OrderService {
         } else {
             return "This order is not exists!!";
         }
+    }
+
+    public List<Order> findAllByOrderStatusId(Long orderStatusId) {
+        return orderRepository.findAll().stream()
+                .filter(order -> order.getOrderStatus().getStatusId().equals(orderStatusId))
+                .collect(Collectors.toList());
     }
 }
