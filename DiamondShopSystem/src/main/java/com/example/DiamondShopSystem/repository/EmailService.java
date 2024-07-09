@@ -18,5 +18,7 @@ public interface EmailService {
     void confirmOrder(Long orderId);
 
     void confirmCustomOrder(Long orderId);
+
+    void confirmRequestCancelled(Long orderId);
 }
 
