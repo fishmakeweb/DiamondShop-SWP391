@@ -1,8 +1,11 @@
 package com.example.DiamondShopSystem.controller;
 
+import com.example.DiamondShopSystem.dto.CategoryCountDTO;
 import com.example.DiamondShopSystem.model.Category;
 import com.example.DiamondShopSystem.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,5 +40,18 @@ public class CategoryController {
     @DeleteMapping("/secure/categories/{id}")
     public void deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);
+    }
+
+    @GetMapping("/categories/order-count")
+    public ResponseEntity<List<CategoryCountDTO>> getCategoryOrderCounts() {
+        List<CategoryCountDTO> categoryOrderCounts = categoryService.getCategoriesByOrderCount();
+        return new ResponseEntity<>(categoryOrderCounts, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/categories/top-order-count")
+    public ResponseEntity<CategoryCountDTO> getTopCategoryByOrderCount() {
+        CategoryCountDTO topCategory = categoryService.getTopCategoryByOrderCount();
+        return ResponseEntity.ok(topCategory);
     }
 }
