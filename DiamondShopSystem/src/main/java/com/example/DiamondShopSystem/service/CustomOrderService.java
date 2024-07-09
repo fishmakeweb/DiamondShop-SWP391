@@ -17,6 +17,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomOrderService {
@@ -69,15 +70,6 @@ public class CustomOrderService {
                     customOrder.setFullpaid(updateDTO.getFullPaid());
                     customOrder.setDescription(updateDTO.getDescription());
                     customOrder.setFinishDate(updateDTO.getFinishDate());
-                    return customOrderRepository.save(customOrder);
-                })
-                .orElseThrow(() -> new RuntimeException("Order not found with id " + id));
-    }
-
-    public CustomOrder verifyOrders(Long id){
-        return customOrderRepository.findById(id)
-                .map(customOrder -> {
-                    customOrder.setOrderStatus(orderStatusRepository.findById(3L).get());
                     return customOrderRepository.save(customOrder);
                 })
                 .orElseThrow(() -> new RuntimeException("Order not found with id " + id));
@@ -161,4 +153,11 @@ public class CustomOrderService {
         customOrder.setDescription("PRE-PAID SUCCESSFULLY");
         customOrderRepository.save(customOrder);
     }
+
+    public List<CustomOrder> findAllByOrderStatusId(Long orderStatusId) {
+        return customOrderRepository.findAll().stream()
+                .filter(customOrder -> customOrder.getOrderStatus().getStatusId().equals(orderStatusId))
+                .collect(Collectors.toList());
+    }
+
 }
