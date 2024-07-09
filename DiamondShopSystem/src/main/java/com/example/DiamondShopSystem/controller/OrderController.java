@@ -61,4 +61,8 @@ public class OrderController {
         return orderService.getOrders(token.substring(7));
     }
 
+    @GetMapping("/filter-orderstatus/{orderStatusId}")
+    public List<Order> getOrderStatusByOrderStatusId(@PathVariable Long orderStatusId) {
+        return orderService.findAllByOrderStatusId(orderStatusId);
+    }
 }

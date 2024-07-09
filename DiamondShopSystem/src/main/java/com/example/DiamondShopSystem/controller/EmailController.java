@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 // Annotation
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:3000")
 // Class
 public class EmailController {
 
@@ -41,9 +42,13 @@ public class EmailController {
         return status;
     }
 
-        @PostMapping("/confirmOrder")
-        public void confirmOrder(
-                @RequestParam Long orderId
-        ) {emailService.confirmOrder(orderId);}
+    @PostMapping("/confirmOrder")
+    public void confirmOrder(
+            @RequestParam Long orderId
+    ) {emailService.confirmOrder(orderId);}
 
+    @PostMapping("/confirmCustomOrder/{customOrderId}")
+    public void confirmCustomOrder(
+            @PathVariable Long customOrderId
+    ) {emailService.confirmCustomOrder(customOrderId);}
 }
