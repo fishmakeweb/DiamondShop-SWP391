@@ -40,7 +40,7 @@ public class OrderService {
 
     public List<Order> findAllOrders(String token) {
         String username = jwtUtils.extractUsername(token);
-        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username,1L);
+        List<Staff> staff = staffRepository.findAllByUsernameAndRoleRoleIdOrRoleRoleId(username,1L,4L);
         if( staff == null ){
             throw new RuntimeException("Token is invalid");
         }else{

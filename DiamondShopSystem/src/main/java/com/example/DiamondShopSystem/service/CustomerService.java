@@ -41,7 +41,7 @@ public class CustomerService {
 
     public List<Customer> findAllCustomers(String token) {
         String username = jwtUtils.extractUsername(token);
-        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username,4L);
+        List<Staff> staff = staffRepository.findAllByUsernameAndRoleRoleIdOrRoleRoleId(username,4L,1L);
         if(staff == null) {
             throw new RuntimeException("This token is invalid");
         }else{
