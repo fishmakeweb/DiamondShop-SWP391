@@ -1,10 +1,7 @@
 package com.example.DiamondShopSystem.service;
 
 import com.example.DiamondShopSystem.dto.DiamondAttributeDTO;
-import com.example.DiamondShopSystem.model.Diamond;
-import com.example.DiamondShopSystem.model.Gia;
-import com.example.DiamondShopSystem.model.Jewelry;
-import com.example.DiamondShopSystem.model.Staff;
+import com.example.DiamondShopSystem.model.*;
 import com.example.DiamondShopSystem.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -43,6 +40,9 @@ public class DiamondService {
 
     @Autowired
     private JWTUtils jwtUtils;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @Autowired
     private ClarityRepository clarityRepository;
@@ -108,18 +108,31 @@ public class DiamondService {
         diamondRepository.deleteById(id);
     }
 
-    public void setSoldDiamond(Long id, String token) {
+    public Diamond setSoldDiamond(Long id, String token) {
         String username = jwtUtils.extractUsername(token);
-        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username, 4L);
+        Optional<Customer> customer = customerRepository.findByUsername(username);
+        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username,4L);
+        if (customer.isEmpty() && staff == null) {
+            throw new RuntimeException("this token is invalid");
+        } else {
+            Diamond diamond = diamondRepository.findById(id).get();
+            diamond.setSold(true);
+            diamond = diamondRepository.save(diamond);
+            return diamond;
+        }
+    }
+
+    public void setStatusDiamond(Long id, boolean status, String token) {
+        String username = jwtUtils.extractUsername(token);
+        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username,4L);
         if (staff == null) {
             throw new RuntimeException("this token is invalid");
         } else {
             diamondRepository.findById(id).ifPresent(diamond -> {
-                diamond.setSold(true);
+                diamond.setSold(status);
                 diamondRepository.save(diamond);
             });
         }
-
     }
 
     public DiamondAttributeDTO getAllDiamondAttributes(String token) {
