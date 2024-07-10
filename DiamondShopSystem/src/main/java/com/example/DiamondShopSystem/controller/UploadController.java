@@ -34,7 +34,7 @@ public class UploadController {
 
     @PostMapping
     public URL handleFileUpload(@RequestParam("file") MultipartFile file, @RequestHeader("Authorization") String token) throws IOException {
-        String username = jwtUtils.extractUsername(token);
+        String username = jwtUtils.extractUsername(token.substring(7));
         Staff staff = staffRepository.findByUsernameAndRoleRoleId(username, 4L);
         if (staff == null) {
             throw new RuntimeException("Invalid token");

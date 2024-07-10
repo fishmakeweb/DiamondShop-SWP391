@@ -41,8 +41,13 @@ public class DiamondController {
     }
 
     @PutMapping("/secure/set/diamonds/{id}")
-    public void setSoldDiamond(@PathVariable Long id, @RequestHeader ("Authorization") String token) {
-        diamondService.setSoldDiamond(id, token.substring(7));
+    public Diamond setSoldDiamond(@PathVariable Long id, @RequestHeader ("Authorization") String token) {
+        return diamondService.setSoldDiamond(id, token.substring(7));
+    }
+
+    @PutMapping("/secure/status/diamonds/{id}")
+    public void setSoldDiamond(@RequestHeader ("Authorization") String token, @PathVariable Long id, @RequestBody boolean status) {
+        diamondService.setStatusDiamond(id, status,token.substring(7));
     }
 
     @DeleteMapping("/secure/diamonds/{id}")
