@@ -30,6 +30,13 @@ public class CustomOrderService {
     private PaymentRequestRepository paymentRequestRepository;
     @Autowired
     private StaffRepository staffRepository;
+    @Autowired
+    private CustomOrderChatMessageRepository  customOrderChatMessageRepository;
+
+    public void saveChatMessage(CustomOrderChatMessage message) {
+        // Here, you might add any business logic before saving the message
+        customOrderChatMessageRepository.save(message);
+    }
 
     public List<CustomOrder> getAllOrders(String token) {
         String username = jwtUtils.extractUsername(token);
