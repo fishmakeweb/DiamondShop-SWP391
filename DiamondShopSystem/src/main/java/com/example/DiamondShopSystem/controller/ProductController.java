@@ -32,7 +32,7 @@ public class ProductController {
     @GetMapping("/products/jewelry")
     public ResponseEntity<Page<JewelryDTO>> getJewelryByPage(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "8") int size) {
+            @RequestParam(defaultValue = "12") int size) {
         Page<JewelryDTO> jewelryPage = jewelryService.getJewelryPage(page, size);
         if (jewelryPage.hasContent()) {
             return ResponseEntity.ok(jewelryPage);
@@ -44,7 +44,7 @@ public class ProductController {
     @GetMapping("/products/new-release")
     public ResponseEntity<Page<NewReleaseDTO>> getNewReleaseByPage(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "8") int size) {
+            @RequestParam(defaultValue = "12") int size) {
         Page<NewReleaseDTO> newReleasePage = jewelryService.getNewReleasePage(page, size);
         if (newReleasePage.hasContent()) {
             return ResponseEntity.ok(newReleasePage);
