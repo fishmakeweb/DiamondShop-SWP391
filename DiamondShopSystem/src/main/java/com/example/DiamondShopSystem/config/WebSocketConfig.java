@@ -13,8 +13,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         // Make sure to allow CORS here, adjust origins as needed
-        registry.addEndpoint("/chat")
-                .setAllowedOrigins("https://www.hephaestus.store")
+        registry.addEndpoint("/chat","/custom-order-chat")
+                .setAllowedOrigins("http://localhost:3000")
                 .withSockJS();
     }
 
@@ -23,7 +23,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.enableSimpleBroker("/topic");
         registry.setApplicationDestinationPrefixes("/app");
     }
-
 
 }
 
