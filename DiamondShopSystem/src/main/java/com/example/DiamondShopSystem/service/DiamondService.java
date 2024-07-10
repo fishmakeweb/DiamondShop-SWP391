@@ -20,8 +20,6 @@ public class DiamondService {
     @Autowired
     private GiaRepository giaRepository;
 
-    @Autowired
-    private ProductService productService;
 
     @Autowired
     private MeasurementRepository measurementRepository;
@@ -57,23 +55,23 @@ public class DiamondService {
     }
 
 
-    @Transactional
-    public Diamond saveDiamond(Diamond diamond, String token) {
-        String adminUsername = jwtUtils.extractUsername(token);
-        Staff temp = staffRepository.findByUsernameAndRoleRoleId(adminUsername, 4L);
-        if (temp == null) {
-            throw new RuntimeException("this token is invalid");
-        } else {
-            if (diamond.getGia() != null) {
-                Gia gia = diamond.getGia();
-                gia.setGiaNumber(generateUniqueGiaNumber());
-                giaRepository.save(gia);
-            }
-            Diamond savedDiamond = diamondRepository.save(diamond);
-            productService.createProductForDiamond(savedDiamond);
-            return savedDiamond;
-        }
-    }
+//    @Transactional
+//    public Diamond saveDiamond(Diamond diamond, String token) {
+//        String adminUsername = jwtUtils.extractUsername(token);
+//        Staff temp = staffRepository.findByUsernameAndRoleRoleId(adminUsername, 4L);
+//        if (temp == null) {
+//            throw new RuntimeException("this token is invalid");
+//        } else {
+//            if (diamond.getGia() != null) {
+//                Gia gia = diamond.getGia();
+//                gia.setGiaNumber(generateUniqueGiaNumber());
+//                giaRepository.save(gia);
+//            }
+//            Diamond savedDiamond = diamondRepository.save(diamond);
+//            productService.createProductForDiamond(savedDiamond);
+//            return savedDiamond;
+//        }
+//    }
 
     private String generateUniqueGiaNumber() {
         String giaNumber;

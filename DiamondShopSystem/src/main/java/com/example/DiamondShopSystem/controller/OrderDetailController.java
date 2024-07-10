@@ -1,9 +1,6 @@
 package com.example.DiamondShopSystem.controller;
 
-import com.example.DiamondShopSystem.dto.AddProductRequest;
-import com.example.DiamondShopSystem.model.Jewelry;
 import com.example.DiamondShopSystem.model.OrderDetail;
-import com.example.DiamondShopSystem.model.Product;
 import com.example.DiamondShopSystem.service.OrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,8 +28,8 @@ public class OrderDetailController {
     }
 
     @PostMapping("/addToCart")
-    public void addProductToOrder(@RequestHeader("Authorization") String token, @RequestParam Long productId) {
-        orderDetailService.addToCart(token.substring(7), productId);
+    public void addProductToOrder(@RequestHeader("Authorization") String token, @RequestParam Long jewelryId) {
+        orderDetailService.addToCart(token.substring(7), jewelryId);
     }
 
     @GetMapping("/{id}")

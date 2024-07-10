@@ -42,16 +42,16 @@ public class CategoryController {
         categoryService.deleteCategory(id);
     }
 
-    @GetMapping("/categories/order-count")
-    public ResponseEntity<List<CategoryCountDTO>> getCategoryOrderCounts() {
-        List<CategoryCountDTO> categoryOrderCounts = categoryService.getCategoriesByOrderCount();
-        return new ResponseEntity<>(categoryOrderCounts, HttpStatus.OK);
-    }
-
-
-    @GetMapping("/categories/top-order-count")
-    public ResponseEntity<CategoryCountDTO> getTopCategoryByOrderCount() {
-        CategoryCountDTO topCategory = categoryService.getTopCategoryByOrderCount();
-        return ResponseEntity.ok(topCategory);
-    }
+//    @GetMapping("/categories/order-count")
+//    public ResponseEntity<List<CategoryCountDTO>> getCategoryOrderCounts() {
+//        List<CategoryCountDTO> categoryOrderCounts = categoryService.getCategoriesByOrderCount();
+//        return new ResponseEntity<>(categoryOrderCounts, HttpStatus.OK);
+//    }
+//
+//
+//    @GetMapping("/categories/top-order-count")
+//    public ResponseEntity<CategoryCountDTO> getTopCategoryByOrderCount() {
+//        CategoryCountDTO topCategory = categoryService.getTopCategoryByOrderCount();
+//        return ResponseEntity.ok(topCategory);
+//    }
 }

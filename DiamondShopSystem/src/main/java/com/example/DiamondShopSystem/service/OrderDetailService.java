@@ -1,11 +1,11 @@
 package com.example.DiamondShopSystem.service;
 
+import com.example.DiamondShopSystem.model.Jewelry;
 import com.example.DiamondShopSystem.model.Order;
 import com.example.DiamondShopSystem.model.OrderDetail;
-import com.example.DiamondShopSystem.model.Product;
+import com.example.DiamondShopSystem.repository.JewelryRepository;
 import com.example.DiamondShopSystem.repository.OrderDetailRepository;
 import com.example.DiamondShopSystem.repository.OrderRepository;
-import com.example.DiamondShopSystem.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,8 +34,10 @@ public class OrderDetailService {
         return orderDetailRepository.findByOrderId(orderId);
     }
 
+
+
     @Autowired
-    ProductRepository productRepository;
+    JewelryRepository jewelryRepository;
 
     @Autowired
     OrderRepository orderRepository;
@@ -45,7 +47,7 @@ public class OrderDetailService {
     private JWTUtils jwtUtils;
 
     @Transactional
-    public void addToCart(String token, Long productId) {
+    public void addToCart(String token, Long jewelryId) {
         String username = jwtUtils.extractUsername(token);
 
         // Find the active order for the user or create a new one
@@ -53,7 +55,7 @@ public class OrderDetailService {
 
         // Check if the product already exists in the order details
         Optional<OrderDetail> existingDetail = orderDetailRepository
-                .findByOrderIdAndProductProductId(orderObj.get().getOrderId(), productId);
+                .findByOrderIdAndJewelryJewelryId(orderObj.get().getOrderId(), jewelryId);
 
         if (existingDetail.isPresent()) {
             // Product already in cart, do nothing
@@ -62,14 +64,13 @@ public class OrderDetailService {
 
         // Create new OrderDetail since the product is not in the cart
         OrderDetail newDetail = new OrderDetail();
-        Product product = productRepository.findById(productId).get();
+        Jewelry jewelry = jewelryRepository.findByJewelryId(jewelryId);
         newDetail.setOrderId(orderObj.get().getOrderId());
 
-        newDetail.setProduct(product);
+        newDetail.setJewelry(jewelry);
 
         newDetail.setQuantity(1);  // Quantity is set to 1
-        orderObj.get().setTotalPrice(orderObj.get().getTotalPrice()+product.getJewelry().getPrice());
-        // Save the new order detail
+        orderObj.get().setTotalPrice(orderObj.get().getTotalPrice()+jewelry.getPrice());
         orderDetailRepository.save(newDetail);
     }
     @Transactional
@@ -80,13 +81,13 @@ public class OrderDetailService {
             Order orderObj = orderRepository.findById(optionalOrderDetail.get().getOrderId()).get();
             if (quantity == 0) {
                 // If quantity is 0, delete the OrderDetail from the database
-                orderObj.setTotalPrice(orderObj.getTotalPrice()-orderDetail.getQuantity()*orderDetail.getProduct().getJewelry().getPrice());
+                orderObj.setTotalPrice(orderObj.getTotalPrice()-orderDetail.getQuantity()*orderDetail.getJewelry().getPrice());
                 orderRepository.save(orderObj);
                 orderDetailRepository.delete(orderDetail);
                 return null; // Return null or handle as needed after doeletin
             } else {
                 // Update quantity if it is not zero
-                orderObj.setTotalPrice(orderObj.getTotalPrice()+(quantity-orderDetail.getQuantity())*orderDetail.getProduct().getJewelry().getPrice());
+                orderObj.setTotalPrice(orderObj.getTotalPrice()+(quantity-orderDetail.getQuantity())*orderDetail.getJewelry().getPrice());
                 orderRepository.save(orderObj);
                 orderDetail.setQuantity(quantity);
                 return orderDetailRepository.save(orderDetail);
