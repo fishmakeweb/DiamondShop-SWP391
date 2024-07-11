@@ -1,26 +1,27 @@
 package com.example.DiamondShopSystem.dto;
 
 public class JewelryDTO {
-    private Long productId;
+    private Long jewelryId;
     private String name;
     private float price;
     private String img;
 
     // Constructor
-    public JewelryDTO(Long productId, String name, float price, String img) {
-        this.productId = productId;
+
+
+    public JewelryDTO(Long jewelryId, String name, float price, String img) {
+        this.jewelryId = jewelryId;
         this.name = name;
         this.price = price;
         this.img = img;
     }
 
-    // Getters and Setters
-    public Long getProductId() {
-        return productId;
+    public Long getJewelryId() {
+        return jewelryId;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
+    public void setJewelryId(Long jewelryId) {
+        this.jewelryId = jewelryId;
     }
 
     public String getName() {

@@ -30,10 +30,10 @@ public class DiamondController {
         return diamondService.findDiamondById(id);
     }
 
-    @PostMapping("/secure/diamonds")
-    public Diamond createDiamond(@RequestBody Diamond diamond,@RequestHeader ("Authorization") String token) {
-        return diamondService.saveDiamond(diamond,token.substring(7));
-    }
+//    @PostMapping("/secure/diamonds")
+//    public Diamond createDiamond(@RequestBody Diamond diamond,@RequestHeader ("Authorization") String token) {
+//        return diamondService.saveDiamond(diamond,token.substring(7));
+//    }
 
     @PutMapping("/secure/diamonds/{id}")
     public Diamond updateDiamond(@PathVariable Long id, @RequestBody Diamond diamond, @RequestHeader ("Authorization") String token) {

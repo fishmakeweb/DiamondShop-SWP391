@@ -35,14 +35,10 @@ public class JewelryService {
     @Autowired
     private DiamondRepository diamondRepository;
 
-    @Autowired
-    private ProductService productService;
 
     @Autowired
     private ShapeRepository shapeRepository;
 
-    @Autowired
-    private ProductRepository productRepository;
 
     @Autowired
     private JWTUtils jwtUtils;
@@ -77,20 +73,20 @@ public class JewelryService {
         return jewelryRepository.existsByName(name);
     }
 
-    public Jewelry saveJewelry(Jewelry jewelry, String token) {
-        String username = jwtUtils.extractUsername(token);
-        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username,4L);
-        if(staff == null){
-            throw new RuntimeException("this token is invalid");
-        }
-        if (jewelry.getDiamond() != null) {
-            Optional<Diamond> diamond = diamondRepository.findById(jewelry.getDiamond().getDiamondId());
-            diamond.ifPresent(jewelry::setDiamond);
-        }
-        Jewelry savedJewelry = jewelryRepository.save(jewelry);
-        productService.createProductForJewelry(savedJewelry);
-        return savedJewelry;
-    }
+//    public Jewelry saveJewelry(Jewelry jewelry, String token) {
+//        String username = jwtUtils.extractUsername(token);
+//        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username,4L);
+//        if(staff == null){
+//            throw new RuntimeException("this token is invalid");
+//        }
+//        if (jewelry.getDiamond() != null) {
+//            Optional<Diamond> diamond = diamondRepository.findById(jewelry.getDiamond().getDiamondId());
+//            diamond.ifPresent(jewelry::setDiamond);
+//        }
+//        Jewelry savedJewelry = jewelryRepository.save(jewelry);
+//        productService.createProductForJewelry(savedJewelry);
+//        return savedJewelry;
+//    }
 
     public Jewelry updateJewelry(Long id, Jewelry newJewelry, String token) {
         String username = jwtUtils.extractUsername(token);
@@ -112,20 +108,20 @@ public class JewelryService {
                 }).orElseThrow(() -> new RuntimeException("Jewelry not found"));
     }
 
-    public void deleteJewelry(Long id, String token) {
-        String username = jwtUtils.extractUsername(token);
-        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username,4L);
-        if(staff == null){
-            throw new RuntimeException("this token is invalid");
-        }
-        Optional<Jewelry> jewelry = jewelryRepository.findById(id);
-        if (jewelry.isPresent()) {
-            productService.deleteProductByJewelryId(id);
-            jewelryRepository.deleteById(id);
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Jewelry not found with id " + id);
-        }
-    }
+//    public void deleteJewelry(Long id, String token) {
+//        String username = jwtUtils.extractUsername(token);
+//        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username,4L);
+//        if(staff == null){
+//            throw new RuntimeException("this token is invalid");
+//        }
+//        Optional<Jewelry> jewelry = jewelryRepository.findById(id);
+//        if (jewelry.isPresent()) {
+//            productService.deleteProductByJewelryId(id);
+//            jewelryRepository.deleteById(id);
+//        } else {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Jewelry not found with id " + id);
+//        }
+//    }
 
     public List<Jewelry> findAllByCategoryId(Long categoryId) {
         return jewelryRepository.findAll().stream()
@@ -143,16 +139,7 @@ public class JewelryService {
 //        return jewelryRepository.findAll(pageable);
 //    }
 
-    public Page<NewReleaseDTO> getNewReleasePage(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return productRepository.findNewReleaseByPage(pageable);
-    }
 
-
-    public Page<JewelryDTO> getJewelryPage(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return productRepository.findJewelryByPage(pageable);
-    }
 }
 
 

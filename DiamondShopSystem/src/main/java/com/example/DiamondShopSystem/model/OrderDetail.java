@@ -13,8 +13,8 @@ public class OrderDetail {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @JoinColumn(name = "jewelry_id")
+    private Jewelry jewelry;
 
     @Column
     private Long orderId;
@@ -46,11 +46,11 @@ public class OrderDetail {
         this.orderId = orderId;
     }
 
-    public Product getProduct() {
-        return product;
+    public Jewelry getJewelry() {
+        return jewelry;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setJewelry(Jewelry jewelry) {
+        this.jewelry = jewelry;
     }
 }

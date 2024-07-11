@@ -136,7 +136,7 @@ public class CustomOrderService {
         paymentRequest.setExpiredAt(Instant.now().plusSeconds(300).getEpochSecond());
 
 //        https://hephaestus.store/Success?payToken=
-        paymentRequest.setReturnUrl("https://hephaestus.store/Success?payToken=" + jwtUtils.generateCustomOrderToken(customOrder));
+        paymentRequest.setReturnUrl("https://hephaestus.store/SuccessForCustomOrder?payToken=" + jwtUtils.generateCustomOrderToken(customOrder));
 
 //        https://hephaestus.store/Cancelled
         paymentRequest.setCancelUrl("https://hephaestus.store/Cancelled");
