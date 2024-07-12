@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.UnsupportedEncodingException;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/public")
 @CrossOrigin(origins = "*")
 public class ForgotPasswordController {
 

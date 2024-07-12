@@ -14,55 +14,54 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000")
 public class DiamondController {
     @Autowired
     private DiamondService diamondService;
+    @Autowired
+    private DiamondRepository diamondRepository;
 
-
-    @GetMapping("/diamonds")
+    @GetMapping("/public/diamonds")
     public List<Diamond> getAllDiamonds() {
         return diamondService.findAllDiamonds();
     }
 
-    @GetMapping("/diamonds/{id}")
+    @GetMapping("/public/diamonds/{id}")
     public Diamond getDiamondById(@PathVariable Long id) {
         return diamondService.findDiamondById(id);
     }
 
-//    @PostMapping("/secure/diamonds")
-//    public Diamond createDiamond(@RequestBody Diamond diamond,@RequestHeader ("Authorization") String token) {
-//        return diamondService.saveDiamond(diamond,token.substring(7));
-//    }
-
-    @PutMapping("/secure/diamonds/{id}")
-    public Diamond updateDiamond(@PathVariable Long id, @RequestBody Diamond diamond, @RequestHeader ("Authorization") String token) {
-        return diamondService.updateDiamond(id, diamond, token.substring(7));
+    @PostMapping("/admin/diamonds")
+    public Diamond createDiamond(@RequestBody Diamond diamond) {
+        return diamondService.saveDiamond(diamond);
     }
 
-    @PutMapping("/secure/set/diamonds/{id}")
-    public Diamond setSoldDiamond(@PathVariable Long id, @RequestHeader ("Authorization") String token) {
-        return diamondService.setSoldDiamond(id, token.substring(7));
+    @PutMapping("/admin/diamonds/{id}")
+    public Diamond updateDiamond(@PathVariable Long id, @RequestBody Diamond diamond) {
+        return diamondService.updateDiamond(id, diamond);
     }
 
-    @PutMapping("/secure/status/diamonds/{id}")
+    @PutMapping("/admin/set/diamonds/{id}")
+    public Diamond setSoldDiamond(@PathVariable Long id) {
+        return diamondService.setSoldDiamond(id);
+    }
+
+    @PutMapping("/admin/status/diamonds/{id}")
     public void setSoldDiamond(@RequestHeader ("Authorization") String token, @PathVariable Long id, @RequestBody boolean status) {
-        diamondService.setStatusDiamond(id, status,token.substring(7));
+        diamondService.setStatusDiamond(id, status);
     }
 
-    @DeleteMapping("/secure/diamonds/{id}")
+    @DeleteMapping("/admin/diamonds/{id}")
     public void deleteDiamond(@PathVariable Long id) {
         diamondService.deleteDiamond(id);
     }
 
-    @GetMapping("/diamonds/all")
-    public DiamondAttributeDTO getAllDiamondAttributes(@RequestHeader ("Authorization") String token) {
-        return diamondService.getAllDiamondAttributes(token.substring(7));
+    @GetMapping("/adminsale/diamonds/all")
+    public DiamondAttributeDTO getAllDiamondAttributes() {
+        return diamondService.getAllDiamondAttributes();
     }
 
-    @Autowired
-    private DiamondRepository diamondRepository;
-    @GetMapping("/diamonds/page")
+
+    @GetMapping("/adminsale/diamonds/page")
     public Page<Diamond> getAllDiamondsPage(@RequestParam(defaultValue = "1") int page,
                                             @RequestParam(defaultValue = "8") int size) {
         Pageable pageable = PageRequest.of(page - 1, size); // page - 1 because page index starts from 0

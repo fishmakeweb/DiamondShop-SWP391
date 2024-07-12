@@ -14,33 +14,32 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/orders")
-@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/api")
 public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @GetMapping
+    @GetMapping("/sale/orders")
     public List<Order> getAllOrders(@RequestHeader ("Authorization") String token) {
         return orderService.findAllOrders(token.substring(7));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/sale/orders/{id}")
     public Order getOrderById(@PathVariable Long id) {
         return orderService.findOrderById(id);
     }
 
-    @PostMapping
+    @PostMapping("/customer/create-order")
     public Order createOrder(@RequestBody Order order) {
         return orderService.createOrder(order);
     }
 
-    @GetMapping("/checkOut")
+    @GetMapping("/customer/checkOut")
     public String saveOrder(@RequestHeader("Authorization") String token) {
         return orderService.checkOut(token.substring(7));
     }
 
-    @PostMapping("/successCheckOut")
+    @PostMapping("/customer/successCheckOut")
     public String successCheckOut(@RequestBody Map<String, Object> payload) {
         String payToken = (String) payload.get("payToken");
         return orderService.successCheckOut(payToken);
@@ -51,12 +50,12 @@ public class OrderController {
         orderService.deleteOrder(id);
     }
 
-    @GetMapping("/getcart")
+    @GetMapping("/customer/getcart")
     public OrderDTO getCart(@RequestHeader("Authorization") String token) {
         return orderService.getCart(token.substring(7));
     }
 
-    @GetMapping("/getorder")
+    @GetMapping("/customer/getorder")
     public List<Order> getOrders(@RequestHeader("Authorization") String token) {
         return orderService.getOrders(token.substring(7));
     }

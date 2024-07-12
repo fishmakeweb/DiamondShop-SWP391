@@ -9,32 +9,31 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000")
 public class SizeController {
     @Autowired
     private SizeService sizeService;
 
-    @GetMapping("/sizes")
+    @GetMapping("/customer/sizes")
     public List<Size> getAllSizes() {
         return sizeService.findAllSizes();
     }
 
-    @GetMapping("/sizes/{id}")
+    @GetMapping("/adminsale/sizes/{id}")
     public Size getSizeById(@PathVariable Long id) {
         return sizeService.findSizeById(id);
     }
 
-    @PostMapping("/secure/sizes")
+    @PostMapping("/admin/sizes")
     public Size createSize(@RequestBody Size size) {
         return sizeService.saveSize(size);
     }
 
-    @PutMapping("/secure/sizes/{id}")
+    @PutMapping("/admin/sizes/{id}")
     public Size updateSize(@PathVariable Long id, @RequestBody Size size) {
         return sizeService.updateSize(id, size);
     }
 
-    @DeleteMapping("/secure/sizes/{id}")
+    @DeleteMapping("/admin/sizes/{id}")
     public void deleteSize(@PathVariable Long id) {
         sizeService.deleteSize(id);
     }

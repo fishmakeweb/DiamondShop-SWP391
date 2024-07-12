@@ -39,15 +39,10 @@ public class CustomerService {
     @Autowired
     private StaffRepository staffRepository;
 
-    public List<Customer> findAllCustomers(String token) {
-        String username = jwtUtils.extractUsername(token);
-        List<Staff> staff = staffRepository.findAllByUsernameAndRoleRoleIdOrRoleRoleId(username,4L,1L);
-        if(staff == null) {
-            throw new RuntimeException("This token is invalid");
-        }else{
-            return customerRepository.findAll();
-        }
+    public List<Customer> findAllCustomers() {
+        return customerRepository.findAll();
     }
+
 
     public Customer findUserById(Long id) {
         Optional<Customer> customer = customerRepository.findById(id);
@@ -58,18 +53,18 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
-    public Customer updateUser(Long id, Customer newCustomer, String token) {
+    public Customer updateUser(String token, Customer newCustomer) {
         String username = jwtUtils.extractUsername(token);
-        Optional<Customer> customerr = customerRepository.findByUsername(username);
-        if(customerr == null) {
+        Optional<Customer> customer = customerRepository.findByUsername(username);
+        if (customer == null) {
             throw new RuntimeException("This token is invalid");
         }
-        return customerRepository.findById(id)
-                .map(customer -> {
-                    customer.setFullName(newCustomer.getFullName());
-                    customer.setEmail(newCustomer.getEmail());
-                    customer.setAddress(newCustomer.getAddress());
-                    return customerRepository.save(customer);
+        return customer
+                .map(tempCustomer -> {
+                    tempCustomer.setFullName(newCustomer.getFullName());
+                    tempCustomer.setEmail(newCustomer.getEmail());
+                    tempCustomer.setAddress(newCustomer.getAddress());
+                    return customerRepository.save(tempCustomer);
                 }).orElseThrow(() -> new RuntimeException("Customer not found"));
     }
 

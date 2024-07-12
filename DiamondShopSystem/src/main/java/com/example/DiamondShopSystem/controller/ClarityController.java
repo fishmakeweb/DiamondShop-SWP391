@@ -9,32 +9,31 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000")
 public class ClarityController {
     @Autowired
     private ClarityService clarityService;
 
-    @GetMapping("/clarities")
+    @GetMapping("/adminsale/clarities")
     public List<Clarity> getAllClarities() {
         return clarityService.findAllClarities();
     }
 
-    @GetMapping("/clarities/{id}")
+    @GetMapping("/adminsale/clarities/{id}")
     public Clarity getClarityById(@PathVariable Long id) {
         return clarityService.findClarityById(id);
     }
 
-    @PostMapping("/secure/clarities")
+    @PostMapping("/admin/clarities")
     public Clarity createClarity(@RequestBody Clarity clarity) {
         return clarityService.saveClarity(clarity);
     }
 
-    @PutMapping("/secure/clarities/{id}")
+    @PutMapping("/admin/clarities/{id}")
     public Clarity updateClarity(@PathVariable Long id, @RequestBody Clarity clarity) {
         return clarityService.updateClarity(id, clarity);
     }
 
-    @DeleteMapping("/secure/clarities/{id}")
+    @DeleteMapping("/admin/clarities/{id}")
     public void deleteClarity(@PathVariable Long id) {
         clarityService.deleteClarity(id);
     }

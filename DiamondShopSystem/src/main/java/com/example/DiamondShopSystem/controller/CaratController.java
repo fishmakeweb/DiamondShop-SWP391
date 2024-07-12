@@ -9,32 +9,31 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000")
 public class CaratController {
     @Autowired
     private CaratService caratService;
 
-    @GetMapping("/carats")
+    @GetMapping("/adminsale/carats")
     public List<Carat> getAllCarats() {
         return caratService.findAllCarats();
     }
 
-    @GetMapping("/carats/{id}")
+    @GetMapping("/adminsale/carats/{id}")
     public Carat getCaratById(@PathVariable Long id) {
         return caratService.findCaratById(id);
     }
 
-    @PostMapping("/secure/carats")
+    @PostMapping("/admin/carats")
     public Carat createCarat(@RequestBody Carat carat) {
         return caratService.saveCarat(carat);
     }
 
-    @PutMapping("/secure/carats/{id}")
+    @PutMapping("/admin/carats/{id}")
     public Carat updateCarat(@PathVariable Long id, @RequestBody Carat carat) {
         return caratService.updateCarat(id, carat);
     }
 
-    @DeleteMapping("/secure/carats/{id}")
+    @DeleteMapping("/admin/carats/{id}")
     public void deleteCarat(@PathVariable Long id) {
         caratService.deleteCarat(id);
     }

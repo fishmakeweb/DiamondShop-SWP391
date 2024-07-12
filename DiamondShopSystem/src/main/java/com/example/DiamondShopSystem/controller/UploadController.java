@@ -17,8 +17,7 @@ import java.io.IOException;
 import java.net.URL;
 
 @RestController
-@RequestMapping("/api/upload")
-@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/api/admin/upload")
 public class UploadController {
 
     @Autowired
@@ -33,12 +32,9 @@ public class UploadController {
     private StaffRepository staffRepository;
 
     @PostMapping
-    public URL handleFileUpload(@RequestParam("file") MultipartFile file, @RequestHeader("Authorization") String token) throws IOException {
-        String username = jwtUtils.extractUsername(token.substring(7));
-        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username, 4L);
-        if (staff == null) {
-            throw new RuntimeException("Invalid token");
-        } else {
+    public URL handleFileUpload(@RequestParam("file") MultipartFile file) throws IOException {
+
+
             String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentLength(file.getSize());
@@ -51,6 +47,5 @@ public class UploadController {
             // Get public URL
             URL url = s3client.getUrl(bucketName, fileName);
             return url;
-        }
     }
 }

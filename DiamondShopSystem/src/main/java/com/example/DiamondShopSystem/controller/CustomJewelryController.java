@@ -28,18 +28,14 @@ public class CustomJewelryController {
     @Autowired
     private PriceCalculatorService priceCalculatorService;
 
-    @GetMapping("/customJewelry")
+    @GetMapping("/public/customJewelry")
     public List<CustomJewelry> getAllCustomJewelry() {
         return customJewelryService.getCustomjewelry();
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<CustomJewelry> saveCustomJewelry(@RequestBody CustomJewelry customJewelry) {
-        CustomJewelry savedCustomJewelry = customJewelryService.saveCustomJewelry(customJewelry);
-        return ResponseEntity.ok(savedCustomJewelry);
-    }
 
-    @PostMapping("/calculate-price")
+
+    @PostMapping("/public/calculate-price")
     public CustomJewelry calculatePrice(@RequestBody CustomJewelryRequestDTO customJewelryRequest) {
         float price = priceCalculatorService.calculatePrice(customJewelryRequest);
 

@@ -5,6 +5,7 @@ import com.example.DiamondShopSystem.model.CustomJewelry;
 import com.example.DiamondShopSystem.model.CustomOrder;
 import com.example.DiamondShopSystem.model.Customer;
 import com.example.DiamondShopSystem.model.OrderStatus;
+import com.example.DiamondShopSystem.repository.CustomOrderRepository;
 import com.example.DiamondShopSystem.repository.CustomerRepository;
 import com.example.DiamondShopSystem.service.CustomOrderService;
 import com.example.DiamondShopSystem.service.JWTUtils;
@@ -18,25 +19,26 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/custom-orders")
+@RequestMapping("/api")
 public class CustomOrderController {
 
     @Autowired
     private CustomOrderService customOrderService;
 
-    @GetMapping
-    public List<CustomOrder> getAllOrders(@RequestHeader ("Authorization") String token) {
-        return customOrderService.getAllOrders(token.substring(7));
-    }
-
     @Autowired
     private JWTUtils jwtUtils;
     @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
+    private CustomOrderRepository customOrderRepository;
 
 
+    @GetMapping("/sale/custom-orders")
+    public List<CustomOrder> getAllOrders() {
+        return customOrderService.getAllOrders();
+    }
 
-    @GetMapping("/{id}")
+    @GetMapping("/customer/custom-orders/{id}")
     public Optional<CustomOrder> getOrderById(@PathVariable Long id) {
         return customOrderService.getOrderById(id);
     }
@@ -48,38 +50,38 @@ public class CustomOrderController {
 
 
 
-    @GetMapping("/getcustomorder")
+    @GetMapping("/customer/get-customorder")
     public List<CustomOrder> getCustomOrders(@RequestHeader("Authorization") String token) {
         return customOrderService.getCustomOrders(token.substring(7));
     }
 
-    @PostMapping("/create-customorder")
+    @PostMapping("/customer/create-customorder")
     public ResponseEntity<?> createCustomOrder(@RequestBody CustomJewelry customJewelry, @RequestHeader("Authorization") String token) {
         customOrderService.createCustomOrder(customJewelry, token.substring(7));
         return ResponseEntity.ok().build(); // Adjust response based on your needs
     }
 
-    @PutMapping("/updateAtr/{id}")
-    public ResponseEntity<CustomOrder> updateCustomOrderFullPaid(@PathVariable Long id, @RequestBody CustomOrderUpdateDTO updateDTO, @RequestHeader("Authorization") String token) {
-        CustomOrder updatedOrder = customOrderService.updateCustomOrderAtr(id, updateDTO, token.substring(7));
+    @PutMapping("/sale/updateAtr/{id}")
+    public ResponseEntity<CustomOrder> updateCustomOrderFullPaid(@PathVariable Long id, @RequestBody CustomOrderUpdateDTO updateDTO ) {
+        CustomOrder updatedOrder = customOrderService.updateCustomOrderAtr(id, updateDTO);
         return ResponseEntity.ok(updatedOrder);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/customer/delete-customorder/{id}")
     public void deleteCustomJewelry(@PathVariable Long id, @RequestHeader("Authorization") String token) {
         String username = jwtUtils.extractUsername(token.substring(7));
-        Optional<Customer> customer = customerRepository.findByUsername(username);
-        if(customer!=null){
+        CustomOrder customOrder = customOrderRepository.findByUserNameAndCustomOrderId(username, id);
+        if(customOrder!=null){
             customOrderService.deleteCustomOrder(id);
         }
     }
 
-    @GetMapping("/checkOutCustomOrder/{customOrderId}")
+    @GetMapping("/customer/checkOutCustomOrder/{customOrderId}")
     public String saveOrder(@RequestHeader("Authorization") String token,@PathVariable Long customOrderId ) {
         return customOrderService.checkOutCustomOrder(token.substring(7),customOrderId);
     }
 
-    @PostMapping("/successCheckOutForCustomOrder")
+    @PostMapping("/customer/successCheckOutForCustomOrder")
     public String successCheckOut(@RequestBody Map<String, Object> payload) {
         String payToken = (String) payload.get("payToken");
         return customOrderService.successCheckOutForCustomOrder(payToken);
@@ -90,11 +92,11 @@ public class CustomOrderController {
         return customOrderService.findAllByOrderStatusId(orderStatusId);
     }
 
-    @PutMapping("/request-cancel/{id}")
+    @PutMapping("/customer/request-cancel/{id}")
     public CustomOrder handleCancelCustomOrder(@PathVariable Long id, @RequestHeader("Authorization") String token) {
         String username = jwtUtils.extractUsername(token.substring(7));
-        Optional<Customer> customer = customerRepository.findByUsername(username);
-        if (customer!=null) {
+        CustomOrder customOrder = customOrderRepository.findByUserNameAndCustomOrderId(username, id);
+        if (customOrder!=null) {
             return customOrderService.handleCancelCustomOrder(id);
         } else {
             throw new RuntimeException("Order not found with id " + id);

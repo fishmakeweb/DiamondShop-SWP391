@@ -41,25 +41,37 @@ public class SecurityConfig {
     @Autowired
     OrderRepository orderRepository;
 
+    private String[] WHITE_LIST = {"api/auth/**", "api/public/**", "/chat/**", "/custom-order-chat/**"};
+
+    private String[] ADMIN_LIST = {"api/admin/**"};
+
+    private String[] SALE_LIST = {"api/sale/**"};
+
+    private String[] CUSTOMER_LIST = {"api/customer/**"};
+
+    private String[] ADMINSALE_LIST = {"api/adminsale/**"};
+
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity,OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler) throws Exception {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/auth/**","/chat/**","/custom-order-chat/**").permitAll()
-                        .requestMatchers("/api/**").permitAll()
-                        .requestMatchers("/api/secure/**").hasAnyAuthority("ADMIN", "SALESTAFF")
+                        .requestMatchers(WHITE_LIST).permitAll()
+                        .requestMatchers(CUSTOMER_LIST).hasRole("CUSTOMER")
+                        .requestMatchers(ADMINSALE_LIST).hasAnyRole("ADMIN", "SALESTAFF")
+                        .requestMatchers(ADMIN_LIST).hasRole("ADMIN")
+                        .requestMatchers(SALE_LIST).hasRole("SALESTAFF")
                         .anyRequest().authenticated())
                 .oauth2Login(oauth2 -> oauth2
-                        .loginPage("https://hephaestus.store/login")
+                        .loginPage("http://localhost:3000/login")
                         .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
                         .successHandler(oAuth2LoginSuccessHandler)
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-
-                ;
+        ;
 
         return httpSecurity.build();
     }

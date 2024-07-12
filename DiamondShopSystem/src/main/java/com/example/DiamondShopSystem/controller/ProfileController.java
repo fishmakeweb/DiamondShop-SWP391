@@ -7,8 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/profile")
-@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/api/public/profile")
 public class ProfileController {
 
     @Autowired
