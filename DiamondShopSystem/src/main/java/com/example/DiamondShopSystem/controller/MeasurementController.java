@@ -9,32 +9,31 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000")
 public class MeasurementController {
     @Autowired
     private MeasurementService measurementService;
 
-    @GetMapping("/measurements")
+    @GetMapping("/adminsale/measurements")
     public List<Measurement> getAllMeasurements() {
         return measurementService.findAllMeasurements();
     }
 
-    @GetMapping("/measurements/{id}")
+    @GetMapping("/adminsale/measurements/{id}")
     public Measurement getMeasurementById(@PathVariable Long id) {
         return measurementService.findMeasurementById(id);
     }
 
-    @PostMapping("/secure/measurements")
+    @PostMapping("/admin/measurements")
     public Measurement createMeasurement(@RequestBody Measurement measurement) {
         return measurementService.saveMeasurement(measurement);
     }
 
-    @PutMapping("/secure/measurements/{id}")
+    @PutMapping("/admin/measurements/{id}")
     public Measurement updateMeasurement(@PathVariable Long id, @RequestBody Measurement measurement) {
         return measurementService.updateMeasurement(id, measurement);
     }
 
-    @DeleteMapping("/secure/measurements/{id}")
+    @DeleteMapping("/admin/measurements/{id}")
     public void deleteMeasurement(@PathVariable Long id) {
         measurementService.deleteMeasurement(id);
     }

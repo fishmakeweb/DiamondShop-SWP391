@@ -1,9 +1,10 @@
 package com.example.DiamondShopSystem.service;
 
-import com.example.DiamondShopSystem.repository.CutRepository;
 import com.example.DiamondShopSystem.model.Cut;
+import com.example.DiamondShopSystem.repository.CutRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 

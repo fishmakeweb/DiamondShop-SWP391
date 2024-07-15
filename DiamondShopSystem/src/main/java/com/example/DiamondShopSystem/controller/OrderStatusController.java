@@ -14,27 +14,27 @@ public class OrderStatusController {
     @Autowired
     private OrderStatusService orderStatusService;
 
-    @GetMapping("/orderstatus")
+    @GetMapping("/sale/orderstatus")
     public List<OrderStatus> getAllOrderStatuses() {
         return orderStatusService.findAllOrderStatuses();
     }
 
-    @GetMapping("/orderstatus/{id}")
+    @GetMapping("/sale/orderstatus/{id}")
     public OrderStatus getOrderStatusById(@PathVariable Long id) {
         return orderStatusService.findOrderStatusById(id);
     }
 
-    @PostMapping("/secure/orderstatus")
+    @PostMapping("/sale/orderstatus")
     public OrderStatus createOrderStatus(@RequestBody OrderStatus orderStatus) {
         return orderStatusService.saveOrderStatus(orderStatus);
     }
 
-    @PutMapping("/secure/orderstatus/{id}")
+    @PutMapping("/sale/orderstatus/{id}")
     public OrderStatus updateOrderStatus(@PathVariable Long id, @RequestBody OrderStatus orderStatus) {
         return orderStatusService.updateOrderStatus(id, orderStatus);
     }
 
-    @DeleteMapping("/secure/orderstatus/{id}")
+    @DeleteMapping("/sale/orderstatus/{id}")
     public void deleteOrderStatus(@PathVariable Long id) {
         orderStatusService.deleteOrderStatus(id);
     }

@@ -9,32 +9,31 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000")
 public class ColorController {
     @Autowired
     private ColorService colorService;
 
-    @GetMapping("/colors")
+    @GetMapping("/adminsale/colors")
     public List<Color> getAllColors() {
         return colorService.findAllColors();
     }
 
-    @GetMapping("/colors/{id}")
+    @GetMapping("/adminsale/colors/{id}")
     public Color getColorById(@PathVariable Long id) {
         return colorService.findColorById(id);
     }
 
-    @PostMapping("/secure/colors")
+    @PostMapping("/admin/colors")
     public Color createColor(@RequestBody Color color) {
         return colorService.saveColor(color);
     }
 
-    @PutMapping("/secure/colors/{id}")
+    @PutMapping("/admin/colors/{id}")
     public Color updateColor(@PathVariable Long id, @RequestBody Color color) {
         return colorService.updateColor(id, color);
     }
 
-    @DeleteMapping("/secure/colors/{id}")
+    @DeleteMapping("/admin/colors/{id}")
     public void deleteColor(@PathVariable Long id) {
         colorService.deleteColor(id);
     }

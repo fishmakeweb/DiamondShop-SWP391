@@ -4,6 +4,7 @@ import com.example.DiamondShopSystem.model.Carat;
 import com.example.DiamondShopSystem.repository.CaratRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 

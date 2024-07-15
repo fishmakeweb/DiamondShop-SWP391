@@ -9,32 +9,31 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000")
 public class MaterialController {
     @Autowired
     private MaterialService materialService;
 
-    @GetMapping("/materials")
+    @GetMapping("/customer/materials")
     public List<Material> getAllMaterials() {
         return materialService.findAllMaterials();
     }
 
-    @GetMapping("/materials/{id}")
+    @GetMapping("/adminsale/materials/{id}")
     public Material getMaterialById(@PathVariable Long id) {
         return materialService.findMaterialById(id);
     }
 
-    @PostMapping("/secure/materials")
+    @PostMapping("/admin/materials")
     public Material createMaterial(@RequestBody Material material) {
         return materialService.saveMaterial(material);
     }
 
-    @PutMapping("/secure/materials/{id}")
+    @PutMapping("/admin/materials/{id}")
     public Material updateMaterial(@PathVariable Long id, @RequestBody Material material) {
         return materialService.updateMaterial(id, material);
     }
 
-    @DeleteMapping("/secure/materials/{id}")
+    @DeleteMapping("/admin/materials/{id}")
     public void deleteMaterial(@PathVariable Long id) {
         materialService.deleteMaterial(id);
     }

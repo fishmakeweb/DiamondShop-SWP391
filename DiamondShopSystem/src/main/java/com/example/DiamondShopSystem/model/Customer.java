@@ -1,17 +1,18 @@
 package com.example.DiamondShopSystem.model;
 
 import jakarta.persistence.*;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 
-import java.util.Date;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "Customer")
+@ToString
 public class Customer implements UserDetails {
 
     @Id

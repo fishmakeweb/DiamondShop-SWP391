@@ -4,6 +4,7 @@ import com.example.DiamondShopSystem.model.Role;
 import com.example.DiamondShopSystem.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 

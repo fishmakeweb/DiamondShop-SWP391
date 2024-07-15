@@ -1,6 +1,5 @@
 package com.example.DiamondShopSystem.repository;
 
-import com.example.DiamondShopSystem.model.CustomOrder;
 import com.example.DiamondShopSystem.model.EmailDetails;
 
 public interface EmailService {

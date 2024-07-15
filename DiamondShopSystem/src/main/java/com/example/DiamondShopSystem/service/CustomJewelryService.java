@@ -1,7 +1,6 @@
 package com.example.DiamondShopSystem.service;
 
 import com.example.DiamondShopSystem.model.CustomJewelry;
-import com.example.DiamondShopSystem.model.CustomOrder;
 import com.example.DiamondShopSystem.repository.CustomJewelryRepository;
 import com.example.DiamondShopSystem.repository.CustomOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;

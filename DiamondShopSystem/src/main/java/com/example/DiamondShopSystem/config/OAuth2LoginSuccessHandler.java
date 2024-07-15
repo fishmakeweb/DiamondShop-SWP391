@@ -2,8 +2,6 @@ package com.example.DiamondShopSystem.config;
 
 import com.example.DiamondShopSystem.model.CustomOAuth2User;
 import com.example.DiamondShopSystem.model.Customer;
-import com.example.DiamondShopSystem.model.Order;
-import com.example.DiamondShopSystem.model.OrderStatus;
 import com.example.DiamondShopSystem.repository.OrderRepository;
 import com.example.DiamondShopSystem.repository.OrderStatusRepository;
 import com.example.DiamondShopSystem.service.CustomerService;
@@ -16,7 +14,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 
@@ -43,7 +40,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         CustomOAuth2User customOAuth2User = new CustomOAuth2User(oidcUser);
         Customer customer = customerService.processOAuthPostLogin(customOAuth2User.getEmail(), customOAuth2User.getName());
         String token = jwtUtils.generateToken(customer);
-        response.sendRedirect("http://localhost:3000/profile?token=" + token);
+        response.sendRedirect("https://hephaestus.store/profile?token=" + token);
     }
 
 

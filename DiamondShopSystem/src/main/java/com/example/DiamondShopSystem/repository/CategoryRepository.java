@@ -1,11 +1,7 @@
 package com.example.DiamondShopSystem.repository;
 
-import com.example.DiamondShopSystem.dto.CategoryCountDTO;
 import com.example.DiamondShopSystem.model.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-
-import java.util.List;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 //    @Query("SELECT new com.example.DiamondShopSystem.dto.CategoryCountDTO(c.categoryId, c.categoryName, COUNT(DISTINCT od.orderId), c.categoryImg) " +

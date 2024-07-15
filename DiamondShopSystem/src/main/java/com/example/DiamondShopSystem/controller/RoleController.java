@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/secure/roles")
-@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/api/admin/roles")
 public class RoleController {
     @Autowired
     private RoleService roleService;

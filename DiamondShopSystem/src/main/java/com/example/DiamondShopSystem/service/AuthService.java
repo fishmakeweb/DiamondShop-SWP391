@@ -5,7 +5,10 @@ import com.example.DiamondShopSystem.dto.CustomerDTO;
 import com.example.DiamondShopSystem.dto.ReqRes;
 import com.example.DiamondShopSystem.dto.RoleDTO;
 import com.example.DiamondShopSystem.dto.StaffDTO;
-import com.example.DiamondShopSystem.model.*;
+import com.example.DiamondShopSystem.model.Customer;
+import com.example.DiamondShopSystem.model.Order;
+import com.example.DiamondShopSystem.model.Role;
+import com.example.DiamondShopSystem.model.Staff;
 import com.example.DiamondShopSystem.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -49,12 +52,8 @@ public class AuthService {
     @Autowired
     private OrderStatusRepository orderStatusRepository;
 
-    public ReqRes registerStaff(ReqRes registrationRequest, String token) {
-        String username = jwtUtils.extractUsername(token);
-        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username, 4L);
-        if(staff == null){
-            throw new RuntimeException("this token is invalid");
-        }
+    public ReqRes registerStaff(ReqRes registrationRequest) {
+
         ReqRes resp = new ReqRes();
 
         if (isUsernameExists(registrationRequest.getUsername())) {
@@ -75,8 +74,7 @@ public class AuthService {
                 return resp;
             }
 
-
-            staff = new Staff();
+            Staff staff = new Staff();
             staff.setEmail(registrationRequest.getEmail());
             staff.setUsername(registrationRequest.getUsername());
             staff.setRole(role);
@@ -156,7 +154,6 @@ public class AuthService {
 
     public ReqRes login(ReqRes loginRequest) {
         ReqRes resp = new ReqRes();
-
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
@@ -167,9 +164,7 @@ public class AuthService {
                 Staff user = staff.get();
                 String jwt = jwtUtils.generateToken(user);
                 String refreshToken = jwtUtils.generateRefreshToken(user);
-
                 StaffDTO userDTO = convertToStaffDTO(user);
-
                 resp.setStatusCode(200);
                 resp.setToken(jwt);
                 resp.setRefreshToken(refreshToken);
@@ -185,7 +180,6 @@ public class AuthService {
                 String jwt = jwtUtils.generateToken(user);
                 String refreshToken = jwtUtils.generateRefreshToken(user);
                 CustomerDTO userDTO = convertToCustomerDTO(user);
-
                 resp.setStatusCode(200);
                 resp.setToken(jwt);
                 resp.setRefreshToken(refreshToken);
@@ -194,7 +188,6 @@ public class AuthService {
                 resp.setCustomer(userDTO);
                 return resp;
             }
-
             throw new UsernameNotFoundException("User not found");
 
         } catch (UsernameNotFoundException e) {
@@ -206,7 +199,6 @@ public class AuthService {
             resp.setStatusCode(500);
             resp.setMessage(e.getMessage());
         }
-
         return resp;
     }
 

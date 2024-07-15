@@ -105,13 +105,6 @@ public class Diamond {
     }
 
     public Carat getCarat() {
-
-
-
-
-
-
-
         return carat;
     }
 

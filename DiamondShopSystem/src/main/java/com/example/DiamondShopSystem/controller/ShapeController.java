@@ -9,32 +9,31 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000")
 public class ShapeController {
     @Autowired
     private ShapeService shapeService;
 
-    @GetMapping("/shapes")
+    @GetMapping("/customer/shapes")
     public List<Shape> getAllShapes() {
         return shapeService.findAllShapes();
     }
 
-    @GetMapping("/shapes/{id}")
+    @GetMapping("/adminsale/shapes/{id}")
     public Shape getShapeById(@PathVariable Long id) {
         return shapeService.findShapeById(id);
     }
 
-    @PostMapping("/secure/shapes")
+    @PostMapping("/admin/shapes")
     public Shape createShape(@RequestBody Shape shape) {
         return shapeService.saveShape(shape);
     }
 
-    @PutMapping("/secure/shapes/{id}")
+    @PutMapping("/admin/shapes/{id}")
     public Shape updateShape(@PathVariable Long id, @RequestBody Shape shape) {
         return shapeService.updateShape(id, shape);
     }
 
-    @DeleteMapping("/secure/shapes/{id}")
+    @DeleteMapping("/admin/shapes/{id}")
     public void deleteShape(@PathVariable Long id) {
         shapeService.deleteShape(id);
     }

@@ -1,6 +1,7 @@
 package com.example.DiamondShopSystem.model;
 
 import jakarta.persistence.*;
+
 import java.util.Date;
 
 @Entity
@@ -47,6 +48,9 @@ public class Jewelry {
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
     private Date date;
+
+
+    private boolean isSold;
 
     @PrePersist
     protected void onCreate() {
@@ -140,5 +144,13 @@ public class Jewelry {
 
     public void setShape(Shape shape) {
         this.shape = shape;
+    }
+
+    public boolean isSold() {
+        return isSold;
+    }
+
+    public void setSold(boolean sold) {
+        isSold = sold;
     }
 }

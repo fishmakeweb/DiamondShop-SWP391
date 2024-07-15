@@ -1,19 +1,15 @@
 package com.example.DiamondShopSystem.controller;
 
 import com.example.DiamondShopSystem.model.EmailDetails;
-import com.example.DiamondShopSystem.model.Staff;
 import com.example.DiamondShopSystem.repository.EmailService;
 import com.example.DiamondShopSystem.repository.StaffRepository;
 import com.example.DiamondShopSystem.service.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 // Annotation
 @RestController
-@RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/api/sale")
 // Class
 public class EmailController {
 
@@ -50,29 +46,21 @@ public class EmailController {
     }
 
     @PostMapping("/confirmOrder")
-    public void confirmOrder(@RequestParam Long orderId, @RequestHeader("Authorization") String token) {
-        String username = jwtUtils.extractUsername(token.substring(7));
-        Optional<Staff> staff = staffRepository.findByUsername(username);
-        if (staff.isPresent()) {
-            emailService.confirmOrder(orderId);
-        }
+    public void confirmOrder(@RequestParam Long orderId) {
+
+        emailService.confirmOrder(orderId);
+
     }
 
     @PostMapping("/confirmCustomOrder/{customOrderId}")
-    public void confirmCustomOrder(@PathVariable Long customOrderId, @RequestHeader("Authorization") String token) {
-        String username = jwtUtils.extractUsername(token.substring(7));
-        Optional<Staff> staff = staffRepository.findByUsername(username);
-        if (staff.isPresent()) {
-            emailService.confirmCustomOrder(customOrderId);
-        }
+    public void confirmCustomOrder(@PathVariable Long customOrderId) {
+        emailService.confirmCustomOrder(customOrderId);
     }
 
     @PostMapping("/confirmCancelCustomOrder/{customOrderId}")
-    public void confirmCancelCustomOrder(@PathVariable Long customOrderId, @RequestHeader("Authorization") String token) {
-        String username = jwtUtils.extractUsername(token.substring(7));
-        Optional<Staff> staff = staffRepository.findByUsername(username);
-        if (staff.isPresent()) {
-            emailService.confirmRequestCancelled(customOrderId);
-        }
+    public void confirmCancelCustomOrder(@PathVariable Long customOrderId) {
+
+        emailService.confirmRequestCancelled(customOrderId);
     }
+
 }
