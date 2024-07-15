@@ -2,9 +2,12 @@ package com.example.DiamondShopSystem.controller;
 
 import com.example.DiamondShopSystem.dto.ReqRes;
 import com.example.DiamondShopSystem.service.AuthService;
+import com.example.DiamondShopSystem.service.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -13,6 +16,9 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+
+    @Autowired
+    private JWTUtils jwtUtils;
     @PostMapping("/admin/register/staff")
     public ResponseEntity<ReqRes> registerStaff(@RequestBody ReqRes req) {
         return ResponseEntity.ok(authService.registerStaff(req));
@@ -31,5 +37,10 @@ public class AuthController {
     @PostMapping("/auth/refresh")
     public ResponseEntity<ReqRes> refreshToken(@RequestBody ReqRes req) {
         return ResponseEntity.ok(authService.refreshToken(req));
+    }
+
+    @GetMapping("/public/checkrole")
+    public String getRole(@RequestParam String token) {
+        return jwtUtils.extractRole(token);
     }
 }

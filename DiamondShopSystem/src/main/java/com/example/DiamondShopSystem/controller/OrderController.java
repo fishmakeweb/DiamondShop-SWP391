@@ -19,12 +19,12 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @GetMapping("/sale/orders")
-    public List<Order> getAllOrders(@RequestHeader ("Authorization") String token) {
-        return orderService.findAllOrders(token.substring(7));
+    @GetMapping("/adminsale/orders")
+    public List<Order> getAllOrders() {
+        return orderService.findAllOrders();
     }
 
-    @GetMapping("/sale/orders/{id}")
+    @GetMapping("/adminsale/orders/{id}")
     public Order getOrderById(@PathVariable Long id) {
         return orderService.findOrderById(id);
     }

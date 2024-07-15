@@ -77,8 +77,8 @@ public class JewelryService {
 
     public Jewelry saveJewelry(Jewelry jewelry, String token) {
         String username = jwtUtils.extractUsername(token);
-        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username,4L);
-        if(staff == null){
+        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username, 4L);
+        if (staff == null) {
             throw new RuntimeException("this token is invalid");
         }
         if (jewelry.getDiamond() != null) {
@@ -91,8 +91,8 @@ public class JewelryService {
 
     public Jewelry updateJewelry(Long id, Jewelry newJewelry, String token) {
         String username = jwtUtils.extractUsername(token);
-        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username,4L);
-        if(staff == null){
+        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username, 4L);
+        if (staff == null) {
             throw new RuntimeException("this token is invalid");
         }
         return jewelryRepository.findById(id)
@@ -111,12 +111,12 @@ public class JewelryService {
 
     public void deleteJewelry(Long id, String token) {
         String username = jwtUtils.extractUsername(token);
-        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username,4L);
-        if(staff == null){
+        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username, 4L);
+        if (staff == null) {
             throw new RuntimeException("this token is invalid");
         }
-        List<OrderDetail> od = orderDetailRepository.findByJewelryJewelryId(id);
-        if(od != null){
+        OrderDetail od = orderDetailRepository.findByJewelryJewelryId(id);
+        if (od != null) {
             throw new RuntimeException("Jewelry currently exist in order detail ");
         }
         Optional<Jewelry> jewelry = jewelryRepository.findById(id);
@@ -138,10 +138,15 @@ public class JewelryService {
                 .filter(jewelry -> jewelry.getPrice() >= minPrice && jewelry.getPrice() <= maxPrice)
                 .collect(Collectors.toList());
     }
-//    public Page<Jewelry> getJewelryPage(int page, int size) {
-//        Pageable pageable = PageRequest.of(page, size);
-//        return jewelryRepository.findAll(pageable);
-//    }
+
+    public void setStatusJewelry(Long id, boolean status) {
+
+        jewelryRepository.findById(id).ifPresent(jewelry -> {
+            jewelry.setSold(status);
+            jewelryRepository.save(jewelry);
+        });
+
+    }
 
 
 }

@@ -33,7 +33,7 @@ public class CustomOrderController {
     private CustomOrderRepository customOrderRepository;
 
 
-    @GetMapping("/sale/custom-orders")
+    @GetMapping("/adminsale/custom-orders")
     public List<CustomOrder> getAllOrders() {
         return customOrderService.getAllOrders();
     }

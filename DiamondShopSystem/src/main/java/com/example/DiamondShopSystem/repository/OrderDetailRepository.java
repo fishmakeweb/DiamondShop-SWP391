@@ -12,5 +12,5 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> 
         List<OrderDetail> findByOrderId(Long orderId);
         Optional<OrderDetail> findByOrderIdAndJewelryJewelryId(Long orderId, Long jewelryId);
 
-        List<OrderDetail> findByJewelryJewelryId(Long id);
+        OrderDetail findByJewelryJewelryId(Long id);
 }

@@ -46,7 +46,7 @@ public class DiamondController {
     }
 
     @PutMapping("/admin/status/diamonds/{id}")
-    public void setSoldDiamond(@RequestHeader ("Authorization") String token, @PathVariable Long id, @RequestBody boolean status) {
+    public void setSoldDiamond(@PathVariable Long id, @RequestBody boolean status) {
         diamondService.setStatusDiamond(id, status);
     }
 

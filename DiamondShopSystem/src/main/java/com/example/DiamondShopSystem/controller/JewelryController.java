@@ -101,4 +101,9 @@ public class JewelryController {
         }
     }
 
+    @PutMapping("/admin/status/jewelry/{id}")
+    public void setSoldDiamond(@PathVariable Long id, @RequestBody boolean status) {
+        jewelryService.setStatusJewelry(id, status);
+    }
+
 }
