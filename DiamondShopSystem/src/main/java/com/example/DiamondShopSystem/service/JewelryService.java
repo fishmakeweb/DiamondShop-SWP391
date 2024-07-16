@@ -99,6 +99,7 @@ public class JewelryService {
                     existingJewelry.setShape(newJewelry.getShape());
                     existingJewelry.setCategory(newJewelry.getCategory());
                     existingJewelry.setSize(newJewelry.getSize());
+                    existingJewelry.setQuantity(newJewelry.getQuantity());
                     return jewelryRepository.save(existingJewelry);
                 }).orElseThrow(() -> new RuntimeException("Jewelry not found"));
     }
