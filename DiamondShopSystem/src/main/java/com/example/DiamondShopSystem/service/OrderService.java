@@ -1,7 +1,10 @@
 package com.example.DiamondShopSystem.service;
 
 import com.example.DiamondShopSystem.dto.OrderDTO;
-import com.example.DiamondShopSystem.model.*;
+import com.example.DiamondShopSystem.model.Order;
+import com.example.DiamondShopSystem.model.OrderChatMessage;
+import com.example.DiamondShopSystem.model.OrderStatus;
+import com.example.DiamondShopSystem.model.PaymentRequest;
 import com.example.DiamondShopSystem.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +14,6 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -38,14 +40,8 @@ public class OrderService {
     @Autowired
     private StaffRepository staffRepository;
 
-    public List<Order> findAllOrders(String token) {
-        String username = jwtUtils.extractUsername(token);
-        List<Staff> staff = staffRepository.findAllByUsernameAndRoleRoleIdOrRoleRoleId(username,1L,4L);
-        if( staff == null ){
-            throw new RuntimeException("Token is invalid");
-        }else{
+    public List<Order> findAllOrders() {
             return orderRepository.findAll();
-        }
     }
 
     public Order findOrderById(Long id) {
@@ -109,7 +105,7 @@ public class OrderService {
         paymentRequest.setAmount(totalPrice);
         paymentRequest.setDescription("Hephaestus Order " + order.getOrderId());
         paymentRequest.setExpiredAt(Instant.now().plusSeconds(300).getEpochSecond());
-        paymentRequest.setReturnUrl("https://hephaestus.store/Success?payToken="+jwtUtils.generateOrderToken(order));
+        paymentRequest.setReturnUrl("https://hephaestus.store/Success?payToken="+jwtUtils.generateToken(order));
         paymentRequest.setCancelUrl("https://hephaestus.store/Cancelled");
         paymentRequest = paymentRequestRepository.save(paymentRequest);
         System.out.println(paymentRequest.toString());

@@ -1,10 +1,10 @@
 package com.example.DiamondShopSystem.service;
 
 import com.example.DiamondShopSystem.dto.DiamondAttributeDTO;
-import com.example.DiamondShopSystem.model.*;
+import com.example.DiamondShopSystem.model.Diamond;
+import com.example.DiamondShopSystem.model.Gia;
 import com.example.DiamondShopSystem.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,23 +55,16 @@ public class DiamondService {
     }
 
 
-//    @Transactional
-//    public Diamond saveDiamond(Diamond diamond, String token) {
-//        String adminUsername = jwtUtils.extractUsername(token);
-//        Staff temp = staffRepository.findByUsernameAndRoleRoleId(adminUsername, 4L);
-//        if (temp == null) {
-//            throw new RuntimeException("this token is invalid");
-//        } else {
-//            if (diamond.getGia() != null) {
-//                Gia gia = diamond.getGia();
-//                gia.setGiaNumber(generateUniqueGiaNumber());
-//                giaRepository.save(gia);
-//            }
-//            Diamond savedDiamond = diamondRepository.save(diamond);
-//            productService.createProductForDiamond(savedDiamond);
-//            return savedDiamond;
-//        }
-//    }
+    @Transactional
+    public Diamond saveDiamond(Diamond diamond) {
+            if (diamond.getGia() != null) {
+                Gia gia = diamond.getGia();
+                gia.setGiaNumber(generateUniqueGiaNumber());
+                giaRepository.save(gia);
+            }
+            Diamond savedDiamond = diamondRepository.save(diamond);
+            return savedDiamond;
+        }
 
     private String generateUniqueGiaNumber() {
         String giaNumber;
@@ -81,12 +74,7 @@ public class DiamondService {
         return giaNumber;
     }
 
-    public Diamond updateDiamond(Long id, Diamond newDiamond, String token) {
-        String username = jwtUtils.extractUsername(token);
-        Staff temp = staffRepository.findByUsernameAndRoleRoleId(username, 4L);
-        if (temp == null) {
-            throw new RuntimeException("this token is invalid");
-        }
+    public Diamond updateDiamond(Long id, Diamond newDiamond) {
         return diamondRepository.findById(id).map(existingDiamond -> {
             existingDiamond.setMeasurement(newDiamond.getMeasurement());
             existingDiamond.setCarat(newDiamond.getCarat());
@@ -106,39 +94,24 @@ public class DiamondService {
         diamondRepository.deleteById(id);
     }
 
-    public Diamond setSoldDiamond(Long id, String token) {
-        String username = jwtUtils.extractUsername(token);
-        Optional<Customer> customer = customerRepository.findByUsername(username);
-        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username,4L);
-        if (customer.isEmpty() && staff == null) {
-            throw new RuntimeException("this token is invalid");
-        } else {
+    public Diamond setSoldDiamond(Long id) {
             Diamond diamond = diamondRepository.findById(id).get();
             diamond.setSold(true);
             diamond = diamondRepository.save(diamond);
             return diamond;
-        }
     }
 
-    public void setStatusDiamond(Long id, boolean status, String token) {
-        String username = jwtUtils.extractUsername(token);
-        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username,4L);
-        if (staff == null) {
-            throw new RuntimeException("this token is invalid");
-        } else {
+    public void setStatusDiamond(Long id, boolean status) {
+
             diamondRepository.findById(id).ifPresent(diamond -> {
                 diamond.setSold(status);
                 diamondRepository.save(diamond);
             });
-        }
+
     }
 
-    public DiamondAttributeDTO getAllDiamondAttributes(String token) {
-        String username = jwtUtils.extractUsername(token);
-        Optional<Staff> temp = staffRepository.findByUsername(username);
-        if (temp == null) {
-            throw new RuntimeException("this token is invalid");
-        } else {
+    public DiamondAttributeDTO getAllDiamondAttributes() {
+
             DiamondAttributeDTO dto = new DiamondAttributeDTO();
             dto.setMeasurements(measurementRepository.findAll());
             dto.setColors(colorRepository.findAll());
@@ -147,5 +120,4 @@ public class DiamondService {
             dto.setClarities(clarityRepository.findAll());
             return dto;
         }
-    }
 }

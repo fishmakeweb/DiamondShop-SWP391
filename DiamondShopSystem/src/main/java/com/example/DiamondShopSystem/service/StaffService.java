@@ -1,11 +1,12 @@
 package com.example.DiamondShopSystem.service;
 
 import com.example.DiamondShopSystem.model.Role;
+import com.example.DiamondShopSystem.model.Staff;
 import com.example.DiamondShopSystem.repository.RoleRepository;
 import com.example.DiamondShopSystem.repository.StaffRepository;
-import com.example.DiamondShopSystem.model.Staff;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 

@@ -1,20 +1,13 @@
 package com.example.DiamondShopSystem.controller;
 
 import com.example.DiamondShopSystem.dto.CustomJewelryRequestDTO;
-import com.example.DiamondShopSystem.model.Color;
 import com.example.DiamondShopSystem.model.CustomJewelry;
-import com.example.DiamondShopSystem.model.Customer;
-import com.example.DiamondShopSystem.repository.CustomerRepository;
 import com.example.DiamondShopSystem.service.CustomJewelryService;
-import com.example.DiamondShopSystem.service.CustomOrderService;
-import com.example.DiamondShopSystem.service.JWTUtils;
 import com.example.DiamondShopSystem.service.PriceCalculatorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -28,18 +21,14 @@ public class CustomJewelryController {
     @Autowired
     private PriceCalculatorService priceCalculatorService;
 
-    @GetMapping("/customJewelry")
+    @GetMapping("/public/customJewelry")
     public List<CustomJewelry> getAllCustomJewelry() {
         return customJewelryService.getCustomjewelry();
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<CustomJewelry> saveCustomJewelry(@RequestBody CustomJewelry customJewelry) {
-        CustomJewelry savedCustomJewelry = customJewelryService.saveCustomJewelry(customJewelry);
-        return ResponseEntity.ok(savedCustomJewelry);
-    }
 
-    @PostMapping("/calculate-price")
+
+    @PostMapping("/public/calculate-price")
     public CustomJewelry calculatePrice(@RequestBody CustomJewelryRequestDTO customJewelryRequest) {
         float price = priceCalculatorService.calculatePrice(customJewelryRequest);
 

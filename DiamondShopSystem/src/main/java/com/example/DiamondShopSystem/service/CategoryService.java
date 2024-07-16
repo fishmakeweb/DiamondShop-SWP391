@@ -1,10 +1,10 @@
 package com.example.DiamondShopSystem.service;
 
-import com.example.DiamondShopSystem.dto.CategoryCountDTO;
 import com.example.DiamondShopSystem.model.Category;
 import com.example.DiamondShopSystem.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 

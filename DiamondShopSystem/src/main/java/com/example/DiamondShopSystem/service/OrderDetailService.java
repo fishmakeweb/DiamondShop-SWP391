@@ -96,4 +96,8 @@ public class OrderDetailService {
         return null; // or throw an exception as per your error handling strategy
     }
 
+    public OrderDetail getOrderDetailByJewelryId(Long id) {
+        return orderDetailRepository.findByJewelryJewelryId(id);
+    }
+
 }

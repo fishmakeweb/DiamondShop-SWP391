@@ -2,7 +2,6 @@ package com.example.DiamondShopSystem.service;
 
 import com.example.DiamondShopSystem.dto.CustomJewelryRequestDTO;
 import com.example.DiamondShopSystem.dto.ListPriceCustomDTO;
-import com.example.DiamondShopSystem.model.CustomJewelry;
 import org.springframework.stereotype.Service;
 
 @Service

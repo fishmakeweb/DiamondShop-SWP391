@@ -1,6 +1,5 @@
 package com.example.DiamondShopSystem.controller;
 
-import com.example.DiamondShopSystem.dto.CategoryCountDTO;
 import com.example.DiamondShopSystem.model.Category;
 import com.example.DiamondShopSystem.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,34 +11,39 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("/categories")
+    @GetMapping("/customer/categories")
     public List<Category> getAllCategories() {
         return categoryService.findAllCategories();
     }
 
-    @GetMapping("/categories/{id}")
+    @GetMapping("/adminsale/categories/{id}")
     public Category getCategoryById(@PathVariable Long id) {
         return categoryService.findCategoryById(id);
     }
 
-    @PostMapping("/secure/categories")
+    @PostMapping("/admin/categories")
     public Category createCategory(@RequestBody Category category) {
         return categoryService.saveCategory(category);
     }
 
-    @PutMapping("/secure/categories/{id}")
+    @PutMapping("/admin/categories/{id}")
     public Category updateCategory(@PathVariable Long id, @RequestBody Category category) {
         return categoryService.updateCategory(id, category);
     }
 
-    @DeleteMapping("/secure/categories/{id}")
+    @DeleteMapping("/admin/categories/{id}")
     public void deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);
+    }
+
+    @GetMapping("/admin/categories")
+    public ResponseEntity<List<Category>> getAllCategoriesWithDiamonds() {
+        List<Category> categories = categoryService.findAllCategories();
+        return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
 //    @GetMapping("/categories/order-count")

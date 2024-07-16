@@ -5,7 +5,6 @@ import com.example.DiamondShopSystem.service.CustomerService;
 import com.example.DiamondShopSystem.service.JWTUtils;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.UnsupportedEncodingException;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/public")
 @CrossOrigin(origins = "*")
 public class ForgotPasswordController {
 
@@ -46,7 +45,7 @@ public class ForgotPasswordController {
 
         try {
             customerService.updateResetPasswordToken(token, email);
-            String resetPasswordLink = "http://localhost:3000/reset-password?token=" + token;  // Adjust your site URL here
+            String resetPasswordLink = "https://hephaestus.store/reset-password?token=" + token;  // Adjust your site URL here
             sendEmail(email, resetPasswordLink);
             return new ResponseEntity<>("Send successfully", HttpStatus.OK);
         } catch (Exception ex) {

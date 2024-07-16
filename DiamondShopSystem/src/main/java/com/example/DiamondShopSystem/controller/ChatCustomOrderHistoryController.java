@@ -1,9 +1,7 @@
 package com.example.DiamondShopSystem.controller;
 
 import com.example.DiamondShopSystem.model.CustomOrderChatMessage;
-import com.example.DiamondShopSystem.model.OrderChatMessage;
 import com.example.DiamondShopSystem.repository.CustomOrderChatMessageRepository;
-import com.example.DiamondShopSystem.repository.OrderChatMessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

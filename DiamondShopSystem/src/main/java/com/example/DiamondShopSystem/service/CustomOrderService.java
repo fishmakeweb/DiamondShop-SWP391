@@ -11,7 +11,6 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CustomOrderService {
@@ -32,20 +31,16 @@ public class CustomOrderService {
     private StaffRepository staffRepository;
     @Autowired
     private CustomOrderChatMessageRepository  customOrderChatMessageRepository;
+    @Autowired
+    private DiamondRepository diamondRepository;
 
     public void saveChatMessage(CustomOrderChatMessage message) {
         // Here, you might add any business logic before saving the message
         customOrderChatMessageRepository.save(message);
     }
 
-    public List<CustomOrder> getAllOrders(String token) {
-        String username = jwtUtils.extractUsername(token);
-        List<Staff> staff = staffRepository.findAllByUsernameAndRoleRoleIdOrRoleRoleId(username, 1L,4L);
-        if (staff == null) {
-            throw new RuntimeException("This token is invalid");
-        } else {
+    public List<CustomOrder> getAllOrders() {
             return customOrderRepository.findAll();
-        }
     }
 
     public Optional<CustomOrder> getOrderById(Long id) {
@@ -56,30 +51,9 @@ public class CustomOrderService {
         return customOrderRepository.save(customOrder);
     }
 
-    public CustomOrder updateOrder(Long id, CustomOrder customOrderDetails) {
-        Optional<CustomOrder> customOrderOptional = customOrderRepository.findById(id);
-        if (customOrderOptional.isPresent()) {
-            CustomOrder customOrder = customOrderOptional.get();
-            customOrder.setUsername(customOrderDetails.getUsername());
-            customOrder.setOrderStatus(customOrderDetails.getOrderStatus());
-            customOrder.setCustomJewelry(customOrderDetails.getCustomJewelry());
-            customOrder.setPrepaid(customOrderDetails.getPrepaid());
-            customOrder.setFullpaid(customOrderDetails.getFullpaid());
-            customOrder.setDescription(customOrderDetails.getDescription());
-            customOrder.setStartDate(customOrderDetails.getStartDate());
-            customOrder.setFinishDate(customOrderDetails.getFinishDate());
-            return customOrderRepository.save(customOrder);
-        } else {
-            throw new RuntimeException("Order not found with id " + id);
-        }
-    }
 
-    public CustomOrder updateCustomOrderAtr(Long id, CustomOrderUpdateDTO updateDTO, String token) {
-        String username = jwtUtils.extractUsername(token);
-        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username, 1L);
-        if (staff == null) {
-            throw new RuntimeException("This token is invalid");
-        } else {
+
+    public CustomOrder updateCustomOrderAtr(Long id, CustomOrderUpdateDTO updateDTO) {
             return customOrderRepository.findById(id)
                     .map(customOrder -> {
                         customOrder.setFullpaid(updateDTO.getFullPaid());
@@ -88,12 +62,11 @@ public class CustomOrderService {
                         return customOrderRepository.save(customOrder);
                     })
                     .orElseThrow(() -> new RuntimeException("Order not found with id " + id));
-        }
-
     }
 
     public void deleteCustomOrder(Long id) {
-
+        List<CustomOrderChatMessage> customOrderMessages = customOrderChatMessageRepository.findByCustomOrderCustomOrderId(id);
+        customOrderMessages.forEach(customOrderChatMessage -> customOrderChatMessageRepository.delete(customOrderChatMessage));
         Optional<CustomOrder> customOrder = getOrderById(id);
         Long customJewelryId = customOrder.get().getCustomJewelry().getCustomJewelryId();
         customOrderRepository.deleteById(id);

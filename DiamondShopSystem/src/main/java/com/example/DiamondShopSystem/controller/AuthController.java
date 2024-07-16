@@ -2,35 +2,43 @@ package com.example.DiamondShopSystem.controller;
 
 import com.example.DiamondShopSystem.dto.ReqRes;
 import com.example.DiamondShopSystem.service.AuthService;
+import com.example.DiamondShopSystem.service.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/api")
 public class AuthController {
 
     @Autowired
     private AuthService authService;
 
-    @PostMapping("/register/staff")
-    public ResponseEntity<ReqRes> registerStaff(@RequestBody ReqRes req, @RequestHeader ("Authorization") String token) {
-        return ResponseEntity.ok(authService.registerStaff(req, token.substring(7)));
+
+    @Autowired
+    private JWTUtils jwtUtils;
+    @PostMapping("/admin/register/staff")
+    public ResponseEntity<ReqRes> registerStaff(@RequestBody ReqRes req) {
+        return ResponseEntity.ok(authService.registerStaff(req));
     }
 
-    @PostMapping("/register/customer")
+    @PostMapping("/auth/register/customer")
     public ResponseEntity<ReqRes> registerCustomer(@RequestBody ReqRes req) {
         return ResponseEntity.ok(authService.registerCustomer(req));
     }
 
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     public ResponseEntity<ReqRes> login(@RequestBody ReqRes req) {
         return ResponseEntity.ok(authService.login(req));
     }
 
-    @PostMapping("/refresh")
+    @PostMapping("/auth/refresh")
     public ResponseEntity<ReqRes> refreshToken(@RequestBody ReqRes req) {
         return ResponseEntity.ok(authService.refreshToken(req));
+    }
+
+    @GetMapping("/public/checkrole")
+    public String getRole(@RequestParam String token) {
+        return jwtUtils.extractRole(token);
     }
 }

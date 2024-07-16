@@ -1,6 +1,5 @@
 package com.example.DiamondShopSystem.service;
 
-import com.example.DiamondShopSystem.model.Cut;
 import com.example.DiamondShopSystem.model.Delivery;
 import com.example.DiamondShopSystem.repository.DeliveryRepository;
 import org.springframework.beans.factory.annotation.Autowired;

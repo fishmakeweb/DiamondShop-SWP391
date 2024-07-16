@@ -1,8 +1,8 @@
 package com.example.DiamondShopSystem.model;
 
 import jakarta.persistence.*;
+
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "`order`") // `order` is a reserved keyword in SQL, hence backticks are used
