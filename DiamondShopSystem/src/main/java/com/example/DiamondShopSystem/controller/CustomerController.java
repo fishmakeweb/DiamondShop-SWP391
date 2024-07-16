@@ -4,7 +4,9 @@ package com.example.DiamondShopSystem.controller;
 import com.example.DiamondShopSystem.dto.PasswordChangeRequest;
 import com.example.DiamondShopSystem.model.Customer;
 import com.example.DiamondShopSystem.service.CustomerService;
+import com.example.DiamondShopSystem.service.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +18,8 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
+    @Autowired
+    private JWTUtils jwtUtils;
     @GetMapping("/admin/customers")
     public List<Customer> getAllCustomers() {
         return customerService.findAllCustomers();
@@ -31,4 +35,27 @@ public class CustomerController {
         return customerService.checkAndChangePassword( token.substring(7),passwordChangeRequest.getOldPassword(), passwordChangeRequest.getNewPassword());
     }
 
+
+    static class ResetPasswordDTO {
+        public String token;
+        public String password;
+    }
+    @PostMapping("/public/reset_password")
+    public ResponseEntity<?> processResetPassword(@RequestBody ResetPasswordDTO resetPasswordDTO) {
+        String token = resetPasswordDTO.token;
+        String password = resetPasswordDTO.password;
+
+        Customer customer = customerService.getByResetPasswordToken(token);
+        if (customer == null) {
+            return ResponseEntity.badRequest().body("Invalid Token");
+        } else {
+            if (jwtUtils.isTokenExpired(token)) {
+                return ResponseEntity.badRequest().body("Token expired");
+            } else {
+                customerService.updatePassword(customer, password);
+                return ResponseEntity.ok("You have successfully changed your password.");
+            }
+
+        }
+    }
 }

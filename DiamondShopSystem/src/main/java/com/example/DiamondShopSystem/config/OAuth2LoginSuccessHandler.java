@@ -40,7 +40,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         CustomOAuth2User customOAuth2User = new CustomOAuth2User(oidcUser);
         Customer customer = customerService.processOAuthPostLogin(customOAuth2User.getEmail(), customOAuth2User.getName());
         String token = jwtUtils.generateToken(customer);
-        response.sendRedirect("https://hephaestus.store/profile?token=" + token);
+        response.sendRedirect("https://hephaestus.store?token=" + token+"&username="+customer.getUsername());
     }
 
 
