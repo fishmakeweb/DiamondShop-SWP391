@@ -19,5 +19,7 @@ public interface EmailService {
     void confirmCustomOrder(Long orderId);
 
     void confirmRequestCancelled(Long orderId);
+
+    boolean sendResetPassword(String email);
 }
 

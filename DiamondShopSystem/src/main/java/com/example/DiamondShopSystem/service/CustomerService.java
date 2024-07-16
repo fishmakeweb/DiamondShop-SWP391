@@ -125,7 +125,7 @@ public class CustomerService {
         }
         Customer newCustomer = new Customer();
         newCustomer.setEmail(username);
-        newCustomer.setUsername(username);
+        newCustomer.setUsername(username.split("@")[0]);
         newCustomer.setFullName(fullName);
         newCustomer.setRegisteredDate(new Date());
         newCustomer.setProvider(Provider.GOOGLE);
