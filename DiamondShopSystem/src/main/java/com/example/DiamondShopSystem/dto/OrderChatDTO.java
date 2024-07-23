@@ -7,9 +7,9 @@ public class OrderChatDTO {
     private String username;
     private String orderStatus;
     private Date orderDate;
-    private double totalPrice;
+    private int totalPrice;
 
-    public OrderChatDTO(Long orderId, String username, String orderStatus, Date orderDate, double totalPrice) {
+    public OrderChatDTO(Long orderId, String username, String orderStatus, Date orderDate, int totalPrice) {
         this.orderId = orderId;
         this.username = username;
         this.orderStatus = orderStatus;
@@ -49,11 +49,11 @@ public class OrderChatDTO {
         this.orderDate = orderDate;
     }
 
-    public double getTotalPrice() {
+    public int getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
+    public void setTotalPrice(int totalPrice) {
         this.totalPrice = totalPrice;
     }
 }

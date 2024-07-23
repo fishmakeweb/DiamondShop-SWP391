@@ -5,12 +5,12 @@ import java.util.Date;
 public class NewReleaseDTO {
     private Long productId;
     private String name;
-    private float price;
+    private int price;
     private String img;
     private Date date;
 
     // Constructor
-    public NewReleaseDTO(Long productId, String name, float price, String img, Date date) {
+    public NewReleaseDTO(Long productId, String name, int price, String img, Date date) {
         this.productId = productId;
         this.name = name;
         this.price = price;
@@ -35,11 +35,11 @@ public class NewReleaseDTO {
         this.name = name;
     }
 
-    public float getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

@@ -30,7 +30,8 @@ public class CustomJewelryController {
 
     @PostMapping("/public/calculate-price")
     public CustomJewelry calculatePrice(@RequestBody CustomJewelryRequestDTO customJewelryRequest) {
-        float price = priceCalculatorService.calculatePrice(customJewelryRequest);
+        int price = priceCalculatorService.calculatePrice(customJewelryRequest);
+
 
         CustomJewelry customJewelry = new CustomJewelry();
         customJewelry.setCustomJewelryId(customJewelryRequest.getCustomJewelryId());

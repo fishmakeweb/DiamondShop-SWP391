@@ -84,10 +84,10 @@ public class CustomOrderService {
         CustomOrder customOrder = new CustomOrder();
         customOrder.setUsername(username);
         customOrder.setCustomJewelry(savedJewelry);
-        customOrder.setPrepaid(savedJewelry.getPrice() * 0.3f);
+        customOrder.setPrepaid(Math.round(savedJewelry.getPrice() * 0.3f));
         customOrder.setFullpaid(savedJewelry.getPrice());
         customOrder.setOrderStatus(orderStatusRepository.findById(2L).orElseThrow(() -> new RuntimeException("Order status not found")));
-        customOrder.setDescription("NOT PAID");
+        customOrder.setDescription("CHƯA THANH TOÁN");
         customOrder.setStartDate(new Date());
         customOrder.setFinishDate(null);
 
@@ -102,10 +102,10 @@ public class CustomOrderService {
     public String checkOutCustomOrder(String token, Long customOrderId) {
         String username = jwtUtils.extractUsername(token);
         CustomOrder customOrder = customOrderRepository.findByUserNameAndCustomOrderId(username, customOrderId);
-        double totalPrice = customOrder.getPrepaid();
+        int totalPrice = customOrder.getPrepaid();
         PaymentRequest paymentRequest = new PaymentRequest();
-        paymentRequest.setAmount(Math.ceil(totalPrice * 50f));
-        paymentRequest.setDescription("Custom Order " + customOrder.getCustomOrderId());
+        paymentRequest.setAmount(totalPrice);
+        paymentRequest.setDescription("Mã đơn hàng " + customOrder.getCustomOrderId());
         paymentRequest.setExpiredAt(Instant.now().plusSeconds(300).getEpochSecond());
 
 //        https://hephaestus.store/Success?payToken=
@@ -130,19 +130,19 @@ public class CustomOrderService {
         if (customOrder != null) {
             if (!jwtUtils.isTokenExpired(token)) {
                 setSuccessStatusForCustomOrder(customOrder);
-                return "Check Out successfully";
+                return "Thanh toán thành công";
             } else {
-                return "This token is expired";
+                return "Hết hạn đăng nhập";
             }
         } else {
-            return "This order is not exists!!";
+            return "Đơn hàng không tồn tại!!";
         }
     }
 
     public void setSuccessStatusForCustomOrder(CustomOrder customOrder) {
         OrderStatus successStatus = orderStatusRepository.findById(3L).get();
         customOrder.setOrderStatus(successStatus);
-        customOrder.setDescription("PREPAID SUCCESSFULLY");
+        customOrder.setDescription("THANH TOÁN TRƯỚC THÀNH CÔNG");
         customOrderRepository.save(customOrder);
     }
 
@@ -155,11 +155,11 @@ public class CustomOrderService {
 
         if (customOrderOptional.isPresent()) {
             CustomOrder customOrder = customOrderOptional.get();
-            customOrder.setDescription("REQUEST CANCEL");
+            customOrder.setDescription("YÊU CẦU HỦY ĐƠN");
             customOrderRepository.save(customOrder);
             return customOrder;
         } else {
-            throw new RuntimeException("Order not found with id " + id);
+            throw new RuntimeException("Mã đơn hàng không tồn tại " + id);
         }
     }
 

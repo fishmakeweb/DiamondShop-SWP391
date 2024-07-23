@@ -100,7 +100,7 @@ public class OrderService {
         String username = jwtUtils.extractUsername(token);
         Optional<Order> activeOrder = orderRepository.findActiveOrderByUsername(username);
         Order order = activeOrder.get();
-        double totalPrice = order.getTotalPrice();
+        int totalPrice = order.getTotalPrice();
         PaymentRequest paymentRequest = new PaymentRequest();
         paymentRequest.setAmount(totalPrice);
         paymentRequest.setDescription("Hephaestus Order " + order.getOrderId());
@@ -123,12 +123,12 @@ public class OrderService {
             if (!jwtUtils.isTokenExpired(token)) {
                 setSuccessStatus(order);
                 createNewCart(order);
-                return "Check Out successfully";
+                return "Thanh toán thành công";
             } else {
-                return "This token is expired";
+                return "Hết hạn đăng nhập";
             }
         } else {
-            return "This order is not exists!!";
+            return "Đơn hàng không tồn tại!!";
         }
     }
 

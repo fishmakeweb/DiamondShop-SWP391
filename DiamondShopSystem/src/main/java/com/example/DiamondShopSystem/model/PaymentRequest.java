@@ -10,7 +10,7 @@ public class PaymentRequest {
     private int orderCode;
 
     @Column(nullable = false)
-    private double amount;
+    private int amount;
 
     @Column(nullable = false)
     private String description;
@@ -28,7 +28,7 @@ public class PaymentRequest {
 //        this.orderCode = orderCode;
     }
 
-    public PaymentRequest(int orderCode, double amount, String description, long expiredAt, String returnUrl, String cancelUrl) {
+    public PaymentRequest(int orderCode, int amount, String description, long expiredAt, String returnUrl, String cancelUrl) {
         this.orderCode = orderCode;
         this.amount = amount;
         this.description = description;
@@ -45,11 +45,11 @@ public class PaymentRequest {
         this.orderCode = orderCode;
     }
 
-    public double getAmount() {
+    public int getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 
