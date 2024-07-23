@@ -15,8 +15,6 @@ public class Order {
     @Column(nullable = false)
     private String username;
 
-    @Column(nullable = true)
-    @Temporal(TemporalType.DATE)
     private Date orderDate;
 
     @ManyToOne

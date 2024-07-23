@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 public class JewelryController {
@@ -27,11 +29,6 @@ public class JewelryController {
     private JWTUtils jwtUtils;
     @Autowired
     private StaffRepository staffRepository;
-
-//    @GetMapping("/jewelry")
-//    public List<Jewelry> getAllJewelry() {
-//        return jewelryService.findAllJewelry();
-//    }
 
     @GetMapping("/public/jewelry/{id}")
     public Jewelry getJewelryById(@PathVariable Long id) {
@@ -55,8 +52,13 @@ public class JewelryController {
 
 
     @GetMapping("/adminsale/jewelry/all")
-    public AllDataDTO getAllData(@RequestHeader ("Authorization") String token) {
-        return jewelryService.getAllData(token.substring(7));
+    public AllDataDTO getAllData() {
+        return jewelryService.getAllData();
+    }
+
+    @GetMapping("/public/attributes/all")
+    public AllDataDTO getAllAttributes() {
+        return jewelryService.getAllData();
     }
 
     @GetMapping("/admin/jewelry/check-name/{name}")
@@ -72,14 +74,30 @@ public class JewelryController {
         return jewelryRepository.findAll(pageable);
     }
 
+//    @GetMapping("/public/jewelry")
+//    public Page<JewelryDTO> getJewelryByPage(
+//            @RequestParam(defaultValue = "0") int page,
+//            @RequestParam(defaultValue = "12") int size) {
+//        Pageable pageable = PageRequest.of(page, size);
+//        Page<JewelryDTO> jewelryPage = jewelryRepository.findJewelryByPage(pageable);
+//        return jewelryPage;
+//    }
+
     @GetMapping("/public/jewelry")
-    public Page<JewelryDTO> getJewelryByPage(
+    public Page<JewelryDTO> getAvailableJewelryByPage(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "12") int size) {
+            @RequestParam(defaultValue = "12") int size,
+            @RequestParam(required = false) List<Long> materialIds,
+            @RequestParam(required = false) List<Long> categoryIds,
+            @RequestParam(required = false) List<Long> shapeIds,
+            @RequestParam(required = false) List<Long> sizeIds,
+            @RequestParam(required = false) Float minPrice,
+            @RequestParam(required = false) Float maxPrice) {
+
         Pageable pageable = PageRequest.of(page, size);
-        Page<JewelryDTO> jewelryPage = jewelryRepository.findJewelryByPage(pageable);
-        return jewelryPage;
+        return jewelryRepository.findByFilters(materialIds, categoryIds, shapeIds, sizeIds, minPrice, maxPrice, pageable);
     }
+
 
 
 
