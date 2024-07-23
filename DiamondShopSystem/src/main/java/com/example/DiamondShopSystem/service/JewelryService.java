@@ -41,18 +41,14 @@ public class JewelryService {
     @Autowired
     private OrderDetailRepository orderDetailRepository;
 
-    public AllDataDTO getAllData(String token) {
-        String username = jwtUtils.extractUsername(token);
-        Optional<Staff> staff = staffRepository.findByUsername(username);
-        if (staff == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
-        } else {
-            List<Category> categories = categoryRepository.findAll();
-            List<Material> materials = materialRepository.findAll();
-            List<Size> sizes = sizeRepository.findAll();
-            List<Shape> shapes = shapeRepository.findAll();
-            return new AllDataDTO(categories, materials, sizes, shapes);
-        }
+    public AllDataDTO getAllData() {
+
+        List<Category> categories = categoryRepository.findAll();
+        List<Material> materials = materialRepository.findAll();
+        List<Size> sizes = sizeRepository.findAll();
+        List<Shape> shapes = shapeRepository.findAll();
+        return new AllDataDTO(categories, materials, sizes, shapes);
+
 
     }
 
@@ -69,12 +65,7 @@ public class JewelryService {
         return jewelryRepository.existsByName(name);
     }
 
-    public Jewelry saveJewelry(Jewelry jewelry, String token) {
-        String username = jwtUtils.extractUsername(token);
-        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username, 4L);
-        if (staff == null) {
-            throw new RuntimeException("this token is invalid");
-        }
+    public Jewelry saveJewelry(Jewelry jewelry) {
         if (jewelry.getDiamond() != null) {
             Optional<Diamond> diamond = diamondRepository.findById(jewelry.getDiamond().getDiamondId());
             diamond.ifPresent(jewelry::setDiamond);
@@ -83,12 +74,7 @@ public class JewelryService {
         return savedJewelry;
     }
 
-    public Jewelry updateJewelry(Long id, Jewelry newJewelry, String token) {
-        String username = jwtUtils.extractUsername(token);
-        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username, 4L);
-        if (staff == null) {
-            throw new RuntimeException("this token is invalid");
-        }
+    public Jewelry updateJewelry(Long id, Jewelry newJewelry) {
         return jewelryRepository.findById(id)
                 .map(existingJewelry -> {
                     existingJewelry.setName(newJewelry.getName());
@@ -104,12 +90,8 @@ public class JewelryService {
                 }).orElseThrow(() -> new RuntimeException("Jewelry not found"));
     }
 
-    public void deleteJewelry(Long id, String token) {
-        String username = jwtUtils.extractUsername(token);
-        Staff staff = staffRepository.findByUsernameAndRoleRoleId(username, 4L);
-        if (staff == null) {
-            throw new RuntimeException("this token is invalid");
-        }
+    public void deleteJewelry(Long id) {
+
         OrderDetail od = orderDetailRepository.findByJewelryJewelryId(id);
         if (od != null) {
             throw new RuntimeException("Jewelry currently exist in order detail ");
@@ -128,7 +110,7 @@ public class JewelryService {
                 .collect(Collectors.toList());
     }
 
-    public List<Jewelry> findAllByPriceRange(float minPrice, float maxPrice) {
+    public List<Jewelry> findAllByPriceRange(int minPrice, int maxPrice) {
         return jewelryRepository.findAll().stream()
                 .filter(jewelry -> jewelry.getPrice() >= minPrice && jewelry.getPrice() <= maxPrice)
                 .collect(Collectors.toList());
@@ -143,6 +125,9 @@ public class JewelryService {
 
     }
 
+    public List<Jewelry> findAllByJewelryCategory(Long categoryId) {
+        return jewelryRepository.findJewelryByCategory(categoryId);
+    }
 
 }
 
