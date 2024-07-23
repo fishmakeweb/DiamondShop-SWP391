@@ -30,6 +30,12 @@ public class EmailController {
         public String email;
     }
 
+    static class ContactDTO{
+        public String name;
+        public String email;
+        public String message;
+    }
+
     // Sending a simple Email
     @PostMapping("/sale/sendMail")
     public String sendMail(@RequestBody EmailDetails details) {
@@ -74,9 +80,22 @@ public class EmailController {
         try {
             boolean success = emailService.sendResetPassword(emailDTO.email);
             if (success) {
-                return ResponseEntity.ok("Reset password link sent successfully.");
+                return ResponseEntity.ok("Gửi thành công.");
             } else {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send reset password link.");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Lỗi gửi.");
+            }
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+    @PostMapping("/public/contact-us")
+    public ResponseEntity<?> processContactUs(@RequestBody ContactDTO contactlDTO) {
+        try {
+            boolean success = emailService.sendContactUs(contactlDTO.name,contactlDTO.email, contactlDTO.message);
+            if (success) {
+                return ResponseEntity.ok("Gửi thành công.");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Lỗi gửi.");
             }
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

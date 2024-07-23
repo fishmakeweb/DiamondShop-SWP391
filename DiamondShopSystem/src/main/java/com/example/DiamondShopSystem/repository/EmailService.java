@@ -1,5 +1,6 @@
 package com.example.DiamondShopSystem.repository;
 
+import com.example.DiamondShopSystem.controller.EmailController;
 import com.example.DiamondShopSystem.model.EmailDetails;
 
 public interface EmailService {
@@ -21,5 +22,7 @@ public interface EmailService {
     void confirmRequestCancelled(Long orderId);
 
     boolean sendResetPassword(String email);
+
+    boolean sendContactUs(String name, String email, String message);
 }
 
