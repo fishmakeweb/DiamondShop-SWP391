@@ -71,12 +71,12 @@ public class EmailServiceImpl implements EmailService {
 
             // Sending the mail
             javaMailSender.send(mailMessage);
-            return "Mail Sent Successfully...";
+            return "Gửi thành công...";
         }
 
         // Catch block to handle the exceptions
         catch (Exception e) {
-            return "Error while Sending Mail";
+            return "Lỗi gửi";
         }
     }
 
@@ -111,14 +111,14 @@ public class EmailServiceImpl implements EmailService {
 
             // Sending the mail
             javaMailSender.send(mimeMessage);
-            return "Mail sent Successfully";
+            return "Gửi thành công";
         }
 
         // Catch block to handle MessagingException
         catch (MessagingException e) {
 
             // Display message when exception occurred
-            return "Error while sending mail!!!";
+            return "Lỗi gửi!!!";
         }
     }
 
@@ -139,12 +139,12 @@ public class EmailServiceImpl implements EmailService {
 
             // Sending the mail
             javaMailSender.send(mimeMessage);
-            return "Mail sent Successfully";
+            return "Gửi thành công";
         }
         // Catch block to handle MessagingException
         catch (MessagingException e) {
             // Display message when exception occurred
-            return "Error while sending mail!!!";
+            return "Lỗi gửi!!!";
         }
     }
 
@@ -206,12 +206,12 @@ public class EmailServiceImpl implements EmailService {
         CustomOrder customOrder = customOrderRepository.findByCustomOrderId(customOrderId);
         customOrder.setOrderStatus(orderStatusRepository.findById(4L).get());
         customOrder.setFinishDate(new Date());
-        customOrder.setDescription("FULL PAID SUCCESSFULLY");
+        customOrder.setDescription("HOÀN THÀNH");
         customOrderRepository.save(customOrder);
         Customer customer = customerRepository.findByUsername(customOrder.getUsername()).get();
         EmailDetails details = new EmailDetails();
         details.setRecipient(customer.getEmail());
-        details.setSubject("HEPHAESTUS - Order Confirmation");
+        details.setSubject("HEPHAESTUS - Xác nhận đơn hàng");
         details.setMsgBody(confirmCustomOrderEmail(customOrder, customer));
         sendHtmlEmail(details);
     }
@@ -220,12 +220,12 @@ public class EmailServiceImpl implements EmailService {
         CustomOrder customOrder = customOrderRepository.findByCustomOrderId(customOrderId);
         customOrder.setOrderStatus(orderStatusRepository.findById(4L).get());
         customOrder.setFinishDate(new Date());
-        customOrder.setDescription("CANCELLED");
+        customOrder.setDescription("ĐÃ HỦY");
         customOrderRepository.save(customOrder);
         Customer customer = customerRepository.findByUsername(customOrder.getUsername()).get();
         EmailDetails details = new EmailDetails();
         details.setRecipient(customer.getEmail());
-        details.setSubject("HEPHAESTUS - Order Confirmation");
+        details.setSubject("HEPHAESTUS - Xác nhận đơn hàng");
         details.setMsgBody(confirmCancelOrderEmail(customOrder, customer));
         sendHtmlEmail(details);
     }
@@ -236,12 +236,28 @@ public class EmailServiceImpl implements EmailService {
         try{
             customerService.updateResetPasswordToken(token, email);
 
-            String link = "http://localhost:3000/reset-password?token=" + token;
+            String link = "https://hephaestus.store/reset-password?token=" + token;
 
             EmailDetails details = new EmailDetails();
             details.setRecipient(email);
-            details.setSubject("Here's the link to reset your password");
-            details.setMsgBody("<p>Click here to reset your password,</p>" + link); // Set full HTML content her
+            details.setSubject("Link khôi phục mật khẩu của bạn");
+            details.setMsgBody("<a href="+ link+ ">Nhấn vào đây để khôi phục</a>" ); // Set full HTML content her
+            sendHtmlEmail(details);
+            log.info(details.getRecipient());
+            return true;
+        }catch (Exception e) {
+            System.err.println(e);
+            return false;
+        }
+
+    }
+
+    public boolean sendContactUs(String name, String email, String message) {
+        try{
+            EmailDetails details = new EmailDetails();
+            details.setRecipient("admin@hephaestus.store");
+            details.setSubject("New Contact Us Message from customer " + name);
+            details.setMsgBody("Name: " + name + ", Email: " + email + ", Message: " + message);
             sendHtmlEmail(details);
             log.info(details.getRecipient());
             return true;
