@@ -41,18 +41,13 @@ public class JewelryService {
     @Autowired
     private OrderDetailRepository orderDetailRepository;
 
-    public AllDataDTO getAllData(String token) {
-        String username = jwtUtils.extractUsername(token);
-        Optional<Staff> staff = staffRepository.findByUsername(username);
-        if (staff == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
-        } else {
+    public AllDataDTO getAllData() {
+
             List<Category> categories = categoryRepository.findAll();
             List<Material> materials = materialRepository.findAll();
             List<Size> sizes = sizeRepository.findAll();
             List<Shape> shapes = shapeRepository.findAll();
             return new AllDataDTO(categories, materials, sizes, shapes);
-        }
 
     }
 

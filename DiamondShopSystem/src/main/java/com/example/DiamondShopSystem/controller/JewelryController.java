@@ -30,11 +30,6 @@ public class JewelryController {
     @Autowired
     private StaffRepository staffRepository;
 
-//    @GetMapping("/jewelry")
-//    public List<Jewelry> getAllJewelry() {
-//        return jewelryService.findAllJewelry();
-//    }
-
     @GetMapping("/public/jewelry/{id}")
     public Jewelry getJewelryById(@PathVariable Long id) {
         return jewelryService.findJewelryById(id);
@@ -57,8 +52,13 @@ public class JewelryController {
 
 
     @GetMapping("/adminsale/jewelry/all")
-    public AllDataDTO getAllData(@RequestHeader ("Authorization") String token) {
-        return jewelryService.getAllData(token.substring(7));
+    public AllDataDTO getAllData() {
+        return jewelryService.getAllData();
+    }
+
+    @GetMapping("/public/attributes/all")
+    public AllDataDTO getAllAttributes() {
+        return jewelryService.getAllData();
     }
 
     @GetMapping("/admin/jewelry/check-name/{name}")
