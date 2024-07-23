@@ -131,7 +131,7 @@ public class CustomerService {
         newCustomer.setProvider(Provider.GOOGLE);
         Order order = new Order();
 //                OrderStatus defaultOrderStatus = new OrderStatus();
-        order.setUsername(newCustomer.getEmail());
+        order.setUsername(username.split("@")[0]);
 //                defaultOrderStatus.setStatusId(1L);
         order.setOrderStatus(orderStatusRepository.findById(1L).get());
         orderRepository.save(order);
