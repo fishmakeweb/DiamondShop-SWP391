@@ -5,7 +5,9 @@ import com.example.DiamondShopSystem.dto.ChatMessageRequest;
 import com.example.DiamondShopSystem.model.OrderChatMessage;
 import com.example.DiamondShopSystem.repository.OrderChatMessageRepository;
 import com.example.DiamondShopSystem.repository.OrderRepository;
+import com.example.DiamondShopSystem.service.NotificationService;
 import com.example.DiamondShopSystem.service.OrderService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.Date;
 
 @Controller
+@Slf4j
 public class ChatController {
 
     @Autowired
@@ -32,6 +35,11 @@ public class ChatController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @MessageMapping("/message")
     @SendTo("/topic/messages")
@@ -47,8 +55,6 @@ public class ChatController {
     }
 
 
-    @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
 
     @PostMapping("/send")
     public ResponseEntity<?> sendChatMessage(@RequestBody ChatMessageRequest chatMessageRequest) {
@@ -60,6 +66,9 @@ public class ChatController {
             message.setMessage(chatMessageRequest.getMessage()); // Changed from getMessage to getContent
             message.setTimestamp(new Date());
             orderService.saveChatMessage(message);
+            log.info(message.getMessage());
+            if (!username.contains("Staff")) notificationService.sendNotification("/topic/notifications", "New order chat message created by " + username);
+
             return ResponseEntity.ok().body("Message sent successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing request");
@@ -75,6 +84,8 @@ public class ChatController {
         message.setTimestamp(new Date());
         orderChatMessageRepository.save(message);
         chatMessage.setId(message.getId());
+        log.info(message.getMessage());
+        if (!message.getUsername().contains("Staff")) notificationService.sendNotification("/topic/notifications", "New order chat message created by " + message.getUsername()+" in order " + orderId);
         simpMessagingTemplate.convertAndSend("/topic/orders/" + orderId, chatMessage);
     }
 
