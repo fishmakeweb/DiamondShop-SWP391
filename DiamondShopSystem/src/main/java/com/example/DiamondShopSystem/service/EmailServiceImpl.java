@@ -130,7 +130,7 @@ public class EmailServiceImpl implements EmailService {
         try {
             // Setting up the MIME message helper without multipart mode since no attachments are involved
             mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8"); // Set encoding if needed
-//            mimeMessageHelper.setFrom(sender);
+            mimeMessageHelper.setFrom(sender);
             mimeMessageHelper.setTo(details.getRecipient());
             mimeMessageHelper.setSubject(details.getSubject());
 
