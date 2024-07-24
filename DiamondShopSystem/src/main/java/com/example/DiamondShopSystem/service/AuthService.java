@@ -58,12 +58,12 @@ public class AuthService {
 
         if (isUsernameExists(registrationRequest.getUsername())) {
             resp.setStatusCode(400);
-            resp.setError("Username already exists");
+            resp.setError("Tên đăng nhập đã tồn tại");
             return resp;
         }
         if(isEmailExists(registrationRequest.getEmail())) {
             resp.setStatusCode(400);
-            resp.setError("Email already exists");
+            resp.setError("Email đã tồn tại");
             return resp;
         }
         try {
@@ -102,12 +102,12 @@ public class AuthService {
 
         if (isUsernameExists(registrationRequest.getUsername())) {
             resp.setStatusCode(400);
-            resp.setError("Username already exists");
+            resp.setError("Tên đăng nhập đã tồn tại");
             return resp;
         }
         if(isEmailExists(registrationRequest.getEmail())) {
             resp.setStatusCode(400);
-            resp.setError("Email already exists");
+            resp.setError("Email đã tồn tại");
             return resp;
         }
         try {
