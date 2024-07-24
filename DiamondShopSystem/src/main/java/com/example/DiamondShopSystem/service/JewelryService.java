@@ -50,6 +50,7 @@ public class JewelryService {
         return new AllDataDTO(categories, materials, sizes, shapes);
 
 
+
     }
 
     public List<Jewelry> findAllJewelry() {

@@ -16,6 +16,7 @@ public class Order {
     private String username;
 
     @Column(nullable = true)
+
     private Date orderDate;
 
     @ManyToOne

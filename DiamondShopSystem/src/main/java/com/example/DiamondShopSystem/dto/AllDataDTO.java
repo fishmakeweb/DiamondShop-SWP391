@@ -12,6 +12,7 @@ public class AllDataDTO {
     private List<Material> materials;
     private List<Size> sizes;
     private List<Shape> shapes;
+    private double maxPrice;
     public AllDataDTO(List<Category> categories, List<Material> materials, List<Size> sizes, List<Shape> shapes) {
         this.categories = categories;
         this.materials = materials;
@@ -49,5 +50,13 @@ public class AllDataDTO {
 
     public void setShapes(List<Shape> shapes) {
         this.shapes = shapes;
+    }
+
+    public double getMaxPrice() {
+        return maxPrice;
+    }
+
+    public void setMaxPrice(double maxPrice) {
+        this.maxPrice = maxPrice;
     }
 }
