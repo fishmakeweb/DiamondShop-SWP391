@@ -1,10 +1,7 @@
 package com.example.DiamondShopSystem.service;
 
 import com.example.DiamondShopSystem.dto.OrderDTO;
-import com.example.DiamondShopSystem.model.Order;
-import com.example.DiamondShopSystem.model.OrderChatMessage;
-import com.example.DiamondShopSystem.model.OrderStatus;
-import com.example.DiamondShopSystem.model.PaymentRequest;
+import com.example.DiamondShopSystem.model.*;
 import com.example.DiamondShopSystem.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +36,8 @@ public class OrderService {
     private PaymentRequestRepository paymentRequestRepository;
     @Autowired
     private StaffRepository staffRepository;
+    @Autowired
+    private JewelryRepository jewelryRepository;
 
     public List<Order> findAllOrders() {
             return orderRepository.findAll();
@@ -105,6 +104,7 @@ public class OrderService {
         paymentRequest.setAmount(totalPrice);
         paymentRequest.setDescription("Hephaestus Order " + order.getOrderId());
         paymentRequest.setExpiredAt(Instant.now().plusSeconds(300).getEpochSecond());
+//        paymentRequest.setReturnUrl("https://hephaestus.store/Success?payToken="+jwtUtils.generateToken(order));
         paymentRequest.setReturnUrl("https://hephaestus.store/Success?payToken="+jwtUtils.generateToken(order));
         paymentRequest.setCancelUrl("https://hephaestus.store/Cancelled");
         paymentRequest = paymentRequestRepository.save(paymentRequest);
@@ -121,6 +121,13 @@ public class OrderService {
         if ((activeOrder.isPresent())) {
             Order order = activeOrder.get();
             if (!jwtUtils.isTokenExpired(token)) {
+                List<OrderDetail> orderDetailList = orderDetailRepository.findByOrderId(order.getOrderId());
+                for (OrderDetail orderDetail : orderDetailList) {
+                    Jewelry jewelry = orderDetail.getJewelry();
+                    jewelry.setQuantity(jewelry.getQuantity() - orderDetail.getQuantity());
+                    if (jewelry.getQuantity()==0) jewelry.setSold(true);
+                    jewelryRepository.save(jewelry);
+                }
                 setSuccessStatus(order);
                 createNewCart(order);
                 return "Thanh toán thành công";

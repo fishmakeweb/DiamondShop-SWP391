@@ -75,19 +75,17 @@ public class JewelryService {
     }
 
     public Jewelry updateJewelry(Long id, Jewelry newJewelry) {
-        return jewelryRepository.findById(id)
-                .map(existingJewelry -> {
-                    existingJewelry.setName(newJewelry.getName());
-                    existingJewelry.setImg(newJewelry.getImg());
-                    existingJewelry.setPrice(newJewelry.getPrice());
-                    existingJewelry.setDiamond(newJewelry.getDiamond());
-                    existingJewelry.setMaterial(newJewelry.getMaterial());
-                    existingJewelry.setShape(newJewelry.getShape());
-                    existingJewelry.setCategory(newJewelry.getCategory());
-                    existingJewelry.setSize(newJewelry.getSize());
-                    existingJewelry.setQuantity(newJewelry.getQuantity());
-                    return jewelryRepository.save(existingJewelry);
-                }).orElseThrow(() -> new RuntimeException("Jewelry not found"));
+        Jewelry old = jewelryRepository.findByJewelryId(id);
+        if (old.isSold()&&newJewelry.getQuantity()!=0) old.setSold(false);
+        old.setName(newJewelry.getName());
+        old.setImg(newJewelry.getImg());
+        old.setPrice(newJewelry.getPrice());
+        old.setDiamond(newJewelry.getDiamond());
+        old.setMaterial(newJewelry.getMaterial());
+        old.setShape(newJewelry.getShape());
+        old.setSize(newJewelry.getSize());
+        old.setQuantity(newJewelry.getQuantity());
+        return jewelryRepository.save(old);
     }
 
     public void deleteJewelry(Long id) {

@@ -58,6 +58,10 @@ public class OrderDetailService {
                 .findByOrderIdAndJewelryJewelryId(orderObj.get().getOrderId(), jewelryId);
 
         if (existingDetail.isPresent()) {
+            OrderDetail currentDetail = existingDetail.get();
+            if (currentDetail.getQuantity() >= currentDetail.getJewelry().getQuantity()) return;
+            currentDetail.setQuantity(currentDetail.getQuantity()+1);
+            orderDetailRepository.save(currentDetail);
             // Product already in cart, do nothing
             return;
         }
