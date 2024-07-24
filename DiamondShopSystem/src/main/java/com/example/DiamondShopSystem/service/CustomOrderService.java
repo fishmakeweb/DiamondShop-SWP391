@@ -102,6 +102,14 @@ public class CustomOrderService {
     public String checkOutCustomOrder(String token, Long customOrderId) {
         String username = jwtUtils.extractUsername(token);
         CustomOrder customOrder = customOrderRepository.findByUserNameAndCustomOrderId(username, customOrderId);
+        if (customOrder == null) {
+            throw new IllegalArgumentException("Không tìm thấy đơn hàng.");
+        }
+
+        if (customOrder.getCustomJewelry().getDiamond().isSold()) {
+            throw new IllegalStateException("Kim cương đã bị bán.");
+
+        }
         int totalPrice = customOrder.getPrepaid();
         PaymentRequest paymentRequest = new PaymentRequest();
         paymentRequest.setAmount(totalPrice);
@@ -109,6 +117,7 @@ public class CustomOrderService {
         paymentRequest.setExpiredAt(Instant.now().plusSeconds(300).getEpochSecond());
 
 //        https://hephaestus.store/Success?payToken=
+//        paymentRequest.setReturnUrl("https://hephaestus.store/SuccessForCustomOrder?payToken=" + jwtUtils.generateCustomOrderToken(customOrder));
         paymentRequest.setReturnUrl("https://hephaestus.store/SuccessForCustomOrder?payToken=" + jwtUtils.generateCustomOrderToken(customOrder));
 
 //        https://hephaestus.store/Cancelled
@@ -129,6 +138,7 @@ public class CustomOrderService {
         CustomOrder customOrder = customOrderRepository.findById(customOrderId).get();
         if (customOrder != null) {
             if (!jwtUtils.isTokenExpired(token)) {
+                if (customOrder.getCustomJewelry().getDiamond()!=null) customOrder.getCustomJewelry().getDiamond().setSold(true);
                 setSuccessStatusForCustomOrder(customOrder);
                 return "Thanh toán thành công";
             } else {
