@@ -36,24 +36,25 @@ public class JewelryController {
     }
 
     @PostMapping("/admin/jewelry")
-    public Jewelry createJewelry(@RequestBody Jewelry jewelry, @RequestHeader ("Authorization") String token) {
-        return jewelryService.saveJewelry(jewelry, token.substring(7));
+    public Jewelry createJewelry(@RequestBody Jewelry jewelry) {
+        return jewelryService.saveJewelry(jewelry);
     }
 
     @PutMapping("/admin/jewelry/{id}")
-    public Jewelry updateJewelry(@PathVariable Long id, @RequestBody Jewelry jewelry, @RequestHeader ("Authorization") String token) {
-        return jewelryService.updateJewelry(id, jewelry, token.substring(7));
+    public Jewelry updateJewelry(@PathVariable Long id, @RequestBody Jewelry jewelry) {
+        return jewelryService.updateJewelry(id, jewelry);
     }
 
     @DeleteMapping("/admin/jewelry/{id}")
-    public void deleteJewelry(@PathVariable Long id, @RequestHeader ("Authorization") String token) {
-        jewelryService.deleteJewelry(id, token.substring(7));
+    public void deleteJewelry(@PathVariable Long id) {
+        jewelryService.deleteJewelry(id);
     }
 
 
     @GetMapping("/adminsale/jewelry/all")
     public AllDataDTO getAllData() {
         return jewelryService.getAllData();
+
     }
 
     @GetMapping("/public/attributes/all")
@@ -118,5 +119,8 @@ public class JewelryController {
     public void setSoldDiamond(@PathVariable Long id, @RequestBody boolean status) {
         jewelryService.setStatusJewelry(id, status);
     }
-
+    @GetMapping("/adminsale/filter-category/{id}")
+    public List<Jewelry> getJewelryByCategory(@PathVariable Long id) {
+        return jewelryRepository.findJewelryByCategory(id);
+    }
 }

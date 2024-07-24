@@ -30,13 +30,13 @@ public class CustomJewelry {
     @ManyToOne
     @JoinColumn(name = "shape_id")
     private Shape shape;
-    private float price;
+    private int price;
     private String note;
 
     public CustomJewelry() {
     }
 
-    public CustomJewelry(Long customJewelryId, Diamond diamond, Material material, Category category, Size size, Shape shape, String img, float price, String note) {
+    public CustomJewelry(Long customJewelryId, Diamond diamond, Material material, Category category, Size size, Shape shape, String img, int price, String note) {
         this.customJewelryId = customJewelryId;
         this.diamond = diamond;
         this.material = material;
@@ -95,11 +95,11 @@ public class CustomJewelry {
         this.shape = shape;
     }
 
-    public float getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

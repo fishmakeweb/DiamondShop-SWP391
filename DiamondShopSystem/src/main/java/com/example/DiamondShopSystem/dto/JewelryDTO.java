@@ -3,13 +3,13 @@ package com.example.DiamondShopSystem.dto;
 public class JewelryDTO {
     private Long jewelryId;
     private String name;
-    private float price;
+    private int price;
     private String img;
 
     // Constructor
 
 
-    public JewelryDTO(Long jewelryId, String name, float price, String img) {
+    public JewelryDTO(Long jewelryId, String name, int price, String img) {
         this.jewelryId = jewelryId;
         this.name = name;
         this.price = price;
@@ -32,11 +32,11 @@ public class JewelryDTO {
         this.name = name;
     }
 
-    public float getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

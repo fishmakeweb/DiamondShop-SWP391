@@ -15,6 +15,8 @@ public class Order {
     @Column(nullable = false)
     private String username;
 
+    @Column(nullable = true)
+
     private Date orderDate;
 
     @ManyToOne
@@ -22,7 +24,7 @@ public class Order {
     private OrderStatus orderStatus;
 
     @Column(nullable = true)
-    private float totalPrice;
+    private int totalPrice;
 
 
     public Long getOrderId() {
@@ -57,11 +59,11 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-    public float getTotalPrice() {
+    public int getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(float totalPrice) {
+    public void setTotalPrice(int totalPrice) {
         this.totalPrice = totalPrice;
     }
 }

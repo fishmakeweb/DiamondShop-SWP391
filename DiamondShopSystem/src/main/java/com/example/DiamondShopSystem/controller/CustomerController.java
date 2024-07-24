@@ -3,6 +3,7 @@ package com.example.DiamondShopSystem.controller;
 
 import com.example.DiamondShopSystem.dto.PasswordChangeRequest;
 import com.example.DiamondShopSystem.model.Customer;
+import com.example.DiamondShopSystem.repository.CustomerRepository;
 import com.example.DiamondShopSystem.service.CustomerService;
 import com.example.DiamondShopSystem.service.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -20,6 +22,9 @@ public class CustomerController {
 
     @Autowired
     private JWTUtils jwtUtils;
+    @Autowired
+    private CustomerRepository customerRepository;
+
     @GetMapping("/admin/customers")
     public List<Customer> getAllCustomers() {
         return customerService.findAllCustomers();
@@ -57,5 +62,9 @@ public class CustomerController {
             }
 
         }
+    }
+    @GetMapping("/adminsale/customer-profile")
+    public ResponseEntity<Optional<Customer>> getCustomerProfile(@RequestParam String username) {
+        return ResponseEntity.ok(customerRepository.findByUsername(username));
     }
 }

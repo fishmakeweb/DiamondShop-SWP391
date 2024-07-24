@@ -8,13 +8,13 @@ public class CustomOrderDTO {
     private Date startDate;
     private Date finishDate;
     private String orderStatus;
-    private double prepaid;
-    private double fullpaid;
+    private int prepaid;
+    private int fullpaid;
 
     // Getters and Setters
 
 
-    public CustomOrderDTO(Long customOrderId, String username, Date startDate, Date finishDate, String orderStatus, double prepaid, double fullpaid) {
+    public CustomOrderDTO(Long customOrderId, String username, Date startDate, Date finishDate, String orderStatus, int prepaid, int fullpaid) {
         this.customOrderId = customOrderId;
         this.username = username;
         this.startDate = startDate;
@@ -64,19 +64,19 @@ public class CustomOrderDTO {
         this.orderStatus = orderStatus;
     }
 
-    public double getPrepaid() {
+    public int getPrepaid() {
         return prepaid;
     }
 
-    public void setPrepaid(double prepaid) {
+    public void setPrepaid(int prepaid) {
         this.prepaid = prepaid;
     }
 
-    public double getFullpaid() {
+    public int getFullpaid() {
         return fullpaid;
     }
 
-    public void setFullpaid(double fullpaid) {
+    public void setFullpaid(int fullpaid) {
         this.fullpaid = fullpaid;
     }
 }

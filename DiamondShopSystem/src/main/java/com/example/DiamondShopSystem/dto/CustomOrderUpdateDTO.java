@@ -4,25 +4,25 @@ package com.example.DiamondShopSystem.dto;
 import java.util.Date;
 
 public class CustomOrderUpdateDTO {
-    private double fullPaid;
+    private int fullPaid;
     private Date finishDate;
     private String description;
 
-    public CustomOrderUpdateDTO(double fullPaid) {
+    public CustomOrderUpdateDTO(int fullPaid) {
         this.fullPaid = fullPaid;
     }
 
-    public CustomOrderUpdateDTO(double fullPaid, Date finishDate, String description) {
+    public CustomOrderUpdateDTO(int fullPaid, Date finishDate, String description) {
         this.fullPaid = fullPaid;
         this.finishDate = finishDate;
         this.description = description;
     }
 
-    public double getFullPaid() {
+    public int getFullPaid() {
         return fullPaid;
     }
 
-    public void setFullPaid(double fullPaid) {
+    public void setFullPaid(int fullPaid) {
         this.fullPaid = fullPaid;
     }
 

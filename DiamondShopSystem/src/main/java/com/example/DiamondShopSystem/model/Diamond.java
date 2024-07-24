@@ -34,7 +34,7 @@ public class Diamond {
     @JoinColumn(name = "gia_id", unique = true)
     private Gia gia;
 
-    private float price;
+    private int price;
     private String img;
     private boolean isSold;
 
@@ -70,11 +70,11 @@ public class Diamond {
         this.gia = gia;
     }
 
-    public float getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

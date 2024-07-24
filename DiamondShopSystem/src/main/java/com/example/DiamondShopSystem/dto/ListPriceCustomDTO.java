@@ -1,11 +1,11 @@
 package com.example.DiamondShopSystem.dto;
 
 public class ListPriceCustomDTO {
-    private float goldPrice = 1000f;
-    private float silverPrice = 200f;
-    private float platinumPrice = 800f;
-    private float whiteGoldPrice = 1200f;
-    private float roseGoldPrice = 1400f;
+    private float goldPrice = 100000f;
+    private float silverPrice = 20000f;
+    private float platinumPrice = 80000f;
+    private float whiteGoldPrice = 120000f;
+    private float roseGoldPrice = 140000f;
 
     private float goldRisePercent = 0.05f;
     private float silverRisePercent = 0.02f;

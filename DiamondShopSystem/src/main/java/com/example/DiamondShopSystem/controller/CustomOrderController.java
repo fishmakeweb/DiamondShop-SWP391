@@ -35,7 +35,7 @@ public class CustomOrderController {
         return customOrderService.getAllOrders();
     }
 
-    @GetMapping("/customer/custom-orders/{id}")
+    @GetMapping("/public/custom-orders/{id}")
     public Optional<CustomOrder> getOrderById(@PathVariable Long id) {
         return customOrderService.getOrderById(id);
     }

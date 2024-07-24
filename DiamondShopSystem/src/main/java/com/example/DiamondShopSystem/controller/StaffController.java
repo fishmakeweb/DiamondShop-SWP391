@@ -16,8 +16,8 @@ public class StaffController {
     private StaffService staffService;
 
     @GetMapping
-    public List<Staff> getAllStaffs(@RequestHeader ("Authorization") String token) {
-        return staffService.findAllStaffs(token.substring(7));
+    public List<Staff> getAllStaffs() {
+        return staffService.findAllStaffs();
     }
 
     @GetMapping("/{id}")
