@@ -33,6 +33,10 @@ public class CustomOrderService {
     private CustomOrderChatMessageRepository  customOrderChatMessageRepository;
     @Autowired
     private DiamondRepository diamondRepository;
+    @Autowired
+    private EmailServiceImpl emailServiceImpl;
+    @Autowired
+    private CustomerRepository customerRepository;
 
     public void saveChatMessage(CustomOrderChatMessage message) {
         // Here, you might add any business logic before saving the message
@@ -54,11 +58,13 @@ public class CustomOrderService {
 
 
     public CustomOrder updateCustomOrderAtr(Long id, CustomOrderUpdateDTO updateDTO) {
+
             return customOrderRepository.findById(id)
                     .map(customOrder -> {
                         customOrder.setFullpaid(updateDTO.getFullPaid());
                         customOrder.setDescription(updateDTO.getDescription());
                         customOrder.setFinishDate(updateDTO.getFinishDate());
+                        emailServiceImpl.confirmUpdateStatus(customOrder.getCustomOrderId());
                         return customOrderRepository.save(customOrder);
                     })
                     .orElseThrow(() -> new RuntimeException("Order not found with id " + id));
@@ -105,11 +111,12 @@ public class CustomOrderService {
         if (customOrder == null) {
             throw new IllegalArgumentException("Không tìm thấy đơn hàng.");
         }
-
-        if (customOrder.getCustomJewelry().getDiamond().isSold()) {
-            throw new IllegalStateException("Kim cương đã bị bán.");
-
+        if(customOrder.getCustomJewelry().getDiamond()!=null){
+            if (customOrder.getCustomJewelry().getDiamond().isSold()) {
+                throw new IllegalStateException("Kim cương đã bị bán.");
+            }
         }
+
         int totalPrice = customOrder.getPrepaid();
         PaymentRequest paymentRequest = new PaymentRequest();
         paymentRequest.setAmount(totalPrice);
@@ -136,6 +143,7 @@ public class CustomOrderService {
     public String successCheckOutForCustomOrder(String token) {
         Long customOrderId = Long.valueOf(jwtUtils.extractCustomOrderId(token));
         CustomOrder customOrder = customOrderRepository.findById(customOrderId).get();
+        emailServiceImpl.confirmPrepaid(customOrder.getCustomOrderId());
         if (customOrder != null) {
             if (!jwtUtils.isTokenExpired(token)) {
                 if (customOrder.getCustomJewelry().getDiamond()!=null) customOrder.getCustomJewelry().getDiamond().setSold(true);

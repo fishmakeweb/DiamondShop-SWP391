@@ -38,6 +38,8 @@ public class OrderService {
     private StaffRepository staffRepository;
     @Autowired
     private JewelryRepository jewelryRepository;
+    @Autowired
+    private EmailServiceImpl emailServiceImpl;
 
     public List<Order> findAllOrders() {
             return orderRepository.findAll();
@@ -120,6 +122,7 @@ public class OrderService {
         Optional<Order> activeOrder = orderRepository.findActiveOrderByUsername(username);
         if ((activeOrder.isPresent())) {
             Order order = activeOrder.get();
+            emailServiceImpl.confirmOrder(order.getOrderId());
             if (!jwtUtils.isTokenExpired(token)) {
                 List<OrderDetail> orderDetailList = orderDetailRepository.findByOrderId(order.getOrderId());
                 for (OrderDetail orderDetail : orderDetailList) {
