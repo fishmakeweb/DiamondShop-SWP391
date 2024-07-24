@@ -2,35 +2,37 @@ package com.example.DiamondShopSystem.service;
 
 import com.example.DiamondShopSystem.dto.CustomJewelryRequestDTO;
 import com.example.DiamondShopSystem.dto.ListPriceCustomDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class PriceCalculatorService {
 
-    public float calculatePrice(CustomJewelryRequestDTO customJewelry) {
+    public int calculatePrice(CustomJewelryRequestDTO customJewelry) {
         ListPriceCustomDTO priceDTO = new ListPriceCustomDTO();
         float materialPrice = 0;
         float risePercent = 0;
         float manufacturingCost = calculateManufacturingCost(customJewelry);
 
         switch(customJewelry.getMaterial().getMaterialName()) {
-            case "Gold":
+            case "Vàng":
                 materialPrice = priceDTO.getGoldPrice();
                 risePercent = priceDTO.getGoldRisePercent();
                 break;
-            case "Silver":
+            case "Bạc":
                 materialPrice = priceDTO.getSilverPrice();
                 risePercent = priceDTO.getSilverRisePercent();
                 break;
-            case "Platinum":
+            case "Bạch Kim":
                 materialPrice = priceDTO.getPlatinumPrice();
                 risePercent = priceDTO.getPlatinumRisePercent();
                 break;
-            case "WhiteGold":
+            case "Vàng Trắng":
                 materialPrice = priceDTO.getWhiteGoldPrice();
                 risePercent = priceDTO.getWhiteGoldRisePercent();
                 break;
-            case "RoseGold":
+            case "Vàng Hồng":
                 materialPrice = priceDTO.getRoseGoldPrice();
                 risePercent = priceDTO.getRoseGoldRisePercent();
                 break;
@@ -53,8 +55,8 @@ public class PriceCalculatorService {
         }
 
         // Calculate the final price considering the rise percentage and manufacturing cost
-        float finalPrice =(materialPrice + sizePrice + manufacturingCost) * (1 + risePercent);
-
+        int finalPrice = Math.round((materialPrice + sizePrice + manufacturingCost) * (1 + risePercent));
+        log.info("Calculated final price: {}", finalPrice);
         return finalPrice;
     }
 
@@ -66,19 +68,19 @@ public class PriceCalculatorService {
         float materialComplexity = 1.0f;
 
         switch(customJewelry.getMaterial().getMaterialName()) {
-            case "gold":
+            case "Vàng":
                 materialComplexity = 1.5f;
                 break;
-            case "silver":
+            case "Bạc":
                 materialComplexity = 1.2f;
                 break;
-            case "platinum":
+            case "Bạch Kim":
                 materialComplexity = 1.8f;
                 break;
-            case "whiteGold":
+            case "Vàng Trắng":
                 materialComplexity = 1.6f;
                 break;
-            case "roseGold":
+            case "Vàng Hồng":
                 materialComplexity = 1.7f;
                 break;
         }

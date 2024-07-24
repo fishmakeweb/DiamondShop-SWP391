@@ -7,9 +7,9 @@ import java.util.List;
 
 public class OrderDTO {
     private List<OrderDetail> listOrderDetail;
-    private float totalPrice;
+    private int totalPrice;
 
-    public OrderDTO(List<OrderDetail> listOrderDetail, float totalPrice) {
+    public OrderDTO(List<OrderDetail> listOrderDetail, int totalPrice) {
         this.listOrderDetail = listOrderDetail;
         this.totalPrice = totalPrice;
     }
@@ -22,11 +22,11 @@ public class OrderDTO {
         this.listOrderDetail = listOrderDetail;
     }
 
-    public float getTotalPrice() {
+    public int getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(float totalPrice) {
+    public void setTotalPrice(int totalPrice) {
         this.totalPrice = totalPrice;
     }
 }

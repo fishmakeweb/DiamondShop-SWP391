@@ -23,8 +23,8 @@ public class CustomOrder {
     @JoinColumn(name = "custom_jewelry_id", nullable = false)
     private CustomJewelry customJewelry;
 
-    private double prepaid;
-    private double fullpaid;
+    private int prepaid;
+    private int fullpaid;
     private String description;
     private Date startDate;
     private Date finishDate;
@@ -61,19 +61,19 @@ public class CustomOrder {
         this.customJewelry = customJewelry;
     }
 
-    public double getPrepaid() {
+    public int getPrepaid() {
         return prepaid;
     }
 
-    public void setPrepaid(double prepaid) {
+    public void setPrepaid(int prepaid) {
         this.prepaid = prepaid;
     }
 
-    public double getFullpaid() {
+    public int getFullpaid() {
         return fullpaid;
     }
 
-    public void setFullpaid(double fullpaid) {
+    public void setFullpaid(int fullpaid) {
         this.fullpaid = fullpaid;
     }
 

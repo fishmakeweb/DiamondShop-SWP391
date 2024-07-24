@@ -40,7 +40,7 @@ public class Jewelry {
     private String img;
 
     @Column(name = "price", nullable = false)
-    private float price;
+    private int price;
 
     @Column(name = "quantity", nullable = false)
     private int quantity;
@@ -114,11 +114,11 @@ public class Jewelry {
         this.img = img;
     }
 
-    public float getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
