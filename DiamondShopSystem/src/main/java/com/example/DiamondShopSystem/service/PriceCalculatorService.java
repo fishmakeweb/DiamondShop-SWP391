@@ -55,7 +55,12 @@ public class PriceCalculatorService {
         }
 
         // Calculate the final price considering the rise percentage and manufacturing cost
-        int finalPrice = Math.round((materialPrice + sizePrice + manufacturingCost) * (1 + risePercent));
+        int finalPrice = 0;
+        if(customJewelry.getDiamond()!=null){
+            finalPrice = Math.round((materialPrice + sizePrice + manufacturingCost + customJewelry.getDiamond().getPrice()) * (1 + risePercent));
+        }else{
+             finalPrice = Math.round((materialPrice + sizePrice + manufacturingCost) * (1 + risePercent));
+        }
         log.info("Calculated final price: {}", finalPrice);
         return finalPrice;
     }
