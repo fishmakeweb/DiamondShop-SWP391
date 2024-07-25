@@ -128,7 +128,7 @@ public class OrderService {
                 for (OrderDetail orderDetail : orderDetailList) {
                     Jewelry jewelry = orderDetail.getJewelry();
                     jewelry.setQuantity(jewelry.getQuantity() - orderDetail.getQuantity());
-                    if (jewelry.getQuantity()==0) jewelry.setSold(true);
+                    if (jewelry.getQuantity() == 0) jewelry.setSold(true);
                     jewelryRepository.save(jewelry);
                 }
                 setSuccessStatus(order);

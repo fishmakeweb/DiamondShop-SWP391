@@ -207,8 +207,6 @@ public class EmailServiceImpl implements EmailService {
     public void confirmOrder(Long orderId) {
         List<OrderDetail> orderDetailList = orderDetailRepository.findByOrderId(orderId);
         Order order = orderRepository.findById(orderId).get();
-        order.setOrderStatus(orderStatusRepository.findById(4L).get());
-        order.setOrderDate(new Date());
         orderRepository.save(order);
         Customer customer = customerRepository.findByUsername(order.getUsername()).get();
         EmailDetails details = new EmailDetails();
@@ -216,7 +214,6 @@ public class EmailServiceImpl implements EmailService {
         details.setSubject("HEPHAESTUS - Order Confirmation");
         details.setMsgBody(confirmOrderEmail(order, orderDetailList, customer));
         sendHtmlEmail(details);
-//        System.out.println(emailStatus);
     }
 
     public void confirmCustomOrder(Long customOrderId) {
