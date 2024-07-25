@@ -210,10 +210,6 @@ public class EmailServiceImpl implements EmailService {
         order.setOrderStatus(orderStatusRepository.findById(4L).get());
         order.setOrderDate(new Date());
         orderRepository.save(order);
-        Order newOrder = new Order();
-        newOrder.setOrderStatus(orderStatusRepository.findById(1L).get());
-        newOrder.setUsername(order.getUsername());
-        orderRepository.save(newOrder);
         Customer customer = customerRepository.findByUsername(order.getUsername()).get();
         EmailDetails details = new EmailDetails();
         details.setRecipient(customer.getEmail());
